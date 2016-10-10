@@ -1,0 +1,16 @@
+
+/*上外边距10像素*/
+.form-margin-top-10{
+    margin-top: 10px;
+}
+
+/*登陆页面居中效果*/
+#logindev{
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform:  translateY(-50%);
+    -ms-transform:  translateY(-50%);
+    -o-transform:  translateY(-50%);
+    transform:  translateY(-50%);
+}

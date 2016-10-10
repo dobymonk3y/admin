@@ -7,6 +7,9 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
+use Session;
+use Auth;
 
 class AuthController extends Controller
 {
@@ -61,5 +64,27 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function getLogin()
+    {
+        return view("admin.login");
+    }
+
+    public function postLogin(Request $request)
+    {
+        $name = $request->input('name');
+        $password = $request->input('password');
+        if (Auth::attempt(['name' => $name, 'password' => $password])) {
+            return redirect("index");
+        }else{
+            Session::flash("loginfaild","用户名或密码错误，请重新输入…");
+            return redirect("auth/login");
+        }
+    }
+
+    public function getLogout()
+    {
+        
     }
 }

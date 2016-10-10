@@ -7,7 +7,7 @@
 
 @yield('content')
 
-@yield('foot')
+@include('foot')
 
 </body>
 </html>

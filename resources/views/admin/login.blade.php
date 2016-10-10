@@ -1,37 +1,32 @@
 @extends('main')
 
 @section('content')
-    <div class="container">
+    <div class="container" id="logindev">
         <div class="row clearfix">
             <div class="col-md-3 column">
             </div>
             <div class="col-md-6 column">
+                @include('partials._message')
                 <h3 class="text-center">
-                    h3. 这是一套可视化布局系统.
+                    霖德科技 &copy; 掌上大管家管理平台
                 </h3>
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" method="post" action="login">
+                    {!! csrf_field() !!}
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                        <label for="account" class="col-sm-2 control-label">Account</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputEmail3" />
+                            <input type="name" class="form-control" id="name" name="name"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                        <label for="password" class="col-sm-2 control-label">Password</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputPassword3" />
+                            <input type="password" class="form-control" id="password" name="password" />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <div class="checkbox">
-                                <label><input type="checkbox" />Remember me</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">Sign in</button>
+                            <button type="submit" class="btn btn-success btn-block btn-lg">Sign In</button>
                         </div>
                     </div>
                 </form>

@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Session;
+use Auth;
 
 class AdminMiddleware
 {
@@ -15,6 +17,10 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
+        if(!Auth::check()){
+            Session::flash('unlogin','您还没有登录，请登录！');
+            return redirect("auth/login");
+        }
         return $next($request);
     }
 }
