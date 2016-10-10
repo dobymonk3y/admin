@@ -76,7 +76,7 @@ class AuthController extends Controller
         $name = $request->input('name');
         $password = $request->input('password');
         if (Auth::attempt(['name' => $name, 'password' => $password])) {
-            return redirect("index");
+            return redirect("/");
         }else{
             Session::flash("loginfaild","用户名或密码错误，请重新输入…");
             return redirect("auth/login");

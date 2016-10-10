@@ -1,5 +1,7 @@
 @extends('main')
 
+@section('title','|  登录掌上大管家')
+
 @section('content')
     <div class="container" id="logindev">
         <div class="row clearfix">
