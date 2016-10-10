@@ -9,12 +9,12 @@
     </div>
 @endif
 
-@if(Session::has('unlogin'))
-    <div class="alert alert-warning alert-dismissable">
+@if(Session::has('logout'))
+    <div class="alert alert-success alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
                 aria-hidden="true">
             &times;
         </button>
-        <strong>Faild:</strong>{{  Session::get('unlogin') }}
+        <strong>Success:</strong>{{  Session::get('logout') }}
     </div>
 @endif

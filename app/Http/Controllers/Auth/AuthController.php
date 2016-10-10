@@ -76,6 +76,7 @@ class AuthController extends Controller
         $name = $request->input('name');
         $password = $request->input('password');
         if (Auth::attempt(['name' => $name, 'password' => $password])) {
+            Session::flash("loginsuccess","登陆成功! 欢迎回来大管家!");
             return redirect("/");
         }else{
             Session::flash("loginfaild","用户名或密码错误，请重新输入…");
@@ -85,6 +86,8 @@ class AuthController extends Controller
 
     public function getLogout()
     {
-        
+        Auth::logout();
+        Session::flash("logout","您已退出登陆!");
+        return redirect("auth/login");
     }
 }

@@ -1,4 +1,4 @@
-@extends('main')
+@extends('mainlogin')
 
 @section('title','|  登录掌上大管家')
 

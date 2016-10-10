@@ -14,3 +14,16 @@
     -o-transform:  translateY(-50%);
     transform:  translateY(-50%);
 }
+
+.container-custom{
+    margin-top: 50px;
+    padding: 25px;
+}
+
+.custom-border{
+    border: 2px solid lightgray;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;;
+    padding: 10px;
+}
