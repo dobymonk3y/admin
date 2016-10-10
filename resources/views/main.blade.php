@@ -12,7 +12,7 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="row clearfix">
-                <div class="col-md-2 column custom-border">
+                <div class="col-md-1 column custom-border">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="{{ Request::is('/') ? "active" : "" }}" ><a href="">Home</a></li>
                         <li class="{{ Request::is('/1') ? "active" : "" }}" ><a href="#">SVN</a></li>
@@ -22,20 +22,7 @@
                         <li class="{{ Request::is('/5') ? "active" : "" }}" ><a href="#">PHP</a></li>
                     </ul>
                 </div>
-                <div class="col-md-10 column">
-                    <div class="col-md-12 column">
-                        <ul class="breadcrumb">
-                            <li>
-                                <a href="#">Home</a>
-                            </li>
-                            <li>
-                                <a href="#">Library</a>
-                            </li>
-                            <li class="active">
-                                Data
-                            </li>
-                        </ul>
-                    </div>
+                <div class="col-md-11 column">
                     {{--<div class="col-md-12 column custom-border">
                         @yield('content')
                     </div>--}}

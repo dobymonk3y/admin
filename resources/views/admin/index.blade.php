@@ -3,6 +3,7 @@
 @section('title','! 大管家管理系统')
 
 @section('content')
+
 @if(Session::has('loginsuccess'))
     <div class="alert alert-success alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
@@ -13,85 +14,78 @@
     </div>
 @endif
 
-<div class="col-md-12 column custom-border">
-    {{--<div style="background-color: #337ab6;color: white;padding: 8px;border-top-left-radius: 5px;border-top-right-radius: 5px;">
-        <label>订单编号:R123456789012345678</label>
+<div class="col-md-12 column" style="padding-left: 15px;padding-right: 5px;">
+    {{--列头--}}
+    <div class="row bg-primary" style="border-top-left-radius: 5px;border-top-right-radius: 5px;height: 40px;line-height: 40px;text-align: center;">
+        <div class="col-xs-3">
+            <div class="row">
+                <div class="col-xs-5">订单编号</div>
+                <div class="col-xs-2">区域</div>
+                <div class="col-xs-2">姓名</div>
+                <div class="col-xs-3">订单起点</div>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="row">
+                <div class="col-xs-3">订单终点</div>
+                <div class="col-xs-3">里程</div>
+                <div class="col-xs-3">客户电话</div>
+                <div class="col-xs-3">紧急电话</div>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="row">
+                <div class="col-xs-4">司机信息</div>
+                <div class="col-xs-4">下单时间</div>
+                <div class="col-xs-4">搬家时间</div>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="row">
+                <div class="col-xs-4">支付时间</div>
+                <div class="col-xs-2">状态</div>
+                <div class="col-xs-2">客服</div>
+                <div class="col-xs-4">操作</div>
+            </div>
+        </div>
     </div>
-    <div style="background-color: white;padding: 8px;border-bottom: gray 1px solid;border-left: gray 1px solid;border-right: gray 1px solid;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">
-
-    </div>--}}
-    <table class="table">
-        <thead style="background-color: #337ab6;color:white;">
-        <th>订单编号：R1234567890</th>
-        <th>服务城市：北京</th>
-        <th>预约搬家时间：2016-10-10 16:35:35</th>
-        <th>订单状态：<label class="btn btn-info btn-xs">待支付</label></th>
-        <th>订单性质：<label class="btn btn-warning btn-xs">指派</label></th>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    客户姓名：张若愚
-                </td>
-                <td>
-                    联系电话：18001163632
-                </td>
-                <td>
-                    紧急电话：18001163632
-                </td>
-                <td>
-                    订单起点：新潮嘉园三期
-                </td>
-                <td>
-                    订单终点：物资学院新建村
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    订单里程：9.3km
-                </td>
-                <td>
-                    里程价格：88.0元
-                </td>
-                <td>
-                    人工价格(4人)：512元
-                </td>
-                <td>
-                    预估总价：600元
-                </td>
-                <td>
-                    实际支付金额：512元
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    订单司机：张全蛋（18513603626）
-                </td>
-                <td>
-                    提交订单时间:2016-10-10 17:07:07
-                </td>
-                <td>
-                    搬家开始时间：2016-10-10 16:40:28
-                </td>
-                <td>
-                    支付订单时间：2016-10-10 16:35:53
-                </td>
-                <td>
-                    跟单客服：<label class="btn btn-info">张若愚</label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" style="word-wrap:break-word;word-break:break-all;">
-                    备注信息：巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉
-                </td>
-                <td></td>
-                <td style="text-align: center">
-                    <a class="btn btn-primary">详情</a>
-                    <a class="btn btn-primary">编辑</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    {{--表单--}}
+    <div class="row" style="height: 20px;line-height: 20px;text-align: center;">
+        <div class="col-xs-3 custom-line-height">
+            <div class="row custom-line-height">
+                <div class="col-xs-5 custom-line-height">R14760899972362</div>
+                <div class="col-xs-2 custom-line-height">北京市</div>
+                <div class="col-xs-2 custom-line-height">张若愚</div>
+                <div class="col-xs-3 custom-line-height">新潮嘉园</div>
+            </div>
+        </div>
+        <div class="col-xs-3 custom-line-height">
+            <div class="row custom-line-height">
+                <div class="col-xs-3 custom-line-height">物资学院</div>
+                <div class="col-xs-3 custom-line-height">101.11km</div>
+                <div class="col-xs-3 custom-line-height">18001163632</div>
+                <div class="col-xs-3 custom-line-height">18513603626</div>
+            </div>
+        </div>
+        <div class="col-xs-3 custom-line-height">
+            <div class="row custom-line-height">
+                <div class="col-xs-4 custom-line-height">李四(13800138000)</div>
+                <div class="col-xs-4 custom-line-height">2016-10-10 23:00</div>
+                <div class="col-xs-4 custom-line-height">2016-10-10 23:31</div>
+            </div>
+        </div>
+        <div class="col-xs-3 custom-line-height">
+            <div class="row custom-line-height">
+                <div class="col-xs-4 custom-line-height">2016-10-10 23:31</div>
+                <div class="col-xs-2 custom-line-height">已支付</div>
+                <div class="col-xs-2 custom-line-height">张若愚</div>
+                <div class="col-xs-4 custom-line-height">
+                    <a href="" class="btn btn-primary">详情</a>
+                    <a href="" class="btn btn-primary">编辑</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @endsection
