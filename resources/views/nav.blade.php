@@ -5,11 +5,11 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li class="active">
-                <a href="#">Link</a>
+            <li  class="{{ Request::is('/') || Request::is('index') ? "active" : "" }}">
+                <a href="/">数组统计</a>
             </li>
-            <li>
-                <a href="#">Link</a>
+            <li class="{{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
+                <a href="orders">订单管理</a>
             </li>
             {{--<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
@@ -42,11 +42,8 @@
             </div> <button type="submit" class="btn btn-default">Submit</button>
         </form>--}}
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="#">Link</a>
-            </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎回来：{{Auth::user()->name}}<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="userprofiles">个人资料</a>
