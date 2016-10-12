@@ -34,3 +34,7 @@
     text-align: center;
     font-size: x-small;
 }
+.overhidden{
+    width: 90%;
+    overflow:hidden;
+}

@@ -12,13 +12,14 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="row clearfix">
-                <div class="col-md-1 column custom-border">
+                {{--左侧导航--}}
+                {{--<div class="col-md-1 column custom-border">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="{{ Request::is('/') || Request::is('index') ? "active" : "" }}" ><a href="/index">数据统计</a></li>
                         <li class="{{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}" ><a href="/orders">订单管理</a></li>
                     </ul>
-                </div>
-                <div class="col-md-11 column">
+                </div>--}}
+                <div class="col-md-12 column">
                     {{--<div class="col-md-12 column custom-border">
                         @yield('content')
                     </div>--}}
