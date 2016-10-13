@@ -5,11 +5,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/', 'Admin\IndexController@index');
     Route::get('index', 'Admin\IndexController@index');
     #订单管理相关
-    /*Route::get('/orders', 'Admin\OrderController@index');
-    Route::get('/orders/index', 'Admin\OrderController@index');*/
+    Route::get('/orders', 'Admin\OrderController@index');
+    Route::get('/orders/index', 'Admin\OrderController@index');
+    Route::get('/orders/new', 'Admin\OrderController@newOrders');
 });
-Route::get('/orders', 'Admin\OrderController@index');
-Route::get('/orders/index', 'Admin\OrderController@index');
 
 #认证路由...
 Route::get('auth/login', 'Auth\AuthController@getLogin');

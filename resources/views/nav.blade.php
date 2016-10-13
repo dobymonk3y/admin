@@ -8,8 +8,23 @@
             <li  class="{{ Request::is('/') || Request::is('index') ? "active" : "" }}">
                 <a href="/">数组统计</a>
             </li>
-            <li class="{{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
+            {{--<li class="{{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
                 <a href="orders">订单管理</a>
+            </li>--}}
+            <li class="dropdown {{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    订单管理
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="orders">所有订单</a></li>
+                    <li><a href="/orders/new">新订单</a></li>
+                    <li><a href="#">待搬家</a></li>
+                    <li><a href="#">搬家中</a></li>
+                    <li><a href="#">未支付</a></li>
+                    <li><a href="#">已支付</a></li>
+                    <li><a href="#">已取消</a></li>
+                </ul>
             </li>
             {{--<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
