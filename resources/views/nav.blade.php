@@ -6,7 +6,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
             <li  class="{{ Request::is('/') || Request::is('index') ? "active" : "" }}">
-                <a href="/">数组统计</a>
+                <a href="/">数据统计</a>
             </li>
             {{--<li class="{{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
                 <a href="orders">订单管理</a>
@@ -17,13 +17,13 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="orders">所有订单</a></li>
+                    <li><a href="/orders">所有订单</a></li>
                     <li><a href="/orders/new">新订单</a></li>
-                    <li><a href="#">待搬家</a></li>
-                    <li><a href="#">搬家中</a></li>
-                    <li><a href="#">未支付</a></li>
-                    <li><a href="#">已支付</a></li>
-                    <li><a href="#">已取消</a></li>
+                    <li><a href="/orders/wait">待搬家</a></li>
+                    <li><a href="/orders/remove">搬家中</a></li>
+                    <li><a href="/orders/unpay">未支付</a></li>
+                    <li><a href="/orders/pay">已支付</a></li>
+                    <li><a href="/orders/cancel">已取消</a></li>
                 </ul>
             </li>
             {{--<li class="dropdown">
@@ -58,13 +58,13 @@
         </form>--}}
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎回来：{{--{{Auth::user()->name}}--}}张若愚<strong class="caret"></strong></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎回来：{{Auth::user()->name}}<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="userprofiles">个人资料</a>
+                        <a href="/userprofiles">个人资料</a>
                     </li>
                     <li>
-                        <a href="auth/logout">退出登陆</a>
+                        <a href="/auth/logout">退出登陆</a>
                     </li>
                 </ul>
             </li>

@@ -13,31 +13,29 @@
         <strong>Success:</strong>{{  Session::get('loginsuccess') }}
     </div>
 @endif
+<div class="col-md-12">
+    <ol class="breadcrumb">
+        <li><a href="/">大管家系统</a></li>
+        <li><a href="/orders">订单管理</a></li>
+        @if(Request::is('orders'))
+            <li class="active">所有订单</li>
+        @elseif(Request::is('orders/new'))
+            <li class="active">新订单</li>
+        @elseif(Request::is('orders/wait'))
+            <li class="active">待搬家</li>
+        @elseif(Request::is('orders/remove'))
+            <li class="active">已搬家</li>
+        @elseif(Request::is('orders/unpay'))
+            <li class="active">未支付</li>
+        @elseif(Request::is('orders/pay'))
+            <li class="active">已支付</li>
+        @elseif(Request::is('orders/cancel'))
+            <li class="active">已取消</li>
+        @endif
+    </ol>
+</div>
 <div class="col-md-12 column">
     <div class="tabbable" id="tabs-788804">
-        {{--<ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#panel-118431" data-toggle="tab">所有订单</a>
-            </li>
-            <li>
-                <a href="#panel-118432" data-toggle="tab">新订单</a>
-            </li>
-            <li>
-                <a href="#panel-118433" data-toggle="tab">待搬家</a>
-            </li>
-            <li>
-                <a href="#panel-118434" data-toggle="tab">搬家中</a>
-            </li>
-            <li>
-                <a href="#panel-118435" data-toggle="tab">未支付</a>
-            </li>
-            <li>
-                <a href="#panel-118436" data-toggle="tab">已支付</a>
-            </li>
-            <li>
-                <a href="#panel-118437" data-toggle="tab">已取消</a>
-            </li>
-        </ul>--}}
         <div class="tab-content">
             <div class="tab-pane active" id="panel-118431">
                 @if(count($orders) > 0)
@@ -67,7 +65,7 @@
                             @endif
                         </div>
                         <div class="col-md-4" style="text-align: center">
-                            <a href="" class="btn btn-xs btn-primary">详情</a>
+                            <a href="/orders/show/{{$order['o_num']}}" class="btn btn-xs btn-primary">详情</a>
                             <a href="" class="btn btn-xs btn-primary">编辑</a>
                         </div>
                     </div>
