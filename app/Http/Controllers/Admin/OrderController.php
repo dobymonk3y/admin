@@ -488,11 +488,10 @@ class OrderController extends Controller
         ];
         $order['o_num'] = $order->o_num;
         $order['o_city'] = $citys[$order->o_city];
-        $order['o_remover_date'] = $order->o_remover_date." ".$order->o_remover_clock;
         if($v->o_num >7){
             $order['o_state'] = '已支付';
         }else{
-            $order['o_state'] = $removestatus[$order->o_state];
+            $order['state'] = $removestatus[$order->o_state];
         }
         $order['o_driver_grab'] = $order->o_driver_grab == 0 ? "派单" : "抢单";
         $order['o_linkman'] = $order->o_linkman;
@@ -511,6 +510,9 @@ class OrderController extends Controller
         $order['customService'] = $customServiceInfo['human_name'] != null ? $customServiceInfo['human_name'] : "未标注";
         $order['o_worker_name'] = $order->o_state > 2 ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
         $order['o_out_begin_time'] =  $order->o_out_begin_time != null ? date('Y-m-d H:i',$order->o_out_begin_time) : "";
+        $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
+        $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
+        $order['o_in_end_time'] =  $order->o_in_end_time != null ? date('Y-m-d H:i',$order->o_in_end_time) : "";
         if($order->o_num > 7 ){
             $payinfo = Paylist::where('p_onum','=',$order->o_num)->first();
             $order['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);

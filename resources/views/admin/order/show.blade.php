@@ -24,47 +24,42 @@
         <div class="col-md-2">
             <label for="ordernum">订单编号：</label>
         </div>
-        <div class="col-md-10" style="color: green">
-            <label for="o_num">R14763335609228</label>
+        <div class="col-md-4" style="color: green">
+            <label for="o_num">{{$order->o_num}}</label>
         </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">搬家城市：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num">北京市</label>
+        <div class="col-md-4">
+            <label for="o_num">{{$order->o_city}}</label>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">客户：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num" style="color: green">张三 先生  </label>　　用户名: zhangsan
+        <div class="col-md-4">
+            <label for="o_num" style="color: green">{{$order->o_linkman}}　{{$order->o_user_sex}}</label>　　用户名: {{$order->o_user}}
         </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">订单状态：</label>
         </div>
-        <div class="col-md-10">
-            <button class="btn btn-xs btn-warning">待支付</button>
-        </div>
-    </div><div class="col-md-12 custom-border-bottom">
-        <div class="col-md-2">
-            <label for="ordernum">下单时间：</label>
-        </div>
-        <div class="col-md-10">
-            <label for="o_num">2016-10-13 15:32:03</label>
+        <div class="col-md-4">
+            <button class="btn btn-xs btn-warning">{{$order->state}}</button>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
+            <label for="ordernum">下单时间：</label>
+        </div>
+        <div class="col-md-4">
+            <label for="o_num">{{$order->o_time}}</label>
+        </div>
+        <div class="col-md-2">
             <label for="ordernum">预约时间：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num">2016-10-13 15:32:10</label>
+        <div class="col-md-4">
+            <label for="o_num">{{$order->o_remover_date}} {{$order->o_remover_clock}}</label>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -72,7 +67,7 @@
             <label for="ordernum">电话：</label>
         </div>
         <div class="col-md-10">
-            <label for="o_num">18001163632</label>
+            <label for="o_num">{{$order->o_linkman_tel}}</label>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -80,7 +75,7 @@
             <label for="ordernum">备注：</label>
         </div>
         <div class="col-md-10">
-            <label for="o_num">巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</label>
+            <label for="o_num">{{$order->o_remark}}</label>
         </div>
     </div>
     <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
@@ -90,16 +85,14 @@
         <div class="col-md-2">
             <label for="ordernum">人工/时间价格(预估):</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num" style="color:red;">19999.00元</label>　　3人
+        <div class="col-md-4">
+            <label for="o_num" style="color:red;">{{$order->o_start_price}}元</label>　{{$order->o_worker_count}}人
         </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">里程价格：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num" style="color:red;">19999.00元</label>　　39.00KM
+        <div class="col-md-4">
+            <label for="o_num" style="color:red;">{{$order->o_mileage_price}}元</label>　　{{$order->o_mileage}}KM
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -107,7 +100,7 @@
             <label for="ordernum">预估总价：</label>
         </div>
         <div class="col-md-10">
-            <label for="o_num" style="color:red;">19999.00元</label>　　预估总价：387,商家折扣:无折扣
+            <label for="o_num" style="color:red;">{{$order->o_mileage_price}}元</label>　{{$order->o_estimate_price_intro}}
         </div>
     </div>
     <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
@@ -117,32 +110,28 @@
         <div class="col-md-2">
             <label for="ordernum">起点-终点：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num" style="color:blue;">朝庭公寓（北京市朝阳区阜荣街8号</label>　到　<label for="o_num" style="color:blue;">朝庭公寓（北京市朝阳区阜荣街8号</label>
+        <div class="col-md-4">
+            <label for="o_num" style="color:blue;">{{$order->o_begin_poi_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_poi_address}}</label>
         </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">里程数：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num" style="color:green;">39.0KM</label>
+        <div class="col-md-4">
+            <label for="o_num" style="color:green;">{{$order->o_mileage}}KM</label>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">套餐：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num">4.2米厢车</label>
+        <div class="col-md-4">
+            <label for="o_num">{{$order->o_car_type}}  去数据库查一下</label>
         </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">搬运工人数：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num">3</label>
+        <div class="col-md-4">
+            <label for="o_num">{{$order->o_worker_count}}</label>
         </div>
     </div>
     <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
@@ -152,22 +141,22 @@
         <div class="col-md-2">
             <label for="ordernum">跟踪客服：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num">李四</label>
+        <div class="col-md-4">
+            <label for="o_num">{{$order->customService}}</label>
         </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">下单客户端：</label>
         </div>
         <div class="col-md-4">
             <label for="o_num">IOS</label>
         </div>
+    </div>
+    <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">支付途径：</label>
         </div>
         <div class="col-md-4">
-            <label for="o_num">还未生成支付流水</label>
+            <label for="o_num">去数据库里查一下</label>
         </div>
     </div>
     <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
@@ -177,32 +166,28 @@
         <div class="col-md-2">
             <label for="ordernum">搬家公司编号：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num">14314012123602 ( 北京大兵搬家服务有限公司 )</label>
+        <div class="col-md-4">
+            <label for="o_num">{{$order->o_remover_num}}</label>
         </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">搬家车组：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num">车牌号：京QH8J78   负责人：王冰   电话：13520884511</label>
+        <div class="col-md-4">
+            <label for="o_num">车牌号：{{$order->o_plate_num}}   负责人：{{$order->o_worker_name}}</label>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">状态：</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num">已接受</label>
+        <div class="col-md-4">
+            <label for="o_num">未知!!!!!!!</label>
         </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">搬家状态：	</label>
         </div>
-        <div class="col-md-10">
-            <label for="o_num">未开始</label>
+        <div class="col-md-4">
+            <label for="o_num">{{$order->o_remover_state}}</label>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -210,25 +195,25 @@
             <label for="ordernum">搬家时间记录：</label>
         </div>
         <div class="col-md-2">
-            <label for="o_num">搬出开始：</label>2016-10-13 16:06:36
+            <label for="o_num">搬出开始：</label>{{$order->o_out_begin_time}}
         </div>
         <div class="col-md-2">
-            <label for="o_num">搬出结束：</label>2016-10-13 16:06:36
+            <label for="o_num">搬出结束：</label>{{$order->o_out_end_time}}
         </div>
         <div class="col-md-2">
-            <label for="o_num">搬入开始：</label>2016-10-13 16:06:36
+            <label for="o_num">搬入开始：</label>{{$order->o_in_begin_time}}
         </div>
         <div class="col-md-2">
-            <label for="o_num">搬入结束：</label>2016-10-13 16:06:36
+            <label for="o_num">搬入结束：</label>{{$order->o_in_end_time}}
         </div>
+    </div>
+    <div class="col-md-12 custom-margin-top-15">
+        @if($order->o_state >= 8)
+            <div class="col-md-offset-9 col-md-3"><a href="#" class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
+        @else
+            <div class="col-md-offset-9 col-md-3"><a href="#" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
+        @endif
     </div>
 </div>
-@else
-    <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-            &times;
-        </button>
-        <strong>Errors:</strong><p>糟糕, 好像并没有查找到相关的数据! 要不, 找管理员说一下?</p>
-    </div>
 @endif
 @endsection
