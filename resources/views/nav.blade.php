@@ -58,7 +58,7 @@
         </form>--}}
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎回来：{{Auth::user()->name}}<strong class="caret"></strong></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎回来：张若愚<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="/userprofiles">个人资料</a>

@@ -49,7 +49,7 @@
                             服务城市：<label for="">{{$order['o_city']}}</label>
                         </div>
                         <div class="col-md-4">
-                            预约搬家时间：<label for="">{{$order['o_remover_date']}}</label>
+                            预约搬家时间：<label for="">{{$order['o_remover_date']}} {{$order['o_remover_clock']}}</label>
                         </div>
                     </div>
                     <div class="col-md-6 bg-info" style="height: 40px;line-height: 40px;margin-top: 10px;">
@@ -66,7 +66,7 @@
                         </div>
                         <div class="col-md-4" style="text-align: center">
                             <a href="/orders/show/{{$order['o_num']}}" class="btn btn-xs btn-primary">详情</a>
-                            <a href="" class="btn btn-xs btn-primary">编辑</a>
+                            <a href="/orders/edit/{{$order['o_num']}}" class="btn btn-xs btn-primary">编辑</a>
                         </div>
                     </div>
                     <div class="col-md-6" style="height: 30px;line-height: 30px;">
@@ -99,7 +99,7 @@
                             里程费用：<label for="o_mileage_price">{{$order['o_mileage_price']}}元</label>
                         </div>
                         <div class="col-md-4">
-                            人工费用：<label for="o_single_time_price">{{$order['o_single_time_price']}}元</label>
+                            人工费用：<label for="o_time_price">{{$order['o_time_price']}}元</label>
                         </div>
                     </div>
                     <div class="col-md-6" style="height: 30px;line-height: 30px;">
