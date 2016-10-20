@@ -4,14 +4,13 @@
 <!-- 引入 Bootstrap -->
 {!! Html::style('css/bootstrap.min.css') !!}
 {!! Html::style('css/customstyle.css') !!}
-
+{!! Html::style('layui/css/layui.css') !!}
 
 <!-- 包括所有已编译的插件 -->
 {!! Html::script('js/jquery.js') !!}
 
 <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
 {!! Html::script('js/bootstrap.min.js') !!}
-
 
 <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
 <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->

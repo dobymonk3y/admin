@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-6 bg-info" style="height: 40px;line-height: 40px;margin-top: 10px;">
                         <div class="col-md-4">
-                            订单状态：<label for="o_state" class="btn btn-xs btn-danger">{{$order['o_state']}}</label>
+                            订单状态：<label for="o_state" class="btn btn-xs btn-danger">{{$order['o_custom_state']}}</label>
                         </div>
                         <div class="col-md-4">
                             订单性质：
@@ -96,19 +96,39 @@
                             订单里程：<label for="o_mileage"></label>{{$order['o_mileage']}}KM
                         </div>
                         <div class="col-md-4">
-                            里程费用：<label for="o_mileage_price">{{$order['o_mileage_price']}}元</label>
+                            里程费用：<label for="o_mileage_price">{{$order['o_mileage_price'] != null ? $order['o_mileage_price']  : "0.00"}}元</label>
                         </div>
+                        @if($order['o_state'] <7)
+                        <div class="col-md-4">
+                            人工费用：<label for="o_time_price">{{$order['o_start_price']}}元</label>
+                        </div>
+                        @else
                         <div class="col-md-4">
                             人工费用：<label for="o_time_price">{{$order['o_time_price']}}元</label>
                         </div>
+                        @endif
                     </div>
                     <div class="col-md-6" style="height: 30px;line-height: 30px;">
+                        @if($order['o_state'] <7)
                         <div class="col-md-4">
-                            预估总价：<label for="o_estimate_price">{{$order['o_estimate_price']}}元</label>
+                            预估总价：<label for="o_estimate_price">{{$order['o_estimate_price'] != null ? $order['o_estimate_price'] :"0.00"}}元</label>
                         </div>
+                        @else
                         <div class="col-md-4">
-                            实付金额：<label for="o_final_price">{{$order['o_final_price']}}</label>
+                            预估总价：<label for="o_estimate_price">{{$order['o_price'] != null ? $order['o_price'] :"0.00"}}元</label>
                         </div>
+                        @endif
+                        @if($order['o_state'] == 8)
+                            @if(empty($order['o_final_price']))
+                            <div class="col-md-4">
+                                实付金额：<label for="o_activity_price">{{$order['o_activity_price']}}</label>
+                            </div>
+                            @endif
+                        @else
+                        <div class="col-md-4">
+                            实付金额：<label for="o_final_price">{{$order['o_activity_price']}}</label>
+                        </div>
+                        @endif
                         <div class="col-md-4">
                             跟单客服：<label for="customService" class="btn btn-xs btn-info">{{$order['customService']}}</label>
                         </div>

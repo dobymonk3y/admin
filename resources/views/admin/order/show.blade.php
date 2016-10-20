@@ -86,9 +86,15 @@
         <div class="col-md-2">
             <label for="ordernum">人工/时间价格：</label>
         </div>
+        @if($order->o_state < 7)
+        <div class="col-md-4">
+            <label for="o_num" style="color:red;">{{$order->o_start_price}}元</label>
+        </div>
+        @else
         <div class="col-md-4">
             <label for="o_num" style="color:red;">{{$order->o_time_price}}元</label>
         </div>
+        @endif
         <div class="col-md-2">
             <label for="ordernum">里程价格：</label>
         </div>
@@ -124,14 +130,19 @@
             <label for="o_num" style="color:red;">{{$order->o_final_price}}元</label>
         </div>
     </div>
-
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
             <label for="ordernum">预估总价：</label>
         </div>
+        @if($order->o_state < 7)
+        <div class="col-md-10">
+            <label for="o_num" style="color:red;">{{$order->o_estimate_price}}元</label>
+        </div>
+        @else
         <div class="col-md-10">
             <label for="o_num" style="color:red;">{{$order->o_final_price}}元</label> ( 含附加费{{$order->o_other_charge}}元 )
         </div>
+        @endif
     </div>
     @if($othercharge != null)
     <div class="col-md-12 custom-border-bottom">
@@ -273,7 +284,7 @@
         @if($order->o_state >= 8)
             <div class="col-md-offset-9 col-md-3"><a href="#" class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
         @else
-            <div class="col-md-offset-9 col-md-3"><a href="#" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
+            <div class="col-md-offset-9 col-md-3"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
         @endif
     </div>
 </div>
