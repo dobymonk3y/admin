@@ -19,10 +19,20 @@ use Redirect, Input, Auth, Log;
 
 class OrderController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function test(Request $request)
     {
         $phonenum = trim($request->input('phonenum'));
-        $data = WorkerInfo::where('w_tel','like','%'.$phonenum.'%')->get();
+        $data = WorkerInfo::select(['w_car_plate','w_name','w_tel'])->where('w_tel','=',$phonenum)->get();
+        if (count($data)<1){
+            return response()->json(array(
+                'status' => 402,
+                'msg'=>'啊哦,~ 没有找到匹配数据哟,~'
+            ));
+        }
         if ($data != null) {
             return response()->json(array(
                 'status' => 200,
@@ -98,6 +108,10 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+
+    /**
+     * @return mixed
+     */
     public function newOrders()
     {
         $orders = RemoverOrder::where('o_state','=',1)->orderBy('o_time','DESC')->paginate(5);

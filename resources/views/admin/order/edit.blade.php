@@ -279,31 +279,31 @@
                     <label for="o_num" >{{$order->o_worker_name}} [ {{$order->o_plate_num}}  ]</label>
                 </div>
                 <div class="col-md-2 column">
-                    <a id="modal-833932" href="#modal-container-833932" role="button" class="btn btn-primary" data-toggle="modal">指派订单给司机</a>
-                    <div class="modal fade" id="modal-container-833932" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <a id="modal-833932" href="#modal-container-833932" role="button" class="btn btn-primary" data-toggle="modal" onclick="showcheck()" >指派订单给司机</a>
+                    {{--<div class="modal fade" id="modal-container-833932" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <div class="col-md-8">
-                                        {{--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>--}}
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                         <input type="text" class="form-control" placeholder="请输入司机手机号码..." id="phonenum">
                                     </div>
                                     <div class="col-md-4">
                                         <input type="button" id="checkuser" onclick="checkusers()" class="form-control" value="点此查询">
                                     </div>
                                 </div>
-                                {{--@if($worker)
+                                @if($worker)
                                     <div>1231231123</div>
-                                @endif--}}
+                                @endif
                                 <div class="modal-body" id = "showdrivers">
 
                                 </div>
-                                {{--<div class="modal-footer">
+                                <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> <button type="button" class="btn btn-primary">保存</button>
-                                </div>--}}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
                 </div>
             </div>
             <div class="col-md-12 custom-border-bottom">
@@ -347,13 +347,58 @@
             </div>
         </div>
     </form>
+    <div id="bg"></div>
+    <div class="col-md-offset-2 col-md-8" id="checkdiv">
+        <div class="col-md-12" style="margin-top: 10px;">
+            <div class="col-md-4 col-md-offset-6">
+                {{--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>--}}
+                <input type="text" class="form-control" placeholder="请输入司机手机号码..." id="phonenum">
+            </div>
+            <div class="col-md-2">
+                <input type="button" id="checkuser" onclick="check()" class="form-control" value="点此查询">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <hr>
+    </div>
     @endif
 @endsection
 
 <script>
-    function checkusers() {
+    function check() {
         var phonenum = document.getElementById("phonenum").value;
-        //alert(phonenum); //get
+        if(phonenum==""){
+            alert("请填写司机手机号码...");
+            return;
+        }
+        if(isNaN(phonenum))
+        {
+            alert("请输入正确的手机号码,不要输入英文,~");
+            return;
+        }
+        $.ajax({
+            type: 'GET',
+            url: '/test',
+            data: { phonenum : phonenum},
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            },
+            success: function(data){
+                if(data.status == 402){
+                    alert(data.msg);
+                    return;
+                }
+                console.log(data.data);
+            },
+            error: function(xhr, type){
+                alert('Ajax error!')
+            }
+        });
+    }
+    function checkuser() {
+        var phonenum = document.getElementById("phonenum").value;
+        alert(123);
         $.ajax({
             type: 'GET',
             url: '/test',
@@ -370,4 +415,9 @@
             }
         });
     }
+    function showcheck() {
+        document.getElementById("bg").style.display ="block";
+        document.getElementById("checkdiv").style.display ="block";
+    }
+
 </script>
