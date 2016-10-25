@@ -11,6 +11,16 @@
             {{--<li class="{{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
                 <a href="orders">订单管理</a>
             </li>--}}
+            <li class="dropdown {{ Request::is('personnel') || Request::is('personnel/*') ? "active" : "" }}">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    人事管理
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/personnel">员工资料浏览</a></li>
+                    <li><a href="#">人事操作记录</a></li>
+                </ul>
+            </li>
             <li class="dropdown {{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     订单管理
