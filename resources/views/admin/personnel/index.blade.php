@@ -34,11 +34,11 @@
                 <div class="col-md-2">{{$v->human_purview}}</div>
                 <div class="col-md-2">{{$v->human_work}}</div>
                 @if($v->human_stat=='在职')
-                <div class="col-md-1"><button class="btn btn-success">{{$v->human_stat}}</button></div>
+                <div class="col-md-1"><a href="/personnel/onthejob" class="btn btn-success">{{$v->human_stat}}</a></div>
                 @elseif($v->human_stat=='离职')
-                <div class="col-md-1"><button class="btn btn-danger">{{$v->human_stat}}</button></div>
+                <div class="col-md-1"><a href="/personnel/leaving" class="btn btn-danger">{{$v->human_stat}}</a></div>
                 @elseif($v->human_stat=='请假')
-                <div class="col-md-1"><button class="btn btn-warning">{{$v->human_stat}}</button></div>
+                <div class="col-md-1"><a href="/personnel/holiday" class="btn btn-warning">{{$v->human_stat}}</a></div>
                 @endif
                 <div class="col-md-2">
                     <a href="#" class="btn btn-warning">查看</a>
@@ -46,7 +46,7 @@
                     @if($v->human_stat=='在职' || $v->human_stat=='请假')
                     <a href="#" class="btn btn-danger">设为离职</a>
                     @else
-                    <a href="#" class="btn btn-success disabled">确认离职</a>
+                    <a href="#" class="btn btn-success">设为复职</a>
                     @endif
                 </div>
             </div>

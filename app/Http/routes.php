@@ -21,7 +21,13 @@ Route::group(['middleware' => 'admin'], function () {
 
     #人事相关
     Route::get('/personnel', 'Admin\PersonnelController@index');
+    Route::get('/personnel/onthejob', 'Admin\PersonnelController@onthejob');
+    Route::get('/personnel/holiday', 'Admin\PersonnelController@holiday');
+    Route::get('/personnel/leaving', 'Admin\PersonnelController@leaving');
     Route::get('/personnel/index', 'Admin\PersonnelController@index');
+
+    #报表 日志
+    Route::get('/log/login','Admin\LogController@login');
 });
 
 #认证路由...

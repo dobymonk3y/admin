@@ -115,13 +115,17 @@
                         </div>
                         @else
                         <div class="col-md-4">
-                            预估总价：<label for="o_estimate_price">{{$order['o_price'] != null ? $order['o_price'] :"0.00"}}元</label>
+                            预估总价：<label for="o_estimate_price">{{$order['o_price'] != null ? $order['o_price'] :"0.00"}}元{{$order['o_state']}}</label>
                         </div>
                         @endif
                         @if($order['o_state'] == 8)
                             @if(empty($order['o_final_price']))
                             <div class="col-md-4">
                                 实付金额：<label for="o_activity_price">{{$order['o_activity_price']}}</label>
+                            </div>
+                            @else
+                            <div class="col-md-4">
+                                实付金额：<label for="o_final_price">{{$order['o_activity_price']}}</label>
                             </div>
                             @endif
                         @else
