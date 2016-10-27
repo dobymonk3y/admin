@@ -94,14 +94,15 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="/log/login">登陆日志</a></li>
+                    <li><a href="/log/login">系统登录日志</a></li>
+                    <li><a href="/log/mylogin">个人登录日志</a></li>
                     <li><a href="/log/report">操作记录</a></li>
                 </ul>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎回来：张若愚<strong class="caret"></strong></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎回来：{{Auth::user()->realname}}<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="/userprofiles">个人资料</a>
