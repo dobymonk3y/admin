@@ -28,6 +28,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     #报表 日志
     Route::get('/log/login','Admin\LogController@login');
+    Route::get('/log/logincheck','Admin\LogController@logincheck');
     Route::get('/log/mylogin','Admin\LogController@mylogin');
 });
 

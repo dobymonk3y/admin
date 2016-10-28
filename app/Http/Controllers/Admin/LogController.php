@@ -22,4 +22,11 @@ class LogController extends Controller
         $logins = LoginReport::where('act_people_id','=',Auth::user()->name)->orderBy('act_time','desc')->paginate(15);
         return view('admin.log.login')->withLogins($logins);
     }
+
+    public function logincheck(Request $request)
+    {
+        $name = $request->input('username');
+
+        return 123;
+    }
 }
