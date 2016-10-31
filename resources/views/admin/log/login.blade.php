@@ -3,6 +3,15 @@
 @section('title','! 大管家管理系统')
 
 @section('content')
+    @if(Session::has('loginsEmpty'))
+        <div class="alert alert-warning alert-dismissable" id="loginsEmpty" onload="autohide()">
+            <button type="button" class="close" data-dismiss="alert"
+                    aria-hidden="true">
+                &times;
+            </button>
+            <strong>Errors:</strong>{{  Session::get('loginsEmpty') }}
+        </div>
+    @endif
     <div class="col-md-12" id="namenotice" style="display: none;">
         <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -26,11 +35,11 @@
             <li><a href="/">大管家系统</a></li>
             <li>报表与日志</li>
             @if(Request::is('log/login'))
-                <li class="active">系统登录日志</li>
+                <li class="active"><a href="/log/login">系统登录日志</a></li>
             @elseif(Request::is('log/mylogin'))
-                <li class="active">个人登录日志</li>
-            @elseif(Request::is('orders/cancel'))
-                <li class="active">已取消</li>
+                <li class="active"><a href="/log/mylogin">个人登录日志</a></li>
+            @elseif(Request::is('log/process'))
+                <li class="active"><a href="/log/process">操作记录</a></li>
             @endif
         </ol>
     </div>
@@ -43,12 +52,12 @@
             <div class="col-md-3">
                 <div class="col-md-6">
                     <div class="layui-inline">
-                        <input class="form-control" placeholder="选择起始时间" id="timestart" onclick="layui.laydate({elem: this, istime: false, format: 'YYYY-MM-DD hh:mm',  istoday: false,festival: true,issure: true})">
+                        <input class="form-control" placeholder="选择起始时间" id="timestart" name="timestart" onclick="layui.laydate({elem: this, istime: false, format: 'YYYY-MM-DD hh:mm',  istoday: false,festival: true,issure: true})">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="layui-inline">
-                        <input class="form-control" placeholder="选择结束时间" id="timeend" onclick="layui.laydate({elem: this, istime: false, format: 'YYYY-MM-DD hh:mm',  istoday: false,festival: true,issure: true})">
+                        <input class="form-control" placeholder="选择结束时间" id="timeend" name="timeend" onclick="layui.laydate({elem: this, istime: false, format: 'YYYY-MM-DD hh:mm',  istoday: false,festival: true,issure: true})">
                     </div>
                 </div>
             </div>

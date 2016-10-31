@@ -22,9 +22,15 @@
                     setTimeout( " hide() " , 3000 );
                     return false;
                 }
-            }else{
-                return true;
             }
+            if(username != ''){
+                if(timestart == '' || timeend == ''){
+                    document.getElementById("timenotice").style.display ="block";
+                    setTimeout( " hide() " , 3000 );
+                    return false;
+                }
+            }
+            return true;
         }catch(err){
             alert(err);
         }
@@ -34,4 +40,10 @@
         document.getElementById("timenotice").style.display ="none";
         return;
     }
+    function autohide(){
+        document.getElementById("loginsEmpty").style.display ="none";
+        document.getElementById("processEmpty").style.display ="none";
+    }
+    //3秒后自动调用 hideloginlog div
+    window.onload=setTimeout( " autohide() " , 3000 );
 </script>

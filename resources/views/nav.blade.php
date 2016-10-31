@@ -96,7 +96,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="/log/login">系统登录日志</a></li>
                     <li><a href="/log/mylogin">个人登录日志</a></li>
-                    <li><a href="/log/report">操作记录</a></li>
+                    <li><a href="/log/process">操作记录</a></li>
                 </ul>
             </li>
         </ul>
