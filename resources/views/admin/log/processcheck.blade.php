@@ -47,32 +47,32 @@
         <div class="col-md-12">
             <form action="/log/processcheck" method="get"  onsubmit="return searchLog()">
                 <div class="col-md-2 ">
-                    <input class="form-control" type="text" id="username" name="username" placeholder="请输入操作者姓名">
+                    <input class="form-control" type="text" id="username" name="username" placeholder="请输入操作者姓名" value="{{  $_GET['username'] != '' ? trim($_GET['username']) :'' }}">
                 </div>
                 <div class="col-md-3">
                     <div class="col-md-6">
                         <div class="layui-inline">
-                            <input class="form-control" placeholder="选择起始时间" id="timestart" name="timestart" onclick="layui.laydate({elem: this, istime: false, format: 'YYYY-MM-DD hh:mm',  istoday: false,festival: true,issure: true})">
+                            <input class="form-control" placeholder="选择起始时间" id="timestart" name="timestart" onclick="layui.laydate({elem: this, istime: false, format: 'YYYY-MM-DD hh:mm',  istoday: false,festival: true,issure: true})" value="{{  $_GET['timestart'] != '' ? $_GET['timestart'] :'' }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="layui-inline">
-                            <input class="form-control" placeholder="选择结束时间" id="timeend" name="timeend" onclick="layui.laydate({elem: this, istime: false, format: 'YYYY-MM-DD hh:mm',  istoday: false,festival: true,issure: true})">
+                            <input class="form-control" placeholder="选择结束时间" id="timeend" name="timeend" onclick="layui.laydate({elem: this, istime: false, format: 'YYYY-MM-DD hh:mm',  istoday: false,festival: true,issure: true})" value="{{  $_GET['timeend'] != '' ? $_GET['timeend'] :'' }}">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="col-md-6">
                         <select class="form-control" name="state">
-                            <option value="9">所有</option>
-                            <option value="1">增加员工资料</option>
-                            <option value="2">编辑员工资料</option>
-                            <option value="3">删除员工资料</option>
-                            <option value="4">员工离职</option>
-                            <option value="5">员工复职</option>
-                            <option value="6">员工请假</option>
-                            <option value="7">还原密码</option>
-                            <option value="8">变更工作</option>
+                            <option value="9" selected="{{  $_GET['state'] == 9 ? 'selected' :'' }}">所有</option>
+                            <option value="1" selected="{{  $_GET['state'] == 1 ? 'selected' :'' }}">增加员工资料</option>
+                            <option value="2" selected="{{  $_GET['state'] == 2 ? 'selected' :'' }}">编辑员工资料</option>
+                            <option value="3" selected="{{  $_GET['state'] == 3 ? 'selected' :'' }}">删除员工资料</option>
+                            <option value="4" selected="{{  $_GET['state'] == 4 ? 'selected' :'' }}">员工离职</option>
+                            <option value="5" selected="{{  $_GET['state'] == 5 ? 'selected' :'' }}">员工复职</option>
+                            <option value="6" selected="{{  $_GET['state'] == 6 ? 'selected' :'' }}">员工请假</option>
+                            <option value="7" selected="{{  $_GET['state'] == 7 ? 'selected' :'' }}">还原密码</option>
+                            <option value="8" selected="{{  $_GET['state'] == 8 ? 'selected' :'' }}">变更工作</option>
                         </select>
                     </div>
                     <div class="col-md-6"><button type="submit" class="btn btn-primary">搜索记录</button></div>

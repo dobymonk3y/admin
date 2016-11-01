@@ -37,10 +37,21 @@ class LogController extends Controller
         return view('admin.log.login')->withLogins($logins);
     }
     public function process( ){
-        $processes = Process::orderBy('Id','DESC')->paginate(10);
+        $processes = Process::orderBy('Id','DESC')->paginate(15);
         return view('admin.log.process')->withProcesses($processes);
     }
     public function processcheck(Request $request){
-
+        $name = trim($request->input('username'));
+        $stime = date("Y-m-d",(strtotime($request->input('timestart'))));
+        $etime = date("Y-m-d",(strtotime($request->input('timeend'))));
+        $state = $request->input('state');
+        // $processes = Process::where('act_people','=',$name)->whereBetween('act_date',[$stime,$etime])->orderBy('Id','DESC')->get();
+        // dd($processes);
+        if($state == 9){
+            $processes = Process::where('act_people','=',$name)->whereBetween('act_time',[$stime,$etime])->orderBy('Id','DESC')->paginate(15);
+        }else{
+            $processes = Process::where('act_people','=',$name)->whereBetween('act_time',[$stime,$etime])->where('act_stat','=',$state)->orderBy('Id','DESC')->paginate(15);
+        }
+        return view('admin.log.processcheck')->withProcesses($processes);
     }
 }

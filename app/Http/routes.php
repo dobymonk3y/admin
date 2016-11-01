@@ -31,6 +31,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/log/logincheck','Admin\LogController@logincheck');
     Route::get('/log/mylogin','Admin\LogController@mylogin');
     Route::get('/log/process','Admin\LogController@process');
+    Route::get('/log/processcheck','Admin\LogController@processcheck');
 });
 
 #认证路由...
