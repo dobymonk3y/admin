@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Human;
+use Session;
 
 class PersonnelController extends Controller
 {
@@ -17,7 +19,7 @@ class PersonnelController extends Controller
      */
     public function index()
     {
-        $humaninfo = Human::select(['Id','human_username','human_name','human_work','human_purview','human_stat'])->paginate(15);
+        $humaninfo = Human::select(['Id','human_username','human_name','human_work','human_purview','human_stat'])->orderBy('Id','DESC')->paginate(15);
         foreach($humaninfo as $k =>$v){
             if($v->human_purview == "guanliyuan"){
                 $v->human_purview = "管理员";
@@ -123,69 +125,34 @@ class PersonnelController extends Controller
         return view('admin.personnel.index')->withHumaninfo($humaninfo);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function addNew()
     {
-        //
+        return view('admin.personnel.addnew');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function saveNew(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $name = $request->input('name');
+        $realname = $request->input('realname');
+        $password = $request->input('password');
+        $confirmpassword = $request->input('confirmpassword');
+        $groupid = $request->input('position');
+        if ($name =='' || $realname =='' || $password =='' || $confirmpassword =='' || $groupid ==''){
+            Session::flash('personnelAddError','请检查必填项是否完全填写, 如果确定填写仍报错, 请联系管理员!');
+            return view('admin.personnel.add');
+        }
+        $user =  new User();
+        $user->name = $name;
+        $user->realname = $realname;
+        $user->password = bcrypt($password);
+        $user->groupid = $groupid;
+        $res = $user->save();
+        if($res < 0){
+            Session::flash('personnelAddFaild','新用户填加失败! 请重新填加, 或联系管理员!');
+            return view('admin.personnel.add');
+        }else{
+            Session::flash('personnelAddSuccess','新用户填加功!');
+        }
+        return redirect('/personnel/index');
     }
 }

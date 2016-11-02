@@ -3,6 +3,15 @@
 @section('title','! 大管家管理系统')
 
 @section('content')
+@if(Session::has('personnelAddSuccess'))
+    <div class="alert alert-success alert-dismissable" id="personnelAddSuccess" onload="autohide()">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        <strong>Success:</strong>{{  Session::get('personnelAddSuccess') }}
+    </div>
+@endif
 <div class="col-md-12">
     <ol class="breadcrumb">
         <li><a href="/">大管家系统</a></li>

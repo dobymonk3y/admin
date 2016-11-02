@@ -18,7 +18,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="/personnel">员工资料浏览</a></li>
-                    <li><a href="#">人事操作记录</a></li>
+                    <li><a href="/personnel/add">新增员工</a></li>
                 </ul>
             </li>
             <li class="dropdown {{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
@@ -96,7 +96,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="/log/login">系统登录日志</a></li>
                     <li><a href="/log/mylogin">个人登录日志</a></li>
-                    <li><a href="/log/process">操作记录</a></li>
+                    <li><a href="/log/process">人事操作记录</a></li>
                 </ul>
             </li>
         </ul>

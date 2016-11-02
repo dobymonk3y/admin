@@ -25,6 +25,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/personnel/holiday', 'Admin\PersonnelController@holiday');
     Route::get('/personnel/leaving', 'Admin\PersonnelController@leaving');
     Route::get('/personnel/index', 'Admin\PersonnelController@index');
+    Route::get('/personnel/add', 'Admin\PersonnelController@addNew');
+    Route::post('/personnel/save', 'Admin\PersonnelController@saveNew');
 
     #报表 日志
     Route::get('/log/login','Admin\LogController@login');
