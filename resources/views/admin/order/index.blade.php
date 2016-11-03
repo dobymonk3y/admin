@@ -149,9 +149,14 @@
                         </div>
                     </div>
                     <div class="col-md-6" style="height: 30px;line-height: 30px;">
-                        <div class="col-md-12" style="overflow:hidden;">
+                        <div class="col-md-9" style="overflow:hidden;">
                             备注：<label for="o_remark">{{$order['o_remark']}}</label>
                         </div>
+                        @if($order['o_state'] < 6)
+                        <div class="col-md-3">
+                            <a class="btn btn-xs btn-info" href="">指派订单给司机</a>
+                        </div>
+                        @endif
                     </div>
                 </div>
                 @endforeach

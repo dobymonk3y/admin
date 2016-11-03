@@ -279,7 +279,7 @@
                     <label for="o_num" >{{$order->o_worker_name}} [ {{$order->o_plate_num}}  ]</label>
                 </div>
                 <div class="col-md-2 column">
-                    <a id="modal-833932" href="#modal-container-833932" role="button" class="btn btn-primary" data-toggle="modal" onclick="showcheck()" >指派订单给司机</a>
+                    {{--<a id="modal-833932" href="#modal-container-833932" role="button" class="btn btn-primary" data-toggle="modal" onclick="showcheck()" >指派订单给司机</a>--}}
                     {{--<div class="modal fade" id="modal-container-833932" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">

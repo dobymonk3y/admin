@@ -75,11 +75,12 @@ class OrderController extends Controller
 
             $orders[$k]['o_num'] = $v->o_num;
             $orders[$k]['o_city'] = $citysinfo->c_name;
-            if($v->o_num >7){
+            $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
+            /*if($v->o_state >7){
                 $orders[$k]['o_state'] = '已支付';
             }else{
                 $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
-            }
+            }*/
             $orders[$k]['o_driver_grab'] = $v->o_driver_grab == 0 ? "派单" : "抢单";
             $orders[$k]['o_linkman'] = $v->o_linkman;
             $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
