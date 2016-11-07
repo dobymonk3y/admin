@@ -18,3 +18,33 @@
         <strong>Success:</strong>{{  Session::get('logout') }}
     </div>
 @endif
+
+@if(Session::has('logout'))
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        <strong>Success:</strong>{{  Session::get('logout') }}
+    </div>
+@endif
+
+@if(Session::has('noordernum'))
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        <strong>Error:</strong>{{  Session::get('noordernum') }}
+    </div>
+@endif
+
+@if(Session::has('followSuccess'))
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        <strong>Success:</strong>{{  Session::get('followSuccess') }}
+    </div>
+@endif

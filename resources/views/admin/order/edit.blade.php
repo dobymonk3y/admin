@@ -243,7 +243,9 @@
                     <label for="ordernum">跟踪客服：</label>
                 </div>
                 <div class="col-md-4">
+                    @if($order->customService != '')
                     <label for="o_num">{{$order->customService}}</label>
+                    @endif
                 </div>
                 <div class="col-md-2">
                     <label for="ordernum">下单客户端：</label>

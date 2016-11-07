@@ -3,7 +3,7 @@
 @section('title','! 大管家管理系统')
 
 @section('content')
-
+@include('partials._message')
 @if(Session::has('loginsuccess'))
     <div class="alert alert-success alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
@@ -133,9 +133,15 @@
                             实付金额：<label for="o_final_price">{{$order['o_activity_price']}}</label>
                         </div>
                         @endif
+                        @if(!empty($order['customService']))
                         <div class="col-md-4">
                             跟单客服：<label for="customService" class="btn btn-xs btn-info">{{$order['customService']}}</label>
                         </div>
+                        @else
+                        <div class="col-md-4">
+                            <a class="btn btn-xs btn-warning" style="text-align: center;" href="/orders/follow?ordernumber={{$order['o_num']}}">点此跟踪该订单</a>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-6" style="height: 30px;line-height: 30px;">
                         <div class="col-md-4">

@@ -3,7 +3,7 @@
 @section('title','! 大管家管理系统')
 
 @section('content')
-
+@include('partials._message')
 @if(Session::has('showOrderFaild'))
     <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
@@ -210,7 +210,7 @@
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
-            <label for="ordernum">跟踪客服：</label>
+            <label for="ordernum">跟单客服：</label>
         </div>
         <div class="col-md-4">
             <label for="o_num">{{$order->customService}}</label>

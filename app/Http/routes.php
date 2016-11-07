@@ -18,6 +18,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/orders/cancel', 'Admin\OrderController@cancelOrders');
     Route::get('/orders/show/{id}', 'Admin\OrderController@showOrder');
     Route::get('/orders/edit/{id}', 'Admin\OrderController@edit');
+    Route::get('/orders/follow', 'Admin\OrderController@followOrder');
 
     #人事相关
     Route::get('/personnel', 'Admin\PersonnelController@index');

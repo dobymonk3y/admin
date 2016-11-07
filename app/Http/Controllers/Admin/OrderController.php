@@ -10,6 +10,7 @@ use App\Models\Cartype;
 use App\Models\RemoverOrder;
 use App\Models\ServiceCity;
 use App\Models\WorkerInfo;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -66,6 +67,7 @@ class OrderController extends Controller
             '8' => '已支付',
             '9' => '已结束',
         ];
+
         foreach ($orders as $k=>$v){
             //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
             $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
@@ -76,11 +78,6 @@ class OrderController extends Controller
             $orders[$k]['o_num'] = $v->o_num;
             $orders[$k]['o_city'] = $citysinfo->c_name;
             $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
-            /*if($v->o_state >7){
-                $orders[$k]['o_state'] = '已支付';
-            }else{
-                $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
-            }*/
             $orders[$k]['o_driver_grab'] = $v->o_driver_grab == 0 ? "派单" : "抢单";
             $orders[$k]['o_linkman'] = $v->o_linkman;
             $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
@@ -94,10 +91,15 @@ class OrderController extends Controller
             $orders[$k]['o_estimate_price'] = $v->o_estimate_price.'.00';
             $v->o_final_price != 0 ? $v->o_final_price."元" : "0.00元";
             $orders[$k]['o_final_price'] = $v->o_num >= 7 ? $v->o_final_price : "未支付";
-            $customServiceInfo = CustomService::where('human_username','=',$v->o_customer_service)->first();
-            $orders[$k]['customService'] = $customServiceInfo['human_name'] != null ? $customServiceInfo['human_name'] : "未标注";
             $orders[$k]['o_worker_name'] = $v->o_state > 2 ? $v->o_worker_name." ( ".$v->o_worker_tel." )" :"";
             $orders[$k]['o_out_begin_time'] =  $v->o_out_begin_time != null ? date('Y-m-d H:i',$v->o_out_begin_time) : "";
+            //客服人员姓名
+            $userinfo = User::where('name','=',$v->o_customer_service)->first();
+            if(!empty($userinfo)){
+                $orders[$k]['customService'] = $userinfo->realname;
+            }else{
+                $orders[$k]['customService'] = null;
+            }
             if($v->o_state > 7 ){
                 $payinfo = Paylist::where('p_onum','=',$v->o_num)->first();
                 $orders[$k]['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
@@ -109,6 +111,18 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+    public function followOrder(Request $request)
+    {
+        $ordernum = $request->input('ordernumber');
+        if(empty($ordernum)){
+            Session::flash('noordernum',"参数错误,请联系管理员!");
+            return redirect('/orders');
+        }
+        $userid = Auth::user()->name;
+        RemoverOrder::where('o_num','=',$ordernum)->update(['o_customer_service' => $userid]);
+        Session::flash('followSuccess',"跟单成功! 请及时跟进订单信息!");
+        return redirect('/orders/show/'.$ordernum);
+    }
 
     /**
      * @return mixed
@@ -512,13 +526,18 @@ class OrderController extends Controller
         $order['o_estimate_price'] = $order->o_estimate_price.'.00';
         $order->o_final_price != 0 ? $order->o_final_price."元" : "0.00元";
         $order['o_final_price'] = $order->o_state >= 7 ? $order->o_final_price : "";
-        $customServiceInfo = CustomService::where('human_username','=',$order->o_customer_service)->first();
-        $order['customService'] = $customServiceInfo['human_name'] != null ? $customServiceInfo['human_name'] : "未标注";
         $order['o_worker_name'] = $order->o_state > 2 ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
         $order['o_out_begin_time'] =  $order->o_out_begin_time != null ? date('Y-m-d H:i',$order->o_out_begin_time) : "";
         $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
         $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
         $order['o_in_end_time'] =  $order->o_in_end_time != null ? date('Y-m-d H:i',$order->o_in_end_time) : "";
+        //客服人员姓名
+        $userinfo = User::where('name','=',$order->o_customer_service)->first();
+        if(!empty($userinfo)){
+            $order['customService'] = $userinfo->realname;
+        }else{
+            $order['customService'] = null;
+        }
         if($order->o_state > 7 ){
             $payinfo = Paylist::where('p_onum','=',$order->o_num)->first();
             $order['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
