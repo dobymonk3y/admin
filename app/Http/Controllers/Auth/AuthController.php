@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
+use App\Models\LoginReport;
 
 class AuthController extends Controller
 {
@@ -77,6 +78,12 @@ class AuthController extends Controller
         $password = $request->input('password');
         if (Auth::attempt(['name' => $name, 'password' => $password])) {
             Session::flash("loginsuccess","登陆成功! 欢迎回来大管家!");
+            $login = new LoginReport;
+            $login->act_people = Auth::user()->realname;
+            $login->act_people_id = Auth::user()->name;
+            $login->act_time = time();
+            $login->act_loginip = $_SERVER['REMOTE_ADDR'];
+            $login->save();
             return redirect("/");
         }else{
             Session::flash("loginfaild","用户名或密码错误，请重新输入…");

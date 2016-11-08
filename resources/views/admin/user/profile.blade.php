@@ -6,11 +6,8 @@
     <div class="col-md-12">
         <ol class="breadcrumb">
             <li><a href="/">大管家系统</a></li>
-            <li>人事管理</li>
-            @if(Request::is('personnel') || Request::is('personnel/index'))
-                <li class="active">员工资料浏览</li>
-            @elseif(Request::is('personnel/add'))
-                <li class="active">新增员工</li>
+            @if(Request::is('user/profiles'))
+                <li class="active">个人资料</li>
             @endif
         </ol>
     </div>

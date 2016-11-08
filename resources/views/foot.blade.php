@@ -67,6 +67,35 @@
             }
             return true;
     }
+    function updateCheck(){
+        var realname = document.getElementById('realname').value;
+        if(realname ==''){
+            alert('用户真实姓名不能为空, 请填写使用者姓名!');
+            return false;
+        }
+        return true;
+    }
+    function passwordCheck(){
+        var newpassword = document.getElementById('newpassword').value.trim();
+        var password = document.getElementById('password').value;
+        var confirmpassword = document.getElementById('confirmpassword').value;
+        if(newpassword =='' || password =='' || confirmpassword ==''){
+            alert('所有项目均为必填项, 不能留空!!');
+            return false;
+        }
+        if(newpassword.length <6){
+            alert('请输入至少6位长度的密码!');
+            return false;
+        }
+        if(newpassword != confirmpassword){
+            alert('两次输入的密码不一致, 请重新确认!');
+            return false;
+        }
+    }
+    //去除前后空格
+    String.prototype.trim=function() {
+        return this.replace(/(^\s*)|(\s*$)/g,'');
+    }
 
     //3秒后自动调用 hideloginlog div
     window.onload=setTimeout( " autohide() " , 3000 );
