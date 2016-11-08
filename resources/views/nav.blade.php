@@ -105,10 +105,10 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎回来：{{Auth::user()->realname}}<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="/userprofiles">个人资料</a>
+                        <a href="/user/profiles">个人资料</a>
                     </li>
                     <li>
-                        <a href="/userprofiles">修改密码</a>
+                        <a href="/user/password">修改密码</a>
                     </li>
                     <li>
                         <a href="/auth/logout">退出登陆</a>

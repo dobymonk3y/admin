@@ -35,6 +35,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/log/mylogin','Admin\LogController@mylogin');
     Route::get('/log/process','Admin\LogController@process');
     Route::get('/log/processcheck','Admin\LogController@processcheck');
+
+    #个人资料
+    Route::get('/user/profiles','Admin\UserController@index');
+    Route::post('/user/update','Admin\UserController@update');
+    Route::get('/user/password','Admin\UserController@password');
+    Route::post('/user/changepwd','Admin\UserController@change');
 });
 
 #认证路由...

@@ -48,3 +48,13 @@
         <strong>Success:</strong>{{  Session::get('followSuccess') }}
     </div>
 @endif
+
+@if(Session::has('updateSuccess'))
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        <strong>Success:</strong>{{  Session::get('updateSuccess') }}
+    </div>
+@endif
