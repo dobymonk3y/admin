@@ -58,10 +58,12 @@
                         </div>
                         <div class="col-md-4">
                             订单性质：
-                            @if($order['o_driver_grab'] == "派单")
-                                <label for="o_driver_grab" class="btn btn-xs btn-success">{{$order['o_driver_grab']}}</label>
-                            @else
-                                <label for="o_driver_grab" class="btn btn-xs btn-warning">{{$order['o_driver_grab']}}</label>
+                            @if($order['o_driver_grab'] == 0)
+                                <label for="o_driver_grab" class="btn btn-xs btn-danger">待指派</label>
+                            @elseif($order['o_driver_grab'] == 1)
+                                <label for="o_driver_grab" class="btn btn-xs btn-primary">抢单</label>
+                            @elseif($order['o_driver_grab'] == 2)
+                                <label for="o_driver_grab" class="btn btn-xs btn-info">派单</label>
                             @endif
                         </div>
                         <div class="col-md-4" style="text-align: center">
@@ -138,8 +140,8 @@
                             跟单客服：<label for="customService" class="btn btn-xs btn-info">{{$order['customService']}}</label>
                         </div>
                         @else
-                        <div class="col-md-4">
-                            <a class="btn btn-xs btn-warning" style="text-align: center;" href="/orders/follow?ordernumber={{$order['o_num']}}">点此跟踪该订单</a>
+                        <div class="col-md-4" style="text-align: right;">
+                            <a class="btn btn-xs btn-warning" href="/orders/follow?ordernumber={{$order['o_num']}}">点此跟踪该订单</a>
                         </div>
                         @endif
                     </div>
@@ -159,8 +161,8 @@
                             备注：<label for="o_remark">{{$order['o_remark']}}</label>
                         </div>
                         @if($order['o_state'] < 6)
-                        <div class="col-md-3">
-                            <a class="btn btn-xs btn-info" href="">指派订单给司机</a>
+                        <div class="col-md-3"  style="text-align: right;">
+                            <a class="btn btn-xs btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
                         </div>
                         @endif
                     </div>

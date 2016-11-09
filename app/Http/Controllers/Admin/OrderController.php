@@ -78,7 +78,6 @@ class OrderController extends Controller
             $orders[$k]['o_num'] = $v->o_num;
             $orders[$k]['o_city'] = $citysinfo->c_name;
             $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
-            $orders[$k]['o_driver_grab'] = $v->o_driver_grab == 0 ? "派单" : "抢单";
             $orders[$k]['o_linkman'] = $v->o_linkman;
             $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
             $orders[$k]['o_urgent_tel'] = $v->o_urgent_tel;
@@ -671,5 +670,10 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function drivers(Request $request)
+    {
+        return view('admin.order.drivers');
     }
 }
