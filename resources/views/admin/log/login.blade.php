@@ -110,7 +110,13 @@
             @endforeach
             </tbody>
         </table>
-        <div class="col-md-12 text-center">{!! $logins->render() !!}</div>
+        <div class="col-md-12 text-center">
+            @if(!isset($name))
+            {!! $logins->render() !!}
+            @else
+            {!! $logins->appends(['username'=>$name,'timestart'=>$starttime,'timeend'=>$endtime])->render() !!}
+            @endif
+        </div>
     </div>
 
 @endsection

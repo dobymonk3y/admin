@@ -28,13 +28,15 @@ class LogController extends Controller
     public function logincheck(Request $request)
     {
         $name = trim($request->input('username'));
-        $stime = strtotime($request->input('timestart'));
-        $etime = strtotime($request->input('timeend'));
+        $starttime = $request->input('timestart');
+        $endtime = $request->input('timeend');
+        $stime = strtotime($starttime);
+        $etime = strtotime($endtime);
         $logins = LoginReport::where('act_people','=',$name)->whereBetween('act_time', [$stime,$etime])->orderBy('act_time','DESC')->paginate(15);
         if (count($logins) <1){
             Session::flash('loginsEmpty',"Oops, 并没有找到你想要的结果哟,~");
         }
-        return view('admin.log.login')->withLogins($logins);
+        return view('admin.log.login')->withLogins($logins)->withName($name)->withStarttime($starttime)->withEndtime($endtime);
     }
     public function process( ){
         $processes = Process::orderBy('Id','DESC')->paginate(15);
@@ -45,13 +47,11 @@ class LogController extends Controller
         $stime = date("Y-m-d",(strtotime($request->input('timestart'))));
         $etime = date("Y-m-d",(strtotime($request->input('timeend'))));
         $state = $request->input('state');
-        // $processes = Process::where('act_people','=',$name)->whereBetween('act_date',[$stime,$etime])->orderBy('Id','DESC')->get();
-        // dd($processes);
         if($state == 9){
             $processes = Process::where('act_people','=',$name)->whereBetween('act_time',[$stime,$etime])->orderBy('Id','DESC')->paginate(15);
         }else{
             $processes = Process::where('act_people','=',$name)->whereBetween('act_time',[$stime,$etime])->where('act_stat','=',$state)->orderBy('Id','DESC')->paginate(15);
         }
-        return view('admin.log.processcheck')->withProcesses($processes);
+        return view('admin.log.processcheck')->withProcesses($processes)->withName($name)->withStime($stime)->withEtime($etime)->withState($state);
     }
 }

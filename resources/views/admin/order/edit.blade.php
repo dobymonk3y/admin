@@ -344,82 +344,10 @@
                     <div class="col-md-6"><button type="submit" class="btn btn-block btn-success btn-lg">提交修改</button></div>
                     <div class="col-md-6"><a href="/orders/show/{{$order->o_num}}" class="btn btn-block btn-warning btn-lg">撤销修改</a></div>
                 @else
-                    <div class="col-md-6 col-md-offset-6"><a class="btn btn-block btn-warning btn-lg">订单已完成</a></div>
+                    <div class="col-md-6 col-md-offset-6"><a class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
                 @endif
             </div>
         </div>
     </form>
-    <div id="bg"></div>
-    <div class="col-md-offset-2 col-md-8" id="checkdiv">
-        <div class="col-md-12" style="margin-top: 10px;">
-            <div class="col-md-4 col-md-offset-6">
-                {{--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>--}}
-                <input type="text" class="form-control" placeholder="请输入司机手机号码..." id="phonenum">
-            </div>
-            <div class="col-md-2">
-                <input type="button" id="checkuser" onclick="check()" class="form-control" value="点此查询">
-            </div>
-        </div>
-        <div class="clearfix"></div>
-        <hr>
-    </div>
     @endif
 @endsection
-
-<script>
-    function check() {
-        var phonenum = document.getElementById("phonenum").value;
-        if(phonenum==""){
-            alert("请填写司机手机号码...");
-            return;
-        }
-        if(isNaN(phonenum))
-        {
-            alert("请输入正确的手机号码,不要输入英文,~");
-            return;
-        }
-        $.ajax({
-            type: 'GET',
-            url: '/test',
-            data: { phonenum : phonenum},
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            },
-            success: function(data){
-                if(data.status == 402){
-                    alert(data.msg);
-                    return;
-                }
-                console.log(data.data);
-            },
-            error: function(xhr, type){
-                alert('Ajax error!')
-            }
-        });
-    }
-    function checkuser() {
-        var phonenum = document.getElementById("phonenum").value;
-        alert(123);
-        $.ajax({
-            type: 'GET',
-            url: '/test',
-            data: { phonenum : phonenum},
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            },
-            success: function(data){
-                console.log(data.data);
-            },
-            error: function(xhr, type){
-                alert('Ajax error!')
-            }
-        });
-    }
-    function showcheck() {
-        document.getElementById("bg").style.display ="block";
-        document.getElementById("checkdiv").style.display ="block";
-    }
-
-</script>

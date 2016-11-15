@@ -88,7 +88,7 @@
                     <li><a href="#">搬家司机管理</a></li>
                 </ul>
             </li>
-            <li class="dropdown">
+            <li  class="{{ Request::is('log') || Request::is('log/*') ? "active" : "" }}">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     报表与日志
                     <b class="caret"></b>

@@ -11,7 +11,7 @@
                 <input type="text" class="form-control" name="mobilenumber" placeholder="请输入手机号码">
                 <input type="hidden" value="{{$ordernum}}" name="ordernum">
                 <span class="input-group-btn">
-                    <button class="btn btn-primary" type="submit">Search</button>
+                    <button class="btn btn-info" type="submit">Search</button>
                 </span>
             </div>
         </div>
@@ -19,32 +19,33 @@
 </div>
 
 @if($drivers)
-    <div class="col-md-12 column">
+    <div class="col-md-8 col-md-offset-2 column">
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>
+                <th class="text-center">
                     序号
                 </th>
-                <th>
+                <th class="text-center">
                     姓名
                 </th>
-                <th>
+                <th class="text-center">
                     电话
                 </th>
-                <th>
+                <th class="text-center">
                     车牌号码
                 </th>
-                <th>
+                <th class="text-center">
                     操作
                 </th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
+            <?php $num = 1; ?>
             @foreach($drivers as $driver)
                 <tr>
                     <td>
-
+                        {{$num+($drivers->currentPage()-1) * 15}}
                     </td>
                     <td>
                         {{$driver->w_name}}
@@ -56,13 +57,16 @@
                         {{$driver->w_car_plate}}
                     </td>
                     <td>
-                        {{$driver->w_name}}
+                        <a href="/orders/assign?num={{$ordernum}}&mobile={{$driver->w_tel}}" class="btn btn-primary">指派订单给司机</a>
                     </td>
                 </tr>
+                <?php $num++; ?>
             @endforeach
             </tbody>
         </table>
-        {!! $drivers->render() !!}
+        <div class="col-md-12 text-center">
+            {!! $drivers->render() !!}
+        </div>
     </div>
 @endif
 @endsection

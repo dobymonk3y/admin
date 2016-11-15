@@ -45,7 +45,7 @@
             <label for="ordernum">订单状态：</label>
         </div>
         <div class="col-md-4">
-            <button class="btn btn-xs btn-warning">{{$order->state}}</button>
+            <button class="btn btn-xs btn-warning">{{$order->o_custom_state}}</button>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -127,7 +127,7 @@
             <label for="ordernum">最终价格：</label>
         </div>
         <div class="col-md-4">
-            <label for="o_num" style="color:red;">{{$order->o_final_price}}元</label>
+            <label for="o_num" style="color:red;">{{$order->o_final_price}}</label>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -251,10 +251,10 @@
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-2">
-            <label for="ordernum">状态：</label>
+            <label for="ordernum">评价状态：</label>
         </div>
         <div class="col-md-4">
-            <label for="o_num">未知!!!!!!!</label>
+            <label for="o_num">未评价 / 已评价</label>
         </div>
         <div class="col-md-2">
             <label for="ordernum">搬家状态：	</label>

@@ -163,7 +163,58 @@ class OrderController extends Controller
 
     public function showOrder($id)
     {
-        return 1;
+        $order = RemoverOrder::where('o_num','=',$id)->first();
+        //订单状态
+        $removestatus = [
+            '-2' => '已删除',
+            '-1' => '未生成',
+            '1' => '新订单',
+            '3' => '已接受',
+            '4' => '已确认',
+            '5' => '已出发',
+            '6' => '搬家中',
+            '7' => '已搬完',
+            '8' => '已支付',
+            '9' => '已结束',
+        ];
+
+        //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
+        $carinfo = CarInfo::where('car_type_num','=',$order->o_car_inclusive)->first();
+
+        //城市信息相关
+        $citysinfo = ServiceCity::where('c_id','=',$order->o_city)->first();
+
+        $order['o_city'] = $citysinfo->c_name;
+        $order['o_custom_state'] = $removestatus[$order->o_state];
+        $order['o_begin_address'] = mb_substr($order->o_begin_address , 0 , 8);
+        $order['o_end_address'] = mb_substr($order->o_end_address , 0 , 8);
+        $order['o_time'] = date("Y-m-d H:i",$order->o_time);
+        $order['o_mileage_price'] = $order->o_mileage_price.'.00';
+        $order['o_estimate_price'] = $order->o_estimate_price.'.00';
+        $order->o_final_price != 0 ? $order->o_final_price."元" : "0.00元";
+        // $order['o_final_price'] = $order->o_stat >= 7 ? $order->o_final_price : "未支付";
+        $order['o_worker_name'] = $order->o_state > 2 ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
+        $order['o_out_begin_time'] =  $order->o_out_begin_time != null ? date('Y-m-d H:i',$order->o_out_begin_time) : "";
+        $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
+        $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
+        $order['o_in_end_time'] =  $order->o_in_end_time != null ? date('Y-m-d H:i',$order->o_in_end_time) : "";
+        //客服人员姓名
+        $userinfo = User::where('name','=',$order->o_customer_service)->first();
+        if(!empty($userinfo)){
+            $order['customService'] = $userinfo->realname;
+        }else{
+            $order['customService'] = null;
+        }
+        if($order->o_state > 7 ){
+            $payinfo = Paylist::where('p_onum','=',$order->o_num)->first();
+            $order['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
+        }else{
+            $order['payTime'] = "";
+        }
+        $order['o_remark'] = mb_substr($order->o_remark , 0 , 50);
+        $othercharge = OtherCharge::where('c_o_num','=',$order->o_num)->first();
+        $payinfo = null;
+        return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo);
     }
 
     /**
@@ -185,7 +236,7 @@ class OrderController extends Controller
         //城市信息相关
         $citysinfo = ServiceCity::where('c_id','=',$order->o_city)->first();
         $citycars = explode(';',$citysinfo->c_inclusive);
-        $carcanused = CarInfo::select(['car_type_num','car_name','car_format'])->whereIn('car_type_num',$citycars)->get();
+        $carcanused = CarInfo::select(['car_type_num','car_name','car_format'])->whereIn('car_type_num',$citycars)->orderBy('car_type_num','ASC')->get();
         //订单状态
         $removestatus = [
             '-2' => '已删除',
@@ -286,5 +337,20 @@ class OrderController extends Controller
         $ordernum = trim($request->input('ordernum'));
         $drivers = WorkerInfo::select(['w_name','w_tel','w_car_plate'])->where('w_status','=',1)->where('w_tel','like','%'.$mobile.'%')->paginate(15);
         return view('admin.order.driversearch')->withDrivers($drivers)->withOrdernum($ordernum)->withMobile($mobile);
+    }
+
+    public function assignOrder(Request $request)
+    {
+        $num = $request->input('num');
+        $mobile = $request->input('mobile');
+        $data = WorkerInfo::select(['Id','w_car_plate','w_name','w_tel'])->where('w_tel','=',$mobile)->first();
+        $order = RemoverOrder::where('o_num','=',$num)->update([
+            'o_worker'=>$data->Id,
+            'o_worker_name'=>$data->w_name,
+            'o_worker_tel'=>$data->w_tel,
+            'o_plate_num'=>$data->w_car_plate,
+        ]);
+        Session::flash('orderAssignSuccess','订单指派成功!');
+        return redirect('/order/show/'.$num);
     }
 }

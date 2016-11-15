@@ -110,7 +110,9 @@
             @endforeach
             </tbody>
         </table>
-        <div class="col-md-12 text-center">{!! $logins->render() !!}</div>
+        <div class="col-md-12 text-center">
+            {!! $logins->render() !!}
+        </div>
     </div>
 
 @endsection
