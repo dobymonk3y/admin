@@ -344,13 +344,13 @@ class OrderController extends Controller
         $num = $request->input('num');
         $mobile = $request->input('mobile');
         $data = WorkerInfo::select(['Id','w_car_plate','w_name','w_tel'])->where('w_tel','=',$mobile)->first();
-        $order = RemoverOrder::where('o_num','=',$num)->update([
+        RemoverOrder::where('o_num','=',$num)->update([
             'o_worker'=>$data->Id,
             'o_worker_name'=>$data->w_name,
             'o_worker_tel'=>$data->w_tel,
             'o_plate_num'=>$data->w_car_plate,
         ]);
         Session::flash('orderAssignSuccess','订单指派成功!');
-        return redirect('/order/show/'.$num);
+        return redirect('/orders');
     }
 }

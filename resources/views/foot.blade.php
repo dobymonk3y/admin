@@ -36,16 +36,33 @@
         }
     }
     function hide(){
-        document.getElementById("namenotice").style.display ="none";
-        document.getElementById("timenotice").style.display ="none";
+        if(document.getElementById("namenotice")){
+            document.getElementById("namenotice").style.display ="none";
+        }
+        if(document.getElementById("timenotice")){
+            document.getElementById("timenotice").style.display ="none";
+        }
         return;
     }
     function autohide(){
-        document.getElementById("loginsEmpty").style.display ="none";
-        document.getElementById("processEmpty").style.display ="none";
-        document.getElementById("personnelAddError").style.display ="none";
-        document.getElementById("personnelAddFaild").style.display ="none";
-        document.getElementById("personnelAddSuccess").style.display ="none";
+        if(document.getElementById("loginsEmpty")){
+            document.getElementById("loginsEmpty").style.display ="none";
+        }
+        if(document.getElementById("orderAssignSuccess")){
+            document.getElementById("orderAssignSuccess").style.display ="none";
+        }
+        if(document.getElementById("processEmpty")){
+            document.getElementById("processEmpty").style.display ="none";
+        }
+        if(document.getElementById("personnelAddError")){
+            document.getElementById("personnelAddError").style.display ="none";
+        }
+        if(document.getElementById("personnelAddFaild")){
+            document.getElementById("personnelAddFaild").style.display ="none";
+        }
+        if(document.getElementById("personnelAddSuccess")){
+            document.getElementById("personnelAddSuccess").style.display ="none";
+        }
     }
     function personnelCheck(){
             var realname = document.getElementById('realname').value;
