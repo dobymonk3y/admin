@@ -26,11 +26,6 @@ class OrderController extends Controller
      */
     public function test(Request $request)
     {
-        $num = $request->input('num');
-        $mobile = $request->input('mobile');
-        $data = WorkerInfo::select(['w_car_plate','w_name','w_tel'])->where('w_tel','=',$mobile)->first();
-        $order = RemoverOrder::where('o_num','=',$num)->update(['']);
-
         /*$phonenum = trim($request->input('phonenum'));
         $data = WorkerInfo::select(['w_car_plate','w_name','w_tel'])->where('w_tel','=',$phonenum)->get();
         if (count($data)<1){
@@ -59,6 +54,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = RemoverOrder::where('o_state','>',-1)->orderBy('o_time','DESC')->paginate(5);
+        /*$orders = RemoverOrder::where('o_state','>',-1)->orderBy('o_time','DESC')->paginate(5);*/
         //订单状态
         $removestatus = [
             '-2' => '已删除',
@@ -349,6 +345,9 @@ class OrderController extends Controller
             'o_worker_name'=>$data->w_name,
             'o_worker_tel'=>$data->w_tel,
             'o_plate_num'=>$data->w_car_plate,
+            'o_driver_grab'=>'2',
+            'o_driver_grab_time'=>time(),
+
         ]);
         Session::flash('orderAssignSuccess','订单指派成功!');
         return redirect('/orders');
