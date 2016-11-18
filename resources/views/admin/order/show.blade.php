@@ -32,7 +32,7 @@
                 <label for="ordernum">搬家城市：</label>
             </div>
             <div class="col-md-8">
-                <label for="o_num">{{$order->o_city}}</label>
+                <p>{{$order->o_city}}</p>
             </div>
         </div>
         <div class="col-md-4">
@@ -50,7 +50,7 @@
                 <label for="ordernum">客户：</label>
             </div>
             <div class="col-md-8">
-                <label for="o_num" style="color: green">{{$order->o_linkman}}　{{$order->o_user_sex == 1 ? "先生" : "女士"}}</label>{{--　　用户名: {{$order->o_user}}--}}
+                <label for="o_num" style="color: green">{{$order->o_linkman}}</label><span>  {{$order->o_user_sex == 1 ? "先生" : "女士"}}</span>{{--　　用户名: {{$order->o_user}}--}}
             </div>
         </div>
         <div class="col-md-4">
@@ -58,7 +58,7 @@
                 <label for="ordernum">下单时间：</label>
             </div>
             <div class="col-md-8">
-                <label for="o_num">{{$order->o_time}}</label>
+                <p>{{$order->o_time}}</p>
             </div>
         </div>
         <div class="col-md-4">
@@ -66,7 +66,7 @@
                 <label for="ordernum">预约时间：</label>
             </div>
             <div class="col-md-8">
-                <label for="o_num">{{$order->o_remover_date}} {{$order->o_remover_clock}}</label>
+                <p>{{$order->o_remover_date}} {{$order->o_remover_clock}}</p>
             </div>
         </div>
     </div>
@@ -76,7 +76,7 @@
                 <label for="ordernum">电话：</label>
             </div>
             <div class="col-md-8">
-                <label for="o_num">{{$order->o_linkman_tel}}</label>
+                <p>{{$order->o_linkman_tel}}</p>
             </div>
         </div>
         <div class="col-md-8">
@@ -84,7 +84,7 @@
                 <label for="ordernum">备注：</label>
             </div>
             <div class="col-md-10">
-                <label for="o_num">{{$order->o_remark}}</label>
+                <p>{{$order->o_remark}}</p>
             </div>
         </div>
     </div>
@@ -93,20 +93,12 @@
         <label for="">搬家公司信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
-        {{--<div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">搬家公司编号：</label>
-            </div>
-            <div class="col-md-8">
-                <label for="o_num">{{$order->o_remover_num}}</label>
-            </div>
-        </div>--}}
         <div class="col-md-4">
             <div class="col-md-4">
                 <label for="ordernum">搬家车组：</label>
             </div>
             <div class="col-md-8">
-                <label for="o_num">车牌号：{{$order->o_plate_num}}   负责人：{{$order->o_worker_name}}</label>
+                <p>车牌号：{{$order->o_plate_num}}   负责人：{{$order->o_worker_name}}</p>
             </div>
         </div>
         <div class="col-md-4">
@@ -114,15 +106,15 @@
                 <label for="ordernum">搬家状态：	</label>
             </div>
             <div class="col-md-8">
-                <label for="o_num">{{$order->o_remover_state}}</label>
+                <p>{{$order->o_remover_state}}</p>
             </div>
         </div>
         <div class="col-md-4">
             <div class="col-md-4">
-                <label for="ordernum">评价状态：</label>
+                <p>评价状态：</p>
             </div>
             <div class="col-md-8">
-                <label for="o_num">未评价 / 已评价</label>
+                <p>未评价 / 已评价</p>
             </div>
         </div>
     </div>
@@ -240,36 +232,42 @@
         <label for="">地点和车辆信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-2">
-            <label for="ordernum">起点-终点：</label>
+        <div class="col-md-8">
+            <div class="col-md-2">
+                <label for="ordernum">起点-终点：</label>
+            </div>
+            <div class="col-md-10">
+                <label for="o_num" style="color:blue;">{{$order->o_begin_poi_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_poi_address}}</label>
+            </div>
         </div>
-        <div class="col-md-10">
-            <label for="o_num" style="color:blue;">{{$order->o_begin_poi_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_poi_address}}</label>
+        <div class="col-md-4">
+            <div class="col-md-4">
+                <label for="ordernum">里程数：</label>
+            </div>
+            <div class="col-md-8">
+                <p style="color:green;">{{$order->o_mileage}}KM</p>
+            </div>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-2">
-            <label for="ordernum">套餐：</label>
+        <div class="col-md-4">
+            <div class="col-md-4">
+                <label for="ordernum">套餐：</label>
+            </div>
+            <div class="col-md-8">
+                @if($carinfo != null)
+                    <p>{{$carinfo->car_name}}</p>
+                @endif
+            </div>
         </div>
         <div class="col-md-4">
-            @if($carinfo != null)
-            <label for="o_num">{{$carinfo->car_name}}</label>
-            @endif
-        </div>
-        <div class="col-md-2">
-            <label for="ordernum">搬运工人数：</label>
-        </div>
-        <div class="col-md-4">
-            <label for="o_num">{{$order->o_worker_count}}</label>
-        </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-2">
-            <label for="ordernum">里程数：</label>
-        </div>
-        <div class="col-md-4">
-            <label for="o_num" style="color:green;">{{$order->o_mileage}}KM</label>
-        </div>
+            <div class="col-md-4">
+                <label for="ordernum">搬运工人数：</label>
+            </div>
+            <div class="col-md-8">
+                <p>{{$order->o_worker_count}}</p>
+            </div></div>
+        <div class="col-md-4"></div>
     </div>
     <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">其它信息</label>
@@ -279,13 +277,13 @@
             <label for="ordernum">跟单客服：</label>
         </div>
         <div class="col-md-4">
-            <label for="o_num">{{$order->customService}}</label>
+            <p>{{$order->customService}}</p>
         </div>
         <div class="col-md-2">
             <label for="ordernum">下单客户端：</label>
         </div>
         <div class="col-md-4">
-            <label for="o_num">{{$order->o_and_state == 1 ? "" : "安卓"}}{{$order->o_ios_state == 1 ? "iOS" : ""}}</label>
+            <p>{{$order->o_and_state == 1 ? "安卓" : ""}}{{$order->o_ios_state == 1 ? "iOS" : ""}}</p>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -294,7 +292,7 @@
         </div>
         @if($payinfo != null)
         <div class="col-md-4">
-            {{$payinfo->p_class}}  [订单编号：<label for="o_num">{{$payinfo->p_num}}</label>]
+            {{$payinfo->p_class}}  [订单编号：<p>{{$payinfo->p_num}}</p>]
         </div>
         @endif
     </div>

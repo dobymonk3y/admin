@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Session;
 use Auth;
-use App\Models\LoginReport;
 
 class AdminMiddleware
 {

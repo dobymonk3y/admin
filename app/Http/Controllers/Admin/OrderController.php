@@ -53,7 +53,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = RemoverOrder::where('o_state','>',-1)->orderBy('o_time','DESC')->paginate(5);
+        $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
+            'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
+            'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
+            'o_out_begin_time','o_remark'])->where('o_state','>',-1)->orderBy('o_time','DESC')->paginate(5);
         /*$orders = RemoverOrder::where('o_state','>',-1)->orderBy('o_time','DESC')->paginate(5);*/
         //订单状态
         $removestatus = [
@@ -159,6 +162,10 @@ class OrderController extends Controller
 
     public function showOrder($id)
     {
+        $order = RemoverOrder::where('o_num','=',$id)->select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
+        'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
+        'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
+        'o_out_begin_time','o_remark'])->first();
         $order = RemoverOrder::where('o_num','=',$id)->first();
         //订单状态
         $removestatus = [
