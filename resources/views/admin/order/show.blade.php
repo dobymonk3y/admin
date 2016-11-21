@@ -273,30 +273,33 @@
         <label for="">其它信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-2">
-            <label for="ordernum">跟单客服：</label>
+        <div class="col-md-4">
+            <div class="col-md-4">
+                <label for="ordernum">跟单客服：</label>
+            </div>
+            <div class="col-md-8">
+                <p>{{$order->customService}}</p>
+            </div>
         </div>
         <div class="col-md-4">
-            <p>{{$order->customService}}</p>
-        </div>
-        <div class="col-md-2">
-            <label for="ordernum">下单客户端：</label>
+            <div class="col-md-4">
+                <label for="ordernum">下单客户端：</label>
+            </div>
+            <div class="col-md-8">
+                <p>{{$order->o_and_state == 1 ? "安卓" : ""}}{{$order->o_ios_state == 1 ? "iOS" : ""}}</p>
+            </div>
         </div>
         <div class="col-md-4">
-            <p>{{$order->o_and_state == 1 ? "安卓" : ""}}{{$order->o_ios_state == 1 ? "iOS" : ""}}</p>
+            <div class="col-md-3">
+                <label for="ordernum">支付途径：</label>
+            </div>
+            <div class="col-md-9">
+            @if($payinfo != null)
+                    {{$payinfo->p_class}}  [订单编号：<span>{{$payinfo->p_num}}</span>]
+            @endif
+            </div>
         </div>
     </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-2">
-            <label for="ordernum">支付途径：</label>
-        </div>
-        @if($payinfo != null)
-        <div class="col-md-4">
-            {{$payinfo->p_class}}  [订单编号：<p>{{$payinfo->p_num}}</p>]
-        </div>
-        @endif
-    </div>
-
     <div class="col-md-12 custom-margin-top-15">
         @if($order->o_state >= 8)
             <div class="col-md-offset-9 col-md-3"><a href="#" class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>

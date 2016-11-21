@@ -216,7 +216,6 @@ class OrderController extends Controller
         }
         $order['o_remark'] = mb_substr($order->o_remark , 0 , 50);
         $othercharge = OtherCharge::where('c_o_num','=',$order->o_num)->first();
-        $payinfo = null;
         return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo);
     }
 
@@ -358,5 +357,20 @@ class OrderController extends Controller
         ]);
         Session::flash('orderAssignSuccess','订单指派成功!');
         return redirect('/orders');
+    }
+
+    public function search(Request $request)
+    {
+        $usermobile = trim($request->input('usermobile'));
+        $ordernumber = trim($request->input('ordernumber'));
+        $orders = RemoverOrder::where('o_state','>',0)
+            ->Where(function ($um) use ($usermobile) {
+                $um->where('o_linkman_tel', 'like', '%'.$usermobile.'%');
+            })
+            ->Where(function ($on) use ($ordernumber)  {
+                $on->where('o_num', 'like', '%'.$ordernumber.'%');
+            })
+            ->paginate(5);
+        return view('admin.order.search')->withOrders($orders)->withUsermobile($usermobile)->withOrdernumber($ordernumber);
     }
 }

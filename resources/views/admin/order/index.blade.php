@@ -4,13 +4,14 @@
 
 @section('content')
 @include('partials._message')
-@if(Session::has('loginsuccess'))
-    <div class="alert alert-success alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert"
-                aria-hidden="true">
-            &times;
-        </button>
-        <strong>Success:</strong>{{  Session::get('loginsuccess') }}
+@if(count($orders) == 0)
+    <div class="col-md-12">
+        <div class="alert alert-danger alert-dismissable" id="emptySearch">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                &times;
+            </button>
+            <strong>Errors:</strong><p>糟糕, 好像并没有查找到相关的数据! 要不, 看看别的?</p>
+        </div>
     </div>
 @endif
 <div class="col-md-12">
@@ -33,6 +34,21 @@
             <li class="active">已取消</li>
         @endif
     </ol>
+</div>
+<div class="col-md-12">
+    <form action="/orders/search" method="get">
+        <div class="col-md-4">
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="usermobile" id="usermobile" placeholder="请填写要搜索的客户手机号码">
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="ordernumber" id="ordernumber" placeholder="请填写要搜索的订单号码">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <input type="submit" class="btn btn-primary" value="搜索订单">
+        </div>
+    </form>
 </div>
 <div class="col-md-12 column">
     <div class="tabbable" id="tabs-788804">
@@ -128,7 +144,7 @@
                             </div>
                             @else
                         <div class="col-md-4">
-                            <label>实付金额</label>：<span>{{$order['o_activity_price']}}</span>
+                            <label>实付金额</label>：<span>{{$order['o_activity_price']}}元</span>
                         </div>
                         @endif
                         @if(!empty($order['customService']))
@@ -166,13 +182,6 @@
                 @endforeach
                     <div class="text-center">
                         {!! $orders->render() !!}
-                    </div>
-                @else
-                    <div class="alert alert-danger alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                            &times;
-                        </button>
-                        <strong>Errors:</strong><p>糟糕, 好像并没有查找到相关的数据! 要不, 看看别的?</p>
                     </div>
                 @endif
             </div>
