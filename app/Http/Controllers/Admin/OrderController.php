@@ -132,40 +132,378 @@ class OrderController extends Controller
      */
     public function newOrders()
     {
-        return 1;
+        $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
+            'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
+            'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
+            'o_out_begin_time','o_remark'])->where('o_state','=',1)->orderBy('o_time','DESC')->paginate(5);
+        //订单状态
+        $removestatus = [
+            '-2' => '已删除',
+            '-1' => '未生成',
+            '1' => '新订单',
+            '3' => '已接受',
+            '4' => '已确认',
+            '5' => '已出发',
+            '6' => '搬家中',
+            '7' => '已搬完',
+            '8' => '已支付',
+            '9' => '已结束',
+        ];
+
+        foreach ($orders as $k=>$v){
+            //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
+            $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
+
+            //城市信息相关
+            $citysinfo = ServiceCity::where('c_id','=',$v->o_city)->first();
+
+            $orders[$k]['o_num'] = $v->o_num;
+            $orders[$k]['o_city'] = $citysinfo->c_name;
+            $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
+            $orders[$k]['o_linkman'] = $v->o_linkman;
+            $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
+            $orders[$k]['o_urgent_tel'] = $v->o_urgent_tel;
+            $orders[$k]['o_begin_address'] = mb_substr($v->o_begin_address , 0 , 8);
+            $orders[$k]['o_end_address'] = mb_substr($v->o_end_address , 0 , 8);
+            $orders[$k]['o_time'] = date("Y-m-d H:i",$v->o_time);
+            $orders[$k]['o_mileage'] = $v->o_mileage;
+            $orders[$k]['o_mileage_price'] = $v->o_mileage_price.'.00';
+            $orders[$k]['o_single_time_price'] = $v->o_single_time_price ;
+            $orders[$k]['o_estimate_price'] = $v->o_estimate_price.'.00';
+            $v->o_final_price != 0 ? $v->o_final_price."元" : "0.00元";
+            $orders[$k]['o_final_price'] = $v->o_num >= 7 ? $v->o_final_price : "未支付";
+            $orders[$k]['o_worker_name'] = $v->o_state > 2 ? $v->o_worker_name." ( ".$v->o_worker_tel." )" :"";
+            $orders[$k]['o_out_begin_time'] =  $v->o_out_begin_time != null ? date('Y-m-d H:i',$v->o_out_begin_time) : "";
+            //客服人员姓名
+            $userinfo = User::where('name','=',$v->o_customer_service)->first();
+            if(!empty($userinfo)){
+                $orders[$k]['customService'] = $userinfo->realname;
+            }else{
+                $orders[$k]['customService'] = null;
+            }
+            if($v->o_state > 7 ){
+                $payinfo = Paylist::where('p_onum','=',$v->o_num)->first();
+                $orders[$k]['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
+            }else{
+                $orders[$k]['payTime'] = "";
+            }
+            $orders[$k]['o_remark'] = mb_substr($v->o_remark , 0 , 50);
+        }
+        return view('admin/order/index')->withOrders($orders);
     }
 
     public function waitOrders()
     {
-        return 1;
+        $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
+            'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
+            'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
+            'o_out_begin_time','o_remark'])->where('o_state','=',3)->orderBy('o_time','DESC')->paginate(5);
+        //订单状态
+        $removestatus = [
+            '-2' => '已删除',
+            '-1' => '未生成',
+            '1' => '新订单',
+            '3' => '已接受',
+            '4' => '已确认',
+            '5' => '已出发',
+            '6' => '搬家中',
+            '7' => '已搬完',
+            '8' => '已支付',
+            '9' => '已结束',
+        ];
+
+        foreach ($orders as $k=>$v){
+            //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
+            $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
+
+            //城市信息相关
+            $citysinfo = ServiceCity::where('c_id','=',$v->o_city)->first();
+
+            $orders[$k]['o_num'] = $v->o_num;
+            $orders[$k]['o_city'] = $citysinfo->c_name;
+            $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
+            $orders[$k]['o_linkman'] = $v->o_linkman;
+            $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
+            $orders[$k]['o_urgent_tel'] = $v->o_urgent_tel;
+            $orders[$k]['o_begin_address'] = mb_substr($v->o_begin_address , 0 , 8);
+            $orders[$k]['o_end_address'] = mb_substr($v->o_end_address , 0 , 8);
+            $orders[$k]['o_time'] = date("Y-m-d H:i",$v->o_time);
+            $orders[$k]['o_mileage'] = $v->o_mileage;
+            $orders[$k]['o_mileage_price'] = $v->o_mileage_price.'.00';
+            $orders[$k]['o_single_time_price'] = $v->o_single_time_price ;
+            $orders[$k]['o_estimate_price'] = $v->o_estimate_price.'.00';
+            $v->o_final_price != 0 ? $v->o_final_price."元" : "0.00元";
+            $orders[$k]['o_final_price'] = $v->o_num >= 7 ? $v->o_final_price : "未支付";
+            $orders[$k]['o_worker_name'] = $v->o_state > 2 ? $v->o_worker_name." ( ".$v->o_worker_tel." )" :"";
+            $orders[$k]['o_out_begin_time'] =  $v->o_out_begin_time != null ? date('Y-m-d H:i',$v->o_out_begin_time) : "";
+            //客服人员姓名
+            $userinfo = User::where('name','=',$v->o_customer_service)->first();
+            if(!empty($userinfo)){
+                $orders[$k]['customService'] = $userinfo->realname;
+            }else{
+                $orders[$k]['customService'] = null;
+            }
+            if($v->o_state > 7 ){
+                $payinfo = Paylist::where('p_onum','=',$v->o_num)->first();
+                $orders[$k]['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
+            }else{
+                $orders[$k]['payTime'] = "";
+            }
+            $orders[$k]['o_remark'] = mb_substr($v->o_remark , 0 , 50);
+        }
+        return view('admin/order/index')->withOrders($orders);
     }
 
     public function removeOrders()
     {
-        return 1;
+        $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
+            'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
+            'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
+            'o_out_begin_time','o_remark'])->whereBetween('o_state',[4,6])->orderBy('o_time','DESC')->paginate(5);
+        //订单状态
+        $removestatus = [
+            '-2' => '已删除',
+            '-1' => '未生成',
+            '1' => '新订单',
+            '3' => '已接受',
+            '4' => '已确认',
+            '5' => '已出发',
+            '6' => '搬家中',
+            '7' => '已搬完',
+            '8' => '已支付',
+            '9' => '已结束',
+        ];
+
+        foreach ($orders as $k=>$v){
+            //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
+            $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
+
+            //城市信息相关
+            $citysinfo = ServiceCity::where('c_id','=',$v->o_city)->first();
+
+            $orders[$k]['o_num'] = $v->o_num;
+            $orders[$k]['o_city'] = $citysinfo->c_name;
+            $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
+            $orders[$k]['o_linkman'] = $v->o_linkman;
+            $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
+            $orders[$k]['o_urgent_tel'] = $v->o_urgent_tel;
+            $orders[$k]['o_begin_address'] = mb_substr($v->o_begin_address , 0 , 8);
+            $orders[$k]['o_end_address'] = mb_substr($v->o_end_address , 0 , 8);
+            $orders[$k]['o_time'] = date("Y-m-d H:i",$v->o_time);
+            $orders[$k]['o_mileage'] = $v->o_mileage;
+            $orders[$k]['o_mileage_price'] = $v->o_mileage_price.'.00';
+            $orders[$k]['o_single_time_price'] = $v->o_single_time_price ;
+            $orders[$k]['o_estimate_price'] = $v->o_estimate_price.'.00';
+            $v->o_final_price != 0 ? $v->o_final_price."元" : "0.00元";
+            $orders[$k]['o_final_price'] = $v->o_num >= 7 ? $v->o_final_price : "未支付";
+            $orders[$k]['o_worker_name'] = $v->o_state > 2 ? $v->o_worker_name." ( ".$v->o_worker_tel." )" :"";
+            $orders[$k]['o_out_begin_time'] =  $v->o_out_begin_time != null ? date('Y-m-d H:i',$v->o_out_begin_time) : "";
+            //客服人员姓名
+            $userinfo = User::where('name','=',$v->o_customer_service)->first();
+            if(!empty($userinfo)){
+                $orders[$k]['customService'] = $userinfo->realname;
+            }else{
+                $orders[$k]['customService'] = null;
+            }
+            if($v->o_state > 7 ){
+                $payinfo = Paylist::where('p_onum','=',$v->o_num)->first();
+                $orders[$k]['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
+            }else{
+                $orders[$k]['payTime'] = "";
+            }
+            $orders[$k]['o_remark'] = mb_substr($v->o_remark , 0 , 50);
+        }
+        return view('admin/order/index')->withOrders($orders);
     }
 
     public function unpayOrders()
     {
-        return 1;
+        $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
+            'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
+            'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
+            'o_out_begin_time','o_remark'])->where('o_state','=',7)->orderBy('o_time','DESC')->paginate(5);
+        //订单状态
+        $removestatus = [
+            '-2' => '已删除',
+            '-1' => '未生成',
+            '1' => '新订单',
+            '3' => '已接受',
+            '4' => '已确认',
+            '5' => '已出发',
+            '6' => '搬家中',
+            '7' => '已搬完',
+            '8' => '已支付',
+            '9' => '已结束',
+        ];
+
+        foreach ($orders as $k=>$v){
+            //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
+            $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
+
+            //城市信息相关
+            $citysinfo = ServiceCity::where('c_id','=',$v->o_city)->first();
+
+            $orders[$k]['o_num'] = $v->o_num;
+            $orders[$k]['o_city'] = $citysinfo->c_name;
+            $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
+            $orders[$k]['o_linkman'] = $v->o_linkman;
+            $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
+            $orders[$k]['o_urgent_tel'] = $v->o_urgent_tel;
+            $orders[$k]['o_begin_address'] = mb_substr($v->o_begin_address , 0 , 8);
+            $orders[$k]['o_end_address'] = mb_substr($v->o_end_address , 0 , 8);
+            $orders[$k]['o_time'] = date("Y-m-d H:i",$v->o_time);
+            $orders[$k]['o_mileage'] = $v->o_mileage;
+            $orders[$k]['o_mileage_price'] = $v->o_mileage_price.'.00';
+            $orders[$k]['o_single_time_price'] = $v->o_single_time_price ;
+            $orders[$k]['o_estimate_price'] = $v->o_estimate_price.'.00';
+            $v->o_final_price != 0 ? $v->o_final_price."元" : "0.00元";
+            $orders[$k]['o_final_price'] = $v->o_num >= 7 ? $v->o_final_price : "未支付";
+            $orders[$k]['o_worker_name'] = $v->o_state > 2 ? $v->o_worker_name." ( ".$v->o_worker_tel." )" :"";
+            $orders[$k]['o_out_begin_time'] =  $v->o_out_begin_time != null ? date('Y-m-d H:i',$v->o_out_begin_time) : "";
+            //客服人员姓名
+            $userinfo = User::where('name','=',$v->o_customer_service)->first();
+            if(!empty($userinfo)){
+                $orders[$k]['customService'] = $userinfo->realname;
+            }else{
+                $orders[$k]['customService'] = null;
+            }
+            if($v->o_state > 7 ){
+                $payinfo = Paylist::where('p_onum','=',$v->o_num)->first();
+                $orders[$k]['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
+            }else{
+                $orders[$k]['payTime'] = "";
+            }
+            $orders[$k]['o_remark'] = mb_substr($v->o_remark , 0 , 50);
+        }
+        return view('admin/order/index')->withOrders($orders);
     }
 
     public function payOrders()
     {
-        return 1;
+        $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
+            'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
+            'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
+            'o_out_begin_time','o_remark'])->where('o_state','=',8)->orderBy('o_time','DESC')->paginate(5);
+        //订单状态
+        $removestatus = [
+            '-2' => '已删除',
+            '-1' => '未生成',
+            '1' => '新订单',
+            '3' => '已接受',
+            '4' => '已确认',
+            '5' => '已出发',
+            '6' => '搬家中',
+            '7' => '已搬完',
+            '8' => '已支付',
+            '9' => '已结束',
+        ];
+
+        foreach ($orders as $k=>$v){
+            //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
+            $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
+
+            //城市信息相关
+            $citysinfo = ServiceCity::where('c_id','=',$v->o_city)->first();
+
+            $orders[$k]['o_num'] = $v->o_num;
+            $orders[$k]['o_city'] = $citysinfo->c_name;
+            $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
+            $orders[$k]['o_linkman'] = $v->o_linkman;
+            $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
+            $orders[$k]['o_urgent_tel'] = $v->o_urgent_tel;
+            $orders[$k]['o_begin_address'] = mb_substr($v->o_begin_address , 0 , 8);
+            $orders[$k]['o_end_address'] = mb_substr($v->o_end_address , 0 , 8);
+            $orders[$k]['o_time'] = date("Y-m-d H:i",$v->o_time);
+            $orders[$k]['o_mileage'] = $v->o_mileage;
+            $orders[$k]['o_mileage_price'] = $v->o_mileage_price.'.00';
+            $orders[$k]['o_single_time_price'] = $v->o_single_time_price ;
+            $orders[$k]['o_estimate_price'] = $v->o_estimate_price.'.00';
+            $v->o_final_price != 0 ? $v->o_final_price."元" : "0.00元";
+            $orders[$k]['o_final_price'] = $v->o_num >= 7 ? $v->o_final_price : "未支付";
+            $orders[$k]['o_worker_name'] = $v->o_state > 2 ? $v->o_worker_name." ( ".$v->o_worker_tel." )" :"";
+            $orders[$k]['o_out_begin_time'] =  $v->o_out_begin_time != null ? date('Y-m-d H:i',$v->o_out_begin_time) : "";
+            //客服人员姓名
+            $userinfo = User::where('name','=',$v->o_customer_service)->first();
+            if(!empty($userinfo)){
+                $orders[$k]['customService'] = $userinfo->realname;
+            }else{
+                $orders[$k]['customService'] = null;
+            }
+            if($v->o_state > 7 ){
+                $payinfo = Paylist::where('p_onum','=',$v->o_num)->first();
+                $orders[$k]['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
+            }else{
+                $orders[$k]['payTime'] = "";
+            }
+            $orders[$k]['o_remark'] = mb_substr($v->o_remark , 0 , 50);
+        }
+        return view('admin/order/index')->withOrders($orders);
     }
 
     public function cancelOrders()
     {
-        return 1;
+        $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
+            'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
+            'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
+            'o_out_begin_time','o_remark'])->where('o_state','=','-2')->orderBy('o_time','DESC')->paginate(5);
+        //订单状态
+        $removestatus = [
+            '-2' => '已删除',
+            '-1' => '未生成',
+            '1' => '新订单',
+            '3' => '已接受',
+            '4' => '已确认',
+            '5' => '已出发',
+            '6' => '搬家中',
+            '7' => '已搬完',
+            '8' => '已支付',
+            '9' => '已结束',
+        ];
+
+        foreach ($orders as $k=>$v){
+            //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
+            $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
+
+            //城市信息相关
+            $citysinfo = ServiceCity::where('c_id','=',$v->o_city)->first();
+
+            $orders[$k]['o_num'] = $v->o_num;
+            $orders[$k]['o_city'] = $citysinfo->c_name;
+            $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
+            $orders[$k]['o_linkman'] = $v->o_linkman;
+            $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
+            $orders[$k]['o_urgent_tel'] = $v->o_urgent_tel;
+            $orders[$k]['o_begin_address'] = mb_substr($v->o_begin_address , 0 , 8);
+            $orders[$k]['o_end_address'] = mb_substr($v->o_end_address , 0 , 8);
+            $orders[$k]['o_time'] = date("Y-m-d H:i",$v->o_time);
+            $orders[$k]['o_mileage'] = $v->o_mileage;
+            $orders[$k]['o_mileage_price'] = $v->o_mileage_price.'.00';
+            $orders[$k]['o_single_time_price'] = $v->o_single_time_price ;
+            $orders[$k]['o_estimate_price'] = $v->o_estimate_price.'.00';
+            $v->o_final_price != 0 ? $v->o_final_price."元" : "0.00元";
+            $orders[$k]['o_final_price'] = $v->o_num >= 7 ? $v->o_final_price : "未支付";
+            $orders[$k]['o_worker_name'] = $v->o_state > 2 ? $v->o_worker_name." ( ".$v->o_worker_tel." )" :"";
+            $orders[$k]['o_out_begin_time'] =  $v->o_out_begin_time != null ? date('Y-m-d H:i',$v->o_out_begin_time) : "";
+            //客服人员姓名
+            $userinfo = User::where('name','=',$v->o_customer_service)->first();
+            if(!empty($userinfo)){
+                $orders[$k]['customService'] = $userinfo->realname;
+            }else{
+                $orders[$k]['customService'] = null;
+            }
+            if($v->o_state > 7 ){
+                $payinfo = Paylist::where('p_onum','=',$v->o_num)->first();
+                $orders[$k]['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
+            }else{
+                $orders[$k]['payTime'] = "";
+            }
+            $orders[$k]['o_remark'] = mb_substr($v->o_remark , 0 , 50);
+        }
+        return view('admin/order/index')->withOrders($orders);
     }
 
     public function showOrder($id)
     {
-        $order = RemoverOrder::where('o_num','=',$id)->select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
-        'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
-        'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
-        'o_out_begin_time','o_remark'])->first();
         $order = RemoverOrder::where('o_num','=',$id)->first();
         //订单状态
         $removestatus = [
@@ -212,6 +550,7 @@ class OrderController extends Controller
             $payinfo = Paylist::where('p_onum','=',$order->o_num)->first();
             $order['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
         }else{
+            $payinfo = '';
             $order['payTime'] = "";
         }
         $order['o_remark'] = mb_substr($order->o_remark , 0 , 50);
@@ -363,7 +702,10 @@ class OrderController extends Controller
     {
         $usermobile = trim($request->input('usermobile'));
         $ordernumber = trim($request->input('ordernumber'));
-        $orders = RemoverOrder::where('o_state','>',0)
+        $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
+            'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
+            'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
+            'o_out_begin_time','o_remark'])->where('o_state','>',0)
             ->Where(function ($um) use ($usermobile) {
                 $um->where('o_linkman_tel', 'like', '%'.$usermobile.'%');
             })
@@ -371,6 +713,62 @@ class OrderController extends Controller
                 $on->where('o_num', 'like', '%'.$ordernumber.'%');
             })
             ->paginate(5);
+        $removestatus = [
+            '-2' => '已删除',
+            '-1' => '未生成',
+            '1' => '新订单',
+            '3' => '已接受',
+            '4' => '已确认',
+            '5' => '已出发',
+            '6' => '搬家中',
+            '7' => '已搬完',
+            '8' => '已支付',
+            '9' => '已结束',
+        ];
+        foreach ($orders as $k=>$v){
+            //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
+            $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
+
+            //城市信息相关
+            $citysinfo = ServiceCity::where('c_id','=',$v->o_city)->first();
+
+            $orders[$k]['o_num'] = $v->o_num;
+            $orders[$k]['o_city'] = $citysinfo->c_name;
+            $orders[$k]['o_custom_state'] = $removestatus[$v->o_state];
+            $orders[$k]['o_linkman'] = $v->o_linkman;
+            $orders[$k]['o_linkman_tel'] = $v->o_linkman_tel;
+            $orders[$k]['o_urgent_tel'] = $v->o_urgent_tel;
+            $orders[$k]['o_begin_address'] = mb_substr($v->o_begin_address , 0 , 8);
+            $orders[$k]['o_end_address'] = mb_substr($v->o_end_address , 0 , 8);
+            $orders[$k]['o_time'] = date("Y-m-d H:i",$v->o_time);
+            $orders[$k]['o_mileage'] = $v->o_mileage;
+            $orders[$k]['o_mileage_price'] = $v->o_mileage_price.'.00';
+            $orders[$k]['o_single_time_price'] = $v->o_single_time_price ;
+            $orders[$k]['o_estimate_price'] = $v->o_estimate_price.'.00';
+            $v->o_final_price != 0 ? $v->o_final_price."元" : "0.00元";
+            $orders[$k]['o_final_price'] = $v->o_num >= 7 ? $v->o_final_price : "未支付";
+            $orders[$k]['o_worker_name'] = $v->o_state > 2 ? $v->o_worker_name." ( ".$v->o_worker_tel." )" :"";
+            $orders[$k]['o_out_begin_time'] =  $v->o_out_begin_time != null ? date('Y-m-d H:i',$v->o_out_begin_time) : "";
+            //客服人员姓名
+            $userinfo = User::where('name','=',$v->o_customer_service)->first();
+            if(!empty($userinfo)){
+                $orders[$k]['customService'] = $userinfo->realname;
+            }else{
+                $orders[$k]['customService'] = null;
+            }
+            if($v->o_state > 7 ){
+                $payinfo = Paylist::where('p_onum','=',$v->o_num)->first();
+                $orders[$k]['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
+            }else{
+                $orders[$k]['payTime'] = "";
+            }
+            $orders[$k]['o_remark'] = mb_substr($v->o_remark , 0 , 50);
+        }
         return view('admin.order.search')->withOrders($orders)->withUsermobile($usermobile)->withOrdernumber($ordernumber);
+    }
+
+    public function myfollow()
+    {
+        dd(123);
     }
 }

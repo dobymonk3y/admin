@@ -181,7 +181,7 @@
                 <label for="ordernum">折扣价格：</label>
             </div>
             <div class="col-md-8">
-                <label for="o_num" style="color:red;">{{$order->o_activity_price != null ? $order->o_activity_price : "0.00"}}元</label>　{{$order->o_activity}} 折(无附加费)
+                <label for="o_num" style="color:red;">{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}元</label>　{{$order->o_activity}} 折(无附加费)
             </div>
         </div>
         <div class="col-md-4">

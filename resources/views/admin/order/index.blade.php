@@ -23,9 +23,9 @@
         @elseif(Request::is('orders/new'))
             <li class="active">新订单</li>
         @elseif(Request::is('orders/wait'))
-            <li class="active">待搬家</li>
+            <li class="active">待服务</li>
         @elseif(Request::is('orders/remove'))
-            <li class="active">已搬家</li>
+            <li class="active">服务中</li>
         @elseif(Request::is('orders/unpay'))
             <li class="active">未支付</li>
         @elseif(Request::is('orders/pay'))
@@ -144,7 +144,7 @@
                             </div>
                             @else
                         <div class="col-md-4">
-                            <label>实付金额</label>：<span>{{$order['o_activity_price']}}元</span>
+                            <label>实付金额</label>：<span>{{$order['o_activity_price']}}</span>
                         </div>
                         @endif
                         @if(!empty($order['customService']))

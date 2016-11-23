@@ -24,6 +24,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/orders/drivers/search', 'Admin\OrderController@driversearch');
     Route::get('/orders/designate', 'Admin\OrderController@dodesignate');
     Route::get('/orders/search', 'Admin\OrderController@search');
+    Route::get('orders/myfollow','Admin\OrderController@myfollow');
 
     #人事相关
     Route::get('/personnel', 'Admin\PersonnelController@index');

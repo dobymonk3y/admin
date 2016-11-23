@@ -29,8 +29,8 @@
                 <ul class="dropdown-menu">
                     <li><a href="/orders">所有订单</a></li>
                     <li><a href="/orders/new">新订单</a></li>
-                    <li><a href="/orders/wait">待搬家</a></li>
-                    <li><a href="/orders/remove">搬家中</a></li>
+                    <li><a href="/orders/wait">待服务</a></li>
+                    <li><a href="/orders/remove">服务中</a></li>
                     <li><a href="/orders/unpay">未支付</a></li>
                     <li><a href="/orders/pay">已支付</a></li>
                     <li><a href="/orders/cancel">已取消</a></li>
@@ -42,7 +42,7 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">我跟踪的订单</a></li>
+                    <li><a href="/orders/myfollow">我跟踪的订单</a></li>
                     <li><a href="#">支付查询</a></li>
                     <li><a href="#">纠纷查询</a></li>
                 </ul>

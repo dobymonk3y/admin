@@ -142,7 +142,7 @@
                     <label for="ordernum">折扣后价格（不含附加费）：</label>
                 </div>
                 <div class="col-md-4">
-                    <label for="o_num" style="color:red;">{{$order->o_activity_price != null ? $order->o_activity_price : "0.00"}}元</label>　{{$order->o_activity}} 折
+                    <label for="o_num" style="color:red;">{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}元</label>　{{$order->o_activity}} 折
                 </div>
                 <div class="col-md-2">
                     <label for="ordernum">最终价格：</label>
@@ -281,31 +281,6 @@
                     <label for="o_num" >{{$order->o_worker_name}} [ {{$order->o_plate_num}}  ]</label>
                 </div>
                 <div class="col-md-2 column">
-                    {{--<a id="modal-833932" href="#modal-container-833932" role="button" class="btn btn-primary" data-toggle="modal" onclick="showcheck()" >指派订单给司机</a>--}}
-                    {{--<div class="modal fade" id="modal-container-833932" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <div class="col-md-8">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <input type="text" class="form-control" placeholder="请输入司机手机号码..." id="phonenum">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="button" id="checkuser" onclick="checkusers()" class="form-control" value="点此查询">
-                                    </div>
-                                </div>
-                                @if($worker)
-                                    <div>1231231123</div>
-                                @endif
-                                <div class="modal-body" id = "showdrivers">
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> <button type="button" class="btn btn-primary">保存</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>--}}
                 </div>
             </div>
             <div class="col-md-12 custom-border-bottom">
