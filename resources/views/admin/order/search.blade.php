@@ -4,16 +4,7 @@
 
 @section('content')
 @include('partials._message')
-@if(count($orders) == 0)
-<div class="col-md-12">
-    <div class="alert alert-danger alert-dismissable" id="emptySearch">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-            &times;
-        </button>
-        <strong>Errors:</strong><p>糟糕, 好像并没有查找到相关的数据! 要不, 看看别的?</p>
-    </div>
-</div>
-@endif
+
 <div class="col-md-12">
     <ol class="breadcrumb">
         <li><a href="/">大管家系统</a></li>

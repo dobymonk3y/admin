@@ -4,16 +4,7 @@
 
 @section('content')
 @include('partials._message')
-@if(count($orders) == 0)
-    <div class="col-md-12">
-        <div class="alert alert-danger alert-dismissable" id="emptySearch">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                &times;
-            </button>
-            <strong>Errors:</strong><p>糟糕, 好像并没有查找到相关的数据! 要不, 看看别的?</p>
-        </div>
-    </div>
-@endif
+
 <div class="col-md-12">
     <ol class="breadcrumb">
         <li><a href="/">大管家系统</a></li>
@@ -170,7 +161,7 @@
                     </div>
                     <div class="col-md-6" style="height: 30px;line-height: 30px;">
                         <div class="col-md-9" style="overflow:hidden;">
-                            <label>备注</label>：<span for="o_remark">{{$order['o_remark']}}</span>
+                            <label>备注</label>：<span for="o_remark">{{mb_substr($order['o_remark'],0,30)}}</span>
                         </div>
                         @if($order['o_state'] < 6)
                         <div class="col-md-3"  style="text-align: right;">

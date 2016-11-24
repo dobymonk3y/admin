@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'admin'], function () {
+Route::group(['middleware' => ['auth','admin']], function () {
 
     Route::get('/test', 'Admin\OrderController@test');//测试'
 
