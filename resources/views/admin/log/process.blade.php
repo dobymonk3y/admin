@@ -94,10 +94,11 @@
             </tr>
             </thead>
             <tbody>
+            <?php $num = 1;?>
             @foreach($processes as $process)
                 <tr>
                     <td>
-                        {{$process->Id}}
+                        {{$num+($processes->currentPage()-1)*15}}
                     </td>
                     <td>
                         {{$process->act_people}}
@@ -118,6 +119,7 @@
                         {!! $process->act_remark !!}
                     </td>
                 </tr>
+            <?php $num++;?>
             @endforeach
             </tbody>
         </table>

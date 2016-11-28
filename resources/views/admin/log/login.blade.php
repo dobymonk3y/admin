@@ -43,7 +43,6 @@
             @endif
         </ol>
     </div>
-    @if(Request::is('log/login'))
     <div class="col-md-12">
         <form action="/log/logincheck" method="get"  onsubmit="return searchLog()">
             <div class="col-md-2 ">
@@ -66,7 +65,6 @@
             </div>
         </form>
     </div>
-    @endif
     <div class="col-md-12 custom-margin-top-15">
         <table class="table table-hover">
             <thead class="bg-primary">
@@ -89,10 +87,11 @@
             </tr>
             </thead>
             <tbody>
+            <?php $num =1;?>
             @foreach($logins as $login)
             <tr>
                 <td>
-                    {{$login->Id}}
+                    {{$num+($logins->currentPage()-1)*15}}
                 </td>
                 <td>
                     {{$login->act_people}}
@@ -107,6 +106,7 @@
                     {{$login->act_loginip}}
                 </td>
             </tr>
+            <?php $num++; ?>
             @endforeach
             </tbody>
         </table>

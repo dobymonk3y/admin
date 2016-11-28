@@ -8,9 +8,6 @@
             <li  class="{{ Request::is('/') || Request::is('index') ? "active" : "" }}">
                 <a href="/">数据统计</a>
             </li>
-            {{--<li class="{{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
-                <a href="orders">订单管理</a>
-            </li>--}}
             <li class="dropdown {{ Request::is('personnel') || Request::is('personnel/*') ? "active" : "" }}">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     人事管理
@@ -61,15 +58,6 @@
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    派单记录
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">派单记录</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">
                     商户管理
                     <b class="caret"></b>
                 </a>
@@ -97,6 +85,7 @@
                     <li><a href="/log/login">系统登录日志</a></li>
                     <li><a href="/log/mylogin">个人登录日志</a></li>
                     <li><a href="/log/process">人事操作记录</a></li>
+                    <li><a href="/log/assign">客服派单记录</a></li>
                 </ul>
             </li>
         </ul>

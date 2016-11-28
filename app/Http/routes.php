@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::get('/log/mylogin','Admin\LogController@mylogin');
     Route::get('/log/process','Admin\LogController@process');
     Route::get('/log/processcheck','Admin\LogController@processcheck');
+    Route::get('/log/assign',['as'=>'assinglog','uses'=>'Admin\LogController@assignlog']);
 
     #个人资料
     Route::get('/user/profiles','Admin\UserController@index');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Assignlog;
 use App\Models\CarInfo;
 use App\Models\CustomService;
 use App\Models\OtherCharge;
@@ -127,9 +128,6 @@ class OrderController extends Controller
         return redirect('/orders/show/'.$ordernum);
     }
 
-    /**
-     * @return mixed
-     */
     public function newOrders()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -533,7 +531,6 @@ class OrderController extends Controller
         $order['o_mileage_price'] = $order->o_mileage_price.'.00';
         $order['o_estimate_price'] = $order->o_estimate_price.'.00';
         $order->o_final_price != 0 ? $order->o_final_price."元" : "0.00元";
-        // $order['o_final_price'] = $order->o_stat >= 7 ? $order->o_final_price : "未支付";
         $order['o_worker_name'] = $order->o_state > 2 ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
         $order['o_out_begin_time'] =  $order->o_out_begin_time != null ? date('Y-m-d H:i',$order->o_out_begin_time) : "";
         $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
@@ -558,12 +555,6 @@ class OrderController extends Controller
         return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $order = RemoverOrder::where('o_num','=',$id)->first();
@@ -577,7 +568,7 @@ class OrderController extends Controller
         //城市信息相关
         $citysinfo = ServiceCity::where('c_id','=',$order->o_city)->first();
         $citycars = explode(';',$citysinfo->c_inclusive);
-        $carcanused = CarInfo::select(['car_type_num','car_name','car_format'])->whereIn('car_type_num',$citycars)->orderBy('car_type_num','ASC')->get();
+        // $carcanused = CarInfo::select(['car_type_num','car_name','car_format'])->whereIn('car_type_num',$citycars)->orderBy('car_type_num','ASC')->get();
         //订单状态
         $removestatus = [
             '-2' => '已删除',
@@ -607,9 +598,13 @@ class OrderController extends Controller
         $order['o_estimate_price'] = $order->o_estimate_price.'.00';
         $order->o_final_price != 0 ? $order->o_final_price."元" : "0.00元";
         $order['o_final_price'] = $order->o_state >= 7 ? $order->o_final_price : "";
-        $customServiceInfo = CustomService::where('human_username','=',$order->o_customer_service)->first();
-        $order['customService'] = $customServiceInfo['human_name'] != null ? $customServiceInfo['human_name'] : "未标注";
-        $order['o_worker_name'] = $order->o_state > 2 ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
+        $userinfo = User::where('name','=',$order->o_customer_service)->first();
+        if(!empty($userinfo)){
+            $order['customService'] = $userinfo->realname;
+        }else{
+            $order['customService'] = null;
+        }
+        $order['o_worker_name'] = $order->o_worker_name." ( ".$order->o_worker_tel." )";
         $order['o_out_begin_time'] =  $order->o_out_begin_time != null ? date('Y-m-d H:i',$order->o_out_begin_time) : "";
         $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
         $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
@@ -638,31 +633,12 @@ class OrderController extends Controller
                 $payinfo->p_class = '未知信息';
             }
         }
-//        dd($order);
-        return view('admin/order/edit')->withOrder($order)->withOthercharge($othercharge)->withPayinfo($payinfo)->withCarinfo($carinfo)->withCarcanused($carcanused);
+        return view('admin/order/edit')->withOrder($order)->withOthercharge($othercharge)->withPayinfo($payinfo)->withCarinfo($carinfo);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         dd($id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function drivers(Request $request)
@@ -685,6 +661,7 @@ class OrderController extends Controller
         $num = $request->input('num');
         $mobile = $request->input('mobile');
         $data = WorkerInfo::select(['Id','w_car_plate','w_name','w_tel'])->where('w_tel','=',$mobile)->first();
+        $oinfo = RemoverOrder::select(['o_remover_num','o_remover_name'])->where('o_num','=',$num)->first();
         RemoverOrder::where('o_num','=',$num)->update([
             'o_worker'=>$data->Id,
             'o_worker_name'=>$data->w_name,
@@ -692,9 +669,19 @@ class OrderController extends Controller
             'o_plate_num'=>$data->w_car_plate,
             'o_driver_grab'=>'2',
             'o_driver_grab_time'=>time(),
-
         ]);
         Session::flash('orderAssignSuccess','订单指派成功!');
+        //将指派信息存储到指派订单表里
+        //订单号 当前操作时间 派单人员  派单信息
+        // $num $time() Auth::user()->name     Auth::user()->name 将订单 $num 指派给司机 $data->w_name($data->w_tel)
+        $assignlog = new Assignlog();
+        $assignlog->o_num = $num;
+        $assignlog->o_time = time();
+        $assignlog->o_user = Auth::user()->name;
+        $assignlog->o_action = Auth::user()->realname.'于'.date('Y-m-d H:i:s',time()).'将订单'.$num.'指派给司机'.$data->w_name.'( '.$data->w_tel.' )';
+        $assignlog->o_remover_num = $oinfo->o_remover_num;
+        $assignlog->o_remover_name = $oinfo->o_remover_name;
+        $assignlog->save();
         return Redirect::to('orders/show/'.$num);
     }
 

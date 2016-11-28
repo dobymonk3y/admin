@@ -206,20 +206,6 @@
                 <div class="col-md-2">
                     <label for="ordernum">套餐：</label>
                 </div>
-                <div class="col-md-4">
-                    {{--@if($carinfo != null)
-                    <div class="col-md-2">
-                        <label for="o_num">{{$carinfo->car_name}}</label>
-                    </div>
-                    @endif--}}
-                    <div class="col-md-4">
-                        <select class="form-control" id="car_name">
-                            @foreach($carcanused as $k=>$v)
-                            <option name="{{$v->car_type_num}}" {{$order->o_car_inclusive == $v->car_type_num ? "selected" : ""}}>{{$v->car_name}}[{{$v->car_format}}]</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
                 <div class="col-md-2">
                     <label for="ordernum">搬运工人数：</label>
                 </div>
