@@ -5,12 +5,15 @@
     <div class="row">
         <form action="/orders/drivers/search" method="get">
             {{csrf_field()}}
-            <div class="col-md-2 col-md-offset-5">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="mobilenumber" placeholder="请输入手机号码" @if(!empty($mobile)) value="{{$mobile}}" @endif>
-                <span class="input-group-btn">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </span>
+            <div class="col-md-4 col-md-offset-4">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="mobilenumber" placeholder="请输入手机号码"@if(!empty($mobile)) value="{{$mobile}}" @endif>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="drivername" placeholder="请输入司机姓名"@if(!empty($drivername)) value="{{$drivername}}" @endif>
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" class="btn btn-primary form-control" value="点此查找">
                 </div>
             </div>
         </form>

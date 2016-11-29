@@ -5,14 +5,17 @@
 
 <div class="row">
     <form action="/orders/drivers/search" method="get">
+        <input type="hidden" value="{{$ordernum}}" name="ordernum">
         {{csrf_field()}}
-        <div class="col-md-2 col-md-offset-5">
-            <div class="input-group">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4">
                 <input type="text" class="form-control" name="mobilenumber" placeholder="请输入手机号码">
-                <input type="hidden" value="{{$ordernum}}" name="ordernum">
-                <span class="input-group-btn">
-                    <button class="btn btn-info" type="submit">Search</button>
-                </span>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="drivername" placeholder="请输入司机姓名">
+            </div>
+            <div class="col-md-3">
+                <input type="submit" class="btn btn-primary form-control" value="点此查找">
             </div>
         </div>
     </form>

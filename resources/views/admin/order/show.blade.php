@@ -90,65 +90,18 @@
     </div>
 
     <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
-        <label for="">搬家公司信息</label>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">搬家车组：</label>
-            </div>
-            <div class="col-md-8">
-                <p>车牌号：{{$order->o_plate_num}}   负责人：{{$order->o_worker_name}}</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">搬家状态：	</label>
-            </div>
-            <div class="col-md-8">
-                <p>{{$order->o_remover_state}}</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-4">
-                <p>评价状态：</p>
-            </div>
-            <div class="col-md-8">
-                <p>未评价 / 已评价</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-6"><label for="ordernum">搬家时间记录：</label></div>
-            <div class="col-md-6"><label for="o_num">搬出开始：</label>{{$order->o_out_begin_time}}</div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-6"><label for="o_num">搬出结束：</label>{{$order->o_out_end_time}}</div>
-            <div class="col-md-6"><label for="o_num">搬入开始：</label>{{$order->o_in_begin_time}}</div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-6"><label for="o_num">搬入结束：</label>{{$order->o_in_end_time}}</div>
-        </div>
-    </div>
-
-    <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">价格信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-4">
             <div class="col-md-4">
-                <label for="ordernum">人工/时间价格：</label>
-            </div>
+                <span for="ordernum">人工/时间价格：</span>
             @if($order->o_state < 7)
-                <div class="col-md-8">
-                    <label for="o_num" style="color:red;">{{$order->o_start_price}}元</label>
-                </div>
+                    <span for="o_num" style="color:red;">{{$order->o_start_price}}元</span>
             @else
-                <div class="col-md-8">
-                    <label for="o_num" style="color:red;">{{$order->o_time_price}}元</label>
-                </div>
+                    <span for="o_num" style="color:red;">{{$order->o_time_price}}元</span>
             @endif
+            </div>
         </div>
         <div class="col-md-4">
             <div class="col-md-4">
@@ -229,6 +182,49 @@
     @endif
 
     <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
+        <label for="">搬家公司信息</label>
+    </div>
+    <div class="col-md-12 custom-border-bottom">
+        <div class="col-md-4">
+            <div class="col-md-4">
+                <label for="ordernum">搬家车组：</label>
+            </div>
+            <div class="col-md-8">
+                <p>车牌号：{{$order->o_plate_num}}   负责人：{{$order->o_worker_name}}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-4">
+                <label for="ordernum">搬家状态：	</label>
+            </div>
+            <div class="col-md-8">
+                <p>{{$order->o_remover_state}}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-4">
+                <p>评价状态：</p>
+            </div>
+            <div class="col-md-8">
+                <p>未评价 / 已评价</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 custom-border-bottom">
+        <div class="col-md-4">
+            <div class="col-md-6"><label for="ordernum">搬家时间记录：</label></div>
+            <div class="col-md-6"><label for="o_num">搬出开始：</label>{{$order->o_out_begin_time}}</div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-6"><label for="o_num">搬出结束：</label>{{$order->o_out_end_time}}</div>
+            <div class="col-md-6"><label for="o_num">搬入开始：</label>{{$order->o_in_begin_time}}</div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-6"><label for="o_num">搬入结束：</label>{{$order->o_in_end_time}}</div>
+        </div>
+    </div>
+
+    <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">地点和车辆信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -267,7 +263,9 @@
             <div class="col-md-8">
                 <p>{{$order->o_worker_count}}</p>
             </div></div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4" style="line-height: normal;">
+            <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
+        </div>
     </div>
     <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">其它信息</label>
@@ -301,12 +299,14 @@
         </div>
     </div>
     <div class="col-md-12 custom-margin-top-15">
+        <div class="col-md-offset-8 col-md-2"><a href="#" class="btn btn-block btn-primary btn-lg ">我要跟进</a></div>
         @if($order->o_state >= 8)
-            <div class="col-md-offset-9 col-md-3"><a href="#" class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
+            <div class="col-md-2"><a href="#" class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
         @else
-            <div class="col-md-offset-9 col-md-3"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
+            <div class="col-md-2"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
         @endif
     </div>
 </div>
 @endif
 @endsection
+

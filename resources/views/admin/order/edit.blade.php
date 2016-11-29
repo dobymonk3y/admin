@@ -75,7 +75,7 @@
                     <div class="col-md-4">
                         <div class="layui-inline">
                             {{--layui-input 默认的input样式组--}}
-                            <input class="form-control" placeholder="{{$order->o_time}}" onclick="layui.laydate({elem: this, istime: false, format: 'YYYY-MM-DD hh:mm',  istoday: false,festival: true,issure: true})">
+                            <input class="form-control" placeholder="{{$order->removetime}}" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss',  istoday: false,festival: true,issure: true})" value="{{$order->removetime}}">
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -300,13 +300,16 @@
                     <label for="o_num">搬入结束：</label>{{$order->o_in_end_time}}
                 </div>
             </div>
-            <div class="col-md-4 col-md-offset-8 custom-margin-top-15">
+            <div class="col-md-4 col-md-offset-4 custom-margin-top-15">
                 @if($order->o_state < 8 )
                     <div class="col-md-6"><button type="submit" class="btn btn-block btn-success btn-lg">提交修改</button></div>
                     <div class="col-md-6"><a href="/orders/show/{{$order->o_num}}" class="btn btn-block btn-warning btn-lg">撤销修改</a></div>
                 @else
                     <div class="col-md-6 col-md-offset-6"><a class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
                 @endif
+            </div>
+            <div class="col-md-4" style="line-height: normal;">
+                <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
             </div>
         </div>
     </form>

@@ -536,6 +536,7 @@ class OrderController extends Controller
         $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
         $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
         $order['o_in_end_time'] =  $order->o_in_end_time != null ? date('Y-m-d H:i',$order->o_in_end_time) : "";
+
         //客服人员姓名
         $userinfo = User::where('name','=',$order->o_customer_service)->first();
         if(!empty($userinfo)){
@@ -598,6 +599,7 @@ class OrderController extends Controller
         $order['o_estimate_price'] = $order->o_estimate_price.'.00';
         $order->o_final_price != 0 ? $order->o_final_price."元" : "0.00元";
         $order['o_final_price'] = $order->o_state >= 7 ? $order->o_final_price : "";
+        $order['removetime'] =$order->o_remover_date.' '.$order->o_remover_clock;
         $userinfo = User::where('name','=',$order->o_customer_service)->first();
         if(!empty($userinfo)){
             $order['customService'] = $userinfo->realname;
@@ -652,8 +654,13 @@ class OrderController extends Controller
     {
         $mobile =trim($request->input('mobilenumber'));
         $ordernum = trim($request->input('ordernum'));
-        $drivers = WorkerInfo::select(['w_name','w_tel','w_car_plate'])->where('w_status','=',1)->where('w_tel','like','%'.$mobile.'%')->paginate(15);
-        return view('admin.order.driversearch')->withDrivers($drivers)->withOrdernum($ordernum)->withMobile($mobile);
+        $drivername = trim($request->input('drivername'));
+        $drivers = WorkerInfo::select(['w_name','w_tel','w_car_plate'])
+                                            ->Where(function ($name) use ($drivername) {
+                                                $name->where('w_name', 'like', '%'.$drivername.'%');
+                                            })
+                                            ->where('w_status','=',1)->where('w_tel','like','%'.$mobile.'%')->paginate(15);
+        return view('admin.order.driversearch')->withDrivers($drivers)->withOrdernum($ordernum)->withMobile($mobile)->withDrivername($drivername);
     }
 
     public function assignOrder(Request $request)
@@ -780,7 +787,7 @@ class OrderController extends Controller
 
         foreach ($orders as $k=>$v){
             //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
-            $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
+            // $carinfo = CarInfo::where('car_type_num','=',$v->o_car_inclusive)->first();
 
             //城市信息相关
             $citysinfo = ServiceCity::where('c_id','=',$v->o_city)->first();

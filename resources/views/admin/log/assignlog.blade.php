@@ -20,7 +20,7 @@
 <div class="container col-md-12">
     <div class="col-md-12 column">
         <table class="table table-striped table-hover">
-            <thead>
+            <thead class="bg-primary">
             <tr>
                 <th>
                     序号

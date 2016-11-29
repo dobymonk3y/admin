@@ -23,6 +23,8 @@
             <li class="active">已支付</li>
         @elseif(Request::is('orders/cancel'))
             <li class="active">已取消</li>
+        @elseif(Request::is('orders/myfollow'))
+            <li class="active">我跟踪的订单</li>
         @endif
     </ol>
 </div>
@@ -48,7 +50,7 @@
                 @if(count($orders) > 0)
                 @foreach($orders as $order)
                 <div class="col-md-12 column">
-                    <div class="col-md-6 bg-info" style="height: 40px;line-height: 40px;margin-top: 10px;">
+                    <div class="col-md-6 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
                         <div class="col-md-4">
                             <label>订单编号</label>：<span>{{$order['o_num']}}</span>
                         </div>
@@ -59,7 +61,7 @@
                             <label>预约搬家时间</label>：<span>{{$order['o_remover_date']}} {{$order['o_remover_clock']}}</span>
                         </div>
                     </div>
-                    <div class="col-md-6 bg-info" style="height: 40px;line-height: 40px;margin-top: 10px;">
+                    <div class="col-md-6 bg-primary" style="border-top-right-radius:5px; border-bottom-right-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
                         <div class="col-md-4">
                             <label>订单状态</label>：<span class="btn btn-xs btn-danger">{{$order['o_custom_state']}}</span>
                         </div>
@@ -68,14 +70,14 @@
                             @if($order['o_driver_grab'] == 0)
                                 <span class="btn btn-xs btn-danger">待指派</span>
                             @elseif($order['o_driver_grab'] == 1)
-                                <span class="btn btn-xs btn-primary">抢单</span>
+                                <span class="btn btn-xs btn-warning">抢单</span>
                             @elseif($order['o_driver_grab'] == 2)
                                 <span class="btn btn-xs btn-info">派单</span>
                             @endif
                         </div>
                         <div class="col-md-4" style="text-align: center">
-                            <a href="/orders/show/{{$order['o_num']}}" class="btn btn-xs btn-primary">详情</a>
-                            <a href="/orders/edit/{{$order['o_num']}}" class="btn btn-xs <?php if($order['o_state']==9){echo "disabled btn-danger";}else{echo "btn-primary";} ?>">编辑</a>
+                            <a href="/orders/show/{{$order['o_num']}}" class="btn btn-info">详情</a>
+                            <a href="/orders/edit/{{$order['o_num']}}" class="btn <?php if($order['o_state']==9){echo "disabled btn-danger";}else{echo "btn-success";} ?>">编辑</a>
                         </div>
                     </div>
                     <div class="col-md-6" style="height: 30px;line-height: 30px;">
@@ -165,7 +167,7 @@
                         </div>
                         @if($order['o_state'] < 6)
                         <div class="col-md-3"  style="text-align: right;">
-                            <a class="btn btn-xs btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
+                            <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
                         </div>
                         @endif
                     </div>
