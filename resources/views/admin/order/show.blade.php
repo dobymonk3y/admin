@@ -65,7 +65,11 @@
         <div class="col-md-4">
             <div class="col-md-6">
                 <label for="ordernum">跟单客服：</label>
-                <span {{$order->customService != null ? "class='btn btn-xs btn-info'" :''}}>{{$order->customService}}</span>
+                @if($order->customService != null)
+                    <span class='btn btn-xs btn-info'>{{$order->customService}}</span>
+                @else
+                <a class="btn btn-xs btn-warning" href="/orders/follow?ordernumber={{$order['o_num']}}">点此跟踪该订单</a>
+                @endif
             </div>
             <div class="col-md-6">
                 <label for="ordernum">下单客户端：</label>
@@ -254,7 +258,7 @@
             <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
         </div>
     </div>
-    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+    {{--<div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">其它信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -267,7 +271,7 @@
 
             </div>
         </div>
-    </div>
+    </div>--}}
     <div class="col-md-12 custom-margin-top-15">
         <div class="col-md-offset-8 col-md-2"><a href="#" class="btn btn-block btn-primary btn-lg ">我要跟进</a></div>
         @if($order->o_state >= 8)
