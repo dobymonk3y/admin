@@ -14,138 +14,124 @@
     </div>
 @endif
 @if($order != null)
+
 <div class="col-md-12">
-    <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
+    {{--订单信息开始--}}
+    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">订单信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="ordernum">订单编号：</label>
+                <span for="o_num" style="color: green">{{$order->o_num}}</span>
             </div>
-            <div class="col-md-8" style="color: green">
-                <label for="o_num">{{$order->o_num}}</label>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">搬家城市：</label>
-            </div>
-            <div class="col-md-8">
-                <p>{{$order->o_city}}</p>
+            <div class="col-md-6">
+                <label for="ordernum">预约时间：</label>
+                <span>{{$order->o_remover_date}} {{$order->o_remover_clock}}</span>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
+                <label for="ordernum">客户：</label>
+                <span for="o_num" style="color: green">{{$order->o_linkman}}</span><span>  {{$order->o_user_sex == 1 ? "先生" : "女士"}}</span>
+            </div>
+            <div class="col-md-6">
+                <label for="ordernum">电话：</label>
+                <span class="">{{$order->o_linkman_tel}}</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-6">
+                <label>紧急电话</label>：<span>{{$order['o_urgent_tel']}}</span>
+            </div>
+            <div class="col-md-6">
                 <label for="ordernum">订单状态：</label>
-            </div>
-            <div class="col-md-8">
                 <button class="btn btn-xs btn-warning">{{$order->o_custom_state}}</button>
             </div>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">客户：</label>
+            <div class="col-md-6">
+                <label for="ordernum">搬家城市：</label>
+                <span>{{$order->o_city}}</span>
             </div>
-            <div class="col-md-8">
-                <label for="o_num" style="color: green">{{$order->o_linkman}}</label><span>  {{$order->o_user_sex == 1 ? "先生" : "女士"}}</span>{{--　　用户名: {{$order->o_user}}--}}
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="ordernum">下单时间：</label>
-            </div>
-            <div class="col-md-8">
-                <p>{{$order->o_time}}</p>
+                <span>{{$order->o_time}}</span>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">预约时间：</label>
+            <div class="col-md-6">
+                <label for="ordernum">跟单客服：</label>
+                <span {{$order->customService != null ? "class='btn btn-xs btn-info'" :''}}>{{$order->customService}}</span>
             </div>
-            <div class="col-md-8">
-                <p>{{$order->o_remover_date}} {{$order->o_remover_clock}}</p>
+            <div class="col-md-6">
+                <label for="ordernum">下单客户端：</label>
+                <span class="btn btn-xs btn-warning">{{$order->o_and_state == 1 ? "安卓" : ""}}{{$order->o_ios_state == 1 ? "iOS" : ""}}</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-12">
+                <label for="ordernum">支付途径：</label>
+                @if($payinfo != null)
+                    <span class="btn btn-xs btn-info">{{$payinfo->p_class}}</span>  [订单编号：<span>{{$payinfo->p_num}}</span>]
+                @endif
             </div>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">电话：</label>
-            </div>
-            <div class="col-md-8">
-                <p>{{$order->o_linkman_tel}}</p>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="col-md-2">
+        <div class="col-md-12">
+            <div class="col-md-12">
                 <label for="ordernum">备注：</label>
-            </div>
-            <div class="col-md-10">
-                <p>{{$order->o_remark}}</p>
+                <span>{{$order->o_remark}}</span>
             </div>
         </div>
     </div>
+    {{--订单信息结束--}}
 
-    <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
+    {{--价格信息开始--}}
+    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">价格信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-4">
-            <div class="col-md-4">
-                <span for="ordernum">人工/时间价格：</span>
-            @if($order->o_state < 7)
+            <div class="col-md-6">
+                <label for="ordernum">人工/时间价格：</label>
+
+                @if($order->o_state < 7)
                     <span for="o_num" style="color:red;">{{$order->o_start_price}}元</span>
-            @else
+                @else
                     <span for="o_num" style="color:red;">{{$order->o_time_price}}元</span>
-            @endif
+                @endif
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="ordernum">里程价格：</label>
-            </div>
-            <div class="col-md-8">
                 <label for="o_num" style="color:red;">{{$order->o_mileage_price != null ? $order->o_mileage_price : "0.00"}}元</label> {{$order->o_mileage_intro}}
             </div>
         </div>
         <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="ordernum">特殊时段费：</label>
-            </div>
-            <div class="col-md-8">
                 <label for="o_num" style="color:red;">{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}元</label>　{{$order->o_special_time_price_intro}}
             </div>
-        </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="ordernum">总价(无附加费)：</label>
-            </div>
-            <div class="col-md-8">
-                <label for="o_num" style="color:red;">{{$order->o_price != null ? $order->o_price :"0.00"}}元</label> ( 没有折扣的原始价格 )
+                <label for="o_num" style="color:red;">{{$order->o_price != null ? $order->o_price :"0.00"}}元</label> (无折扣)
             </div>
         </div>
         <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="ordernum">折扣价格：</label>
-            </div>
-            <div class="col-md-8">
                 <label for="o_num" style="color:red;">{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}元</label>　{{$order->o_activity}} 折(无附加费)
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="ordernum">应付金额：</label>
-            </div>
-            <div class="col-md-8">
                 @if($order->o_state < 7)
-                        <label for="o_num" style="color:red;">{{$order->o_estimate_price}}元</label>
+                    <label for="o_num" style="color:red;">{{$order->o_estimate_price}}元</label>
                 @else
-                        <label for="o_num" style="color:red;">{{$order->o_final_price}}元</label> ( 含附加费{{$order->o_other_charge}}元 )
+                    <label for="o_num" style="color:red;">{{$order->o_final_price}}元</label> ( 含附加费{{$order->o_other_charge}}元 )
                 @endif
             </div>
         </div>
@@ -180,8 +166,9 @@
         </div>
     </div>
     @endif
+    {{--价格信息结束--}}
 
-    <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
+    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">搬家公司信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -224,7 +211,7 @@
         </div>
     </div>
 
-    <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
+    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">地点和车辆信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -267,41 +254,24 @@
             <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
         </div>
     </div>
-    <div class="col-md-12 bg-info" style="height: 40px; line-height: 40px;font-size: 16px;">
+    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">其它信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-4">
             <div class="col-md-4">
-                <label for="ordernum">跟单客服：</label>
-            </div>
-            <div class="col-md-8">
-                <p>{{$order->customService}}</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">下单客户端：</label>
-            </div>
-            <div class="col-md-8">
-                <p>{{$order->o_and_state == 1 ? "安卓" : ""}}{{$order->o_ios_state == 1 ? "iOS" : ""}}</p>
             </div>
         </div>
         <div class="col-md-4">
             <div class="col-md-3">
-                <label for="ordernum">支付途径：</label>
-            </div>
-            <div class="col-md-9">
-            @if($payinfo != null)
-                    {{$payinfo->p_class}}  [订单编号：<span>{{$payinfo->p_num}}</span>]
-            @endif
+
             </div>
         </div>
     </div>
     <div class="col-md-12 custom-margin-top-15">
         <div class="col-md-offset-8 col-md-2"><a href="#" class="btn btn-block btn-primary btn-lg ">我要跟进</a></div>
         @if($order->o_state >= 8)
-            <div class="col-md-2"><a href="#" class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
+            <div class="col-md-2"><a href="#" class="btn btn-block btn-success btn-lg disabled">订单已完成</a></div>
         @else
             <div class="col-md-2"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
         @endif

@@ -552,7 +552,12 @@ class OrderController extends Controller
             $order['payTime'] = "";
         }
         $order['o_remark'] = mb_substr($order->o_remark , 0 , 50);
-        $othercharge = OtherCharge::where('c_o_num','=',$order->o_num)->first();
+
+        if($order['o_other_charge']!=0){
+            $othercharge = OtherCharge::where('c_o_num','=',$order->o_num)->first();
+        }else{
+            $othercharge = null;
+        }
         return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo);
     }
 
