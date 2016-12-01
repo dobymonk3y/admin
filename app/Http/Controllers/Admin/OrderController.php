@@ -558,7 +558,11 @@ class OrderController extends Controller
         }else{
             $othercharge = null;
         }
-        return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo);
+        //传递操作记录
+        $assignlogs = Assignlog::orderBy('o_time','DESC')->get()->take(5);
+        //传递跟进记录
+
+        return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo)->withAssignlogs($assignlogs);
     }
 
     public function edit($id)

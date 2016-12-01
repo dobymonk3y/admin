@@ -229,49 +229,63 @@
         </div>
         <div class="col-md-4">
             <div class="col-md-4">
-                <label for="ordernum">里程数：</label>
-            </div>
-            <div class="col-md-8">
-                <p style="color:green;">{{$order->o_mileage}}KM</p>
+                <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
             </div>
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="ordernum">套餐：</label>
-            </div>
-            <div class="col-md-8">
                 @if($carinfo != null)
-                    <p>{{$carinfo->car_name}}</p>
+                    <span>{{$carinfo->car_name}}</span>
                 @endif
             </div>
+            <div class="col-md-6">
+                <label for="ordernum">搬运工人数：</label>
+                <span>{{$order->o_worker_count}}</span>
+            </div>
         </div>
         <div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">搬运工人数：</label>
+            <div class="col-md-6">
+                <label for="ordernum">里程数：</label>
+                <span style="color:green;">{{$order->o_mileage}}KM</span>
             </div>
-            <div class="col-md-8">
-                <p>{{$order->o_worker_count}}</p>
-            </div></div>
-        <div class="col-md-4" style="line-height: normal;">
-            <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
         </div>
     </div>
-    {{--<div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
-        <label for="">其它信息</label>
+    {{--跟进记录开始--}}
+    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+        <label for="">订单跟进记录</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-4">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-3">
 
-            </div>
-        </div>
-    </div>--}}
+    </div>
+    {{--跟进记录结束--}}
+    {{--订单派单记录开始--}}
+    @if(!empty($assignlogs))
+    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+        <label for="">订单操作记录</label>
+    </div>
+    <div class="col-md-12 custom-border-bottom">
+        <div class="col-md-1 "><span class="btn btn-xs btn-primary">订单编号</span></div>
+        <div class="col-md-1 "><span class="btn btn-xs btn-primary">操作客服</span></div>
+        <div class="col-md-6 "><span class="btn btn-xs btn-primary">操作记录</span></div>
+        <div class="col-md-2 "><span class="btn btn-xs btn-primary">搬家公司</span></div>
+        <div class="col-md-2 "><span class="btn btn-xs btn-primary">派单时间</span></div>
+    </div>
+    @foreach($assignlogs as $log)
+    <div class="col-md-12 custom-border-bottom">
+        <div class="col-md-1">{{$log->o_num}}</div>
+        <div class="col-md-1">{{$log->o_user}}</div>
+        <div class="col-md-6">{{$log->o_action}}</div>
+        <div class="col-md-2">{{$log->o_remover_name}}</div>
+        <div class="col-md-2">{{date('Y-m-d H:i:s',$log->o_time)}}</div>
+    </div>
+    @endforeach
+    @endif
+    {{--订单派单记录结束--}}
+
+
     <div class="col-md-12 custom-margin-top-15">
         <div class="col-md-offset-8 col-md-2"><a href="#" class="btn btn-block btn-primary btn-lg ">我要跟进</a></div>
         @if($order->o_state >= 8)
