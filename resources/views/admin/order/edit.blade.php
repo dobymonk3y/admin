@@ -142,8 +142,12 @@
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-6">
-                        <label for="ordernum">折扣价格：</label>
-                        <label for="o_num" style="color:red;">{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}元</label>　{{$order->o_activity}} 折(无附加费)
+                        <div class="col-md-5">
+                            <label for="ordernum">折扣价格：</label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="number" class="form-control" name="o_num" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="ordernum">应付金额：</label>
@@ -210,7 +214,7 @@
             </div>
             <div class="col-md-12 custom-border-bottom">
                 <div class="col-md-2">
-                    <label for="ordernum">里程数：</label>'
+                    <label for="ordernum">里程数：</label>
                 </div>
                 <div class="col-md-4">
                     <label for="o_num" style="color:green;">{{$order->o_mileage}}KM</label>
