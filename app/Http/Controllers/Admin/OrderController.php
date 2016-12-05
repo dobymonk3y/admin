@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Assignlog;
 use App\Models\CarInfo;
 use App\Models\CustomService;
+use App\Models\Operationrecords;
 use App\Models\OtherCharge;
 use App\Models\Paylist;
 use App\Models\Cartype;
@@ -617,8 +618,47 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        $oinfo = RemoverOrder::where('o_num','=',$id)->select(['o_linkman','o_user_sex','o_state','o_remover_date','o_remover_clock'])->first();
-        dd($oinfo);
+        $oinfo = RemoverOrder::where('o_num','=',$id)->select(['o_linkman','o_user_sex','o_state','o_remover_date','o_remover_clock','o_linkman_tel','o_activity_price','o_remark','o_estimate_price'])->first();
+        $up = [];
+        $up['o_linkman'] = $request->input('o_linkman');
+        $up['o_user_sex'] = $request->input('o_user_sex') == 1 ? "男" :"女";
+        $up['o_state'] = $request->input('orderstatus');
+        $removetime = strtotime($request->input('removetime'));
+        $up['o_linkman_tel'] = $request->input('o_linkman_tel');
+        $up['o_remark'] = $request->input('o_remark');
+        $up['o_activity_price'] = $request->input('activityprice');
+        $up['o_remover_date'] = date("Y-m-d",$removetime);
+        $up['o_remover_clock'] = date("H:i",$removetime);
+        $info = $oinfo->toArray();
+        $out = array_diff($up,$info);
+        $str = '';
+        $info['o_linkman'] = '姓名';
+        $info['o_user_sex'] = '性别';
+        $info['o_state'] = '订单状态';
+        $info['o_remover_date'] = '订单日期';
+        $info['o_remover_clock'] = '订单时间';
+        $info['o_linkman_tel'] = '电话';
+        $info['o_activity_price'] = '折扣价格';
+        $info['o_remark'] = '备注';
+        foreach ($out as $key=>$value){
+            $str .= $info[$key]."为'" .$value."' ";
+        }
+        $res = "修改了".$str;
+
+        $oinfo = RemoverOrder::where('o_num','=',$id)->update(['o_linkman'=>$up['o_linkman'],'o_user_sex'=>$up['o_user_sex'],'o_state'=>$up['o_state'],'o_remover_date'=>$up['o_remover_date'],'o_remover_clock'=>$up['o_remover_clock'],'o_linkman_tel'=>$up['o_linkman_tel'],'o_activity_price'=>$up['o_activity_price'],'o_remark'=>$up['o_remark'],'o_estimate_price'=>$up['o_activity_price']]);
+        if($oinfo != 0){
+            $newrecord = new Operationrecords;
+            $newrecord->o_num = $id;
+            $newrecord->user_id = Auth::user()->name;
+            $newrecord->user_action = $res;
+            $newrecord->save();
+            Session::flash('orderUpdataSuccess','订单信息修改成功!');
+            return redirect('/orders/show/'.$id);
+        }else{
+            Session::flash('orderUpdataFalse','订单信息修改失败!');
+            return 'false';
+        }
+
     }
 
     public function drivers(Request $request)

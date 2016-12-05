@@ -42,12 +42,12 @@
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="o_linkman" placeholder="{{$order->o_linkman}}">
+                        <input type="text" class="form-control" id="o_linkman" name="o_link_man" placeholder="{{$order->o_linkman}}">
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control" id="o_user_sex">
-                            <option name="1" {{$order->o_user_sex == 1 ? "selected" : ""}}>先生</option>
-                            <option name="2" {{$order->o_user_sex == 2 ? "selected" : ""}}>女士</option>
+                        <select class="form-control" id="o_user_sex" name="o_user_sex">
+                            <option value="1" {{$order->o_user_sex == 1 ? "selected" : ""}}>先生</option>
+                            <option value="2" {{$order->o_user_sex == 2 ? "selected" : ""}}>女士</option>
                         </select>
                     </div>
                     <div class="col-md-4">
@@ -86,7 +86,7 @@
                     <div class="col-md-4">
                         <div class="layui-inline">
                             {{--layui-input 默认的input样式组--}}
-                            <input class="form-control" placeholder="{{$order->removetime}}" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss',  istoday: false,festival: true,issure: true})" value="{{$order->removetime}}">
+                            <input class="form-control" placeholder="{{$order->removetime}}" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss',  istoday: false,festival: true,issure: true})" value="{{$order->removetime}}" name="removetime">
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -146,7 +146,7 @@
                             <label for="ordernum">折扣价格：</label>
                         </div>
                         <div class="col-md-7">
-                            <input type="number" class="form-control" name="o_num" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
+                            <input type="number" class="form-control" name="activityprice" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
                         </div>
                     </div>
                     <div class="col-md-6">
