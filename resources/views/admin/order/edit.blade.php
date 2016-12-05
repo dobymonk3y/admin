@@ -209,7 +209,7 @@
                     <label for="ordernum">搬运工人数：</label>
                 </div>
                 <div class="col-md-1">
-                    <input type="number" class="form-control" name="o_num" min="1" max="10" value="{{$order->o_worker_count}}">
+                    <span>{{$order->o_worker_count}} 人</span>
                 </div>
             </div>
             <div class="col-md-12 custom-border-bottom">

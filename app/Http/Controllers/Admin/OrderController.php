@@ -21,38 +21,6 @@ use Redirect, Input, Auth, Log;
 
 class OrderController extends Controller
 {
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function test(Request $request)
-    {
-        /*$phonenum = trim($request->input('phonenum'));
-        $data = WorkerInfo::select(['w_car_plate','w_name','w_tel'])->where('w_tel','=',$phonenum)->get();
-        if (count($data)<1){
-            return response()->json(array(
-                'status' => 402,
-                'msg'=>'啊哦,~ 没有找到匹配数据哟,~'
-            ));
-        }
-        if ($data != null) {
-            return response()->json(array(
-                'status' => 200,
-                'data' => $data,
-            ));
-        } else {
-            return response()->json(array(
-                'status' => 401,
-                'msg'=>'啊哦,~ 没有找到使用这个号码的司机哟,~'
-            ));
-        }*/
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -649,7 +617,8 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($id);
+        $oinfo = RemoverOrder::where('o_num','=',$id)->select(['o_linkman','o_user_sex','o_state','o_remover_date','o_remover_clock'])->first();
+        dd($oinfo);
     }
 
     public function drivers(Request $request)
