@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="o_linkman" name="o_link_man" placeholder="{{$order->o_linkman}}">
+                        <input type="text" class="form-control" id="o_linkman" name="o_linkman" value="{{$order->o_linkman}}">
                     </div>
                     <div class="col-md-4">
                         <select class="form-control" id="o_user_sex" name="o_user_sex">
@@ -86,7 +86,7 @@
                     <div class="col-md-4">
                         <div class="layui-inline">
                             {{--layui-input 默认的input样式组--}}
-                            <input class="form-control" placeholder="{{$order->removetime}}" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss',  istoday: false,festival: true,issure: true})" value="{{$order->removetime}}" name="removetime">
+                            <input class="form-control" name="removetime" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss',  istoday: false,festival: true,issure: true})" value="{{$order->removetime}}">
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -99,7 +99,7 @@
                     <label for="ordernum">电话：</label>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" class="form-control" name="o_linkman_tel" placeholder="{{$order->o_linkman_tel}}">
+                    <input type="text" class="form-control" name="o_linkman_tel" value="{{$order->o_linkman_tel}}">
                 </div>
             </div>
             <div class="col-md-12 custom-border-bottom">
@@ -107,7 +107,7 @@
                     <label for="ordernum">备注：</label>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" class="form-control" name="o_remark" placeholder="{{$order->o_remark}}">
+                    <input type="text" class="form-control" name="o_remark" value="{{$order->o_remark}}">
                 </div>
             </div>
             {{--价格信息开始--}}
@@ -275,32 +275,36 @@
                 <label for="">其它信息</label>
             </div>
             <div class="col-md-12 custom-border-bottom">
-                <div class="col-md-2">
-                    <label for="ordernum">跟踪客服：</label>
-                </div>
-                <div class=2"col-md-4">
-                    @if($order->customService != '')
-                        <label for="o_num">{{$order->customService}}</label>
-                    @endif
-                </div>
-                <div class="col-md-2">
-                    <label for="ordernum">下单客户端：</label>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                        <label for="ordernum">跟踪客服：</label>
+                    </div>
+                    <div class=2"col-md-8">
+                        @if($order->customService != '')
+                            <label for="o_num">{{$order->customService}}</label>
+                        @endif
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <label  for="o_num">{{$order->o_and_state == 1 ? "" : "安卓"}}{{$order->o_ios_state == 1 ? "iOS" : ""}}</label>
-                </div>
-            </div>
-            <div class="col-md-12 custom-border-bottom">
-                <div class="col-md-2">
-                    <label for="ordernum">支付途径：</label>
-                </div>
-                @if($payinfo != null)
                     <div class="col-md-4">
-                        {{$payinfo->p_class}}  [订单编号：<label for="o_num">{{$payinfo->p_num}}</label>]
+                        <label for="ordernum">下单客户端：</label>
                     </div>
-                @endif
+                    <div class="col-md-8">
+                        <label  for="o_num">{{$order->o_and_state == 1 ? "" : "安卓"}}{{$order->o_ios_state == 1 ? "iOS" : ""}}</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                        <label for="ordernum">支付途径：</label>
+                    </div>
+                    @if($payinfo != null)
+                        <div class="col-md-8">
+                            {{$payinfo->p_class}}  [订单编号：<label for="o_num">{{$payinfo->p_num}}</label>]
+                        </div>
+                    @endif
+                </div>
             </div>
-            <div class="col-md-4 col-md-offset-4 custom-margin-top-15">
+            <div class="col-md-4 col-md-offset-8 custom-margin-top-15">
                 @if($order->o_state < 8 )
                     <div class="col-md-6"><button type="submit" class="btn btn-block btn-success btn-lg">提交修改</button></div>
                     <div class="col-md-6"><a href="/orders/show/{{$order->o_num}}" class="btn btn-block btn-warning btn-lg">撤销修改</a></div>
@@ -308,9 +312,9 @@
                     <div class="col-md-6 col-md-offset-6"><a class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
                 @endif
             </div>
-            <div class="col-md-4" style="line-height: normal;">
+            {{--<div class="col-md-4" style="line-height: normal;">
                 <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
-            </div>
+            </div>--}}
         </div>
     </form>
     @endif

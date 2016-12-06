@@ -79,6 +79,17 @@
     </div>
 @endif
 
+@if(Session::has('orderUpdataSuccess'))
+    <div class="alert alert-success alert-dismissable" id="orderUpdataSuccess">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        <strong>Success:</strong>{{  Session::get('orderUpdataSuccess') }}
+    </div>
+@endif
+
+
 @if(isset($orders) && count($orders) == 0)
     <div class="col-md-12">
         <div class="alert alert-danger alert-dismissable" id="emptySearch">

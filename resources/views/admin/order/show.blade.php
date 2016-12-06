@@ -254,37 +254,64 @@
         </div>
     </div>
     {{--跟进记录开始--}}
-    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
-        <label for="">订单跟进记录</label>
+    @if(count($follows)>0)
+    <div class="accordion" id="accordion-316002">
+        <div class="accordion-group">
+            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom">
+                <div class="accordion-toggle" href="#accordion-element-808477 " data-toggle="collapse" data-parent="#accordion-316002">
+                    <label for="">订单修改记录</label>
+                </div>
+            </div>
+            <div class="accordion-body in" id="accordion-element-808477">
+                <div class="col-md-12 custom-border-bottom">
+                    <div class="col-md-1 "><span class="btn btn-xs btn-primary">操作客服</span></div>
+                    <div class="col-md-9 "><span class="btn btn-xs btn-primary">操作记录</span></div>
+                    <div class="col-md-2 "><span class="btn btn-xs btn-primary">派单时间</span></div>
+                </div>
+                <div class="accordion-inner">
+                @foreach($follows as $follow)
+                    <div class="col-md-12 custom-border-bottom">
+                        <div class="col-md-1">{{$follow->user_id}}</div>
+                        <div class="col-md-9">{{$follow->user_action}}</div>
+                        <div class="col-md-2">{{$follow->created_at}}</div>
+                    </div>
+                @endforeach
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-12 custom-border-bottom">
+    @endif{{--跟进记录结束--}}
 
-    </div>
-    {{--跟进记录结束--}}
     {{--订单派单记录开始--}}
-    @if(!empty($assignlogs))
-    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
-        <label for="">订单操作记录</label>
+    @if(count($assignlogs)>0)
+    <div class="accordion" id="accordion-316003">
+        <div class="accordion-group">
+            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom">
+                <div class="accordion-toggle" href="#accordion-element-808478" data-toggle="collapse" data-parent="#accordion-316003">
+                    <label for="">订单指派记录</label>
+                </div>
+            </div>
+            <div class="accordion-body in" id="accordion-element-808478">
+                <div class="col-md-12 custom-border-bottom">
+                    <div class="col-md-1 "><span class="btn btn-xs btn-primary">操作客服</span></div>
+                    <div class="col-md-7 "><span class="btn btn-xs btn-primary">操作记录</span></div>
+                    <div class="col-md-2 "><span class="btn btn-xs btn-primary">搬家公司</span></div>
+                    <div class="col-md-2 "><span class="btn btn-xs btn-primary">派单时间</span></div>
+                </div>
+                <div class="accordion-inner">
+                @foreach($assignlogs as $log)
+                    <div class="col-md-12 custom-border-bottom">
+                        <div class="col-md-1">{{$log->o_user}}</div>
+                        <div class="col-md-7">{{$log->o_action}}</div>
+                        <div class="col-md-2">{{$log->o_remover_name}}</div>
+                        <div class="col-md-2">{{date('Y-m-d H:i:s',$log->o_time)}}</div>
+                    </div>
+                @endforeach
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-1 "><span class="btn btn-xs btn-primary">订单编号</span></div>
-        <div class="col-md-1 "><span class="btn btn-xs btn-primary">操作客服</span></div>
-        <div class="col-md-6 "><span class="btn btn-xs btn-primary">操作记录</span></div>
-        <div class="col-md-2 "><span class="btn btn-xs btn-primary">搬家公司</span></div>
-        <div class="col-md-2 "><span class="btn btn-xs btn-primary">派单时间</span></div>
-    </div>
-    @foreach($assignlogs as $log)
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-1">{{$log->o_num}}</div>
-        <div class="col-md-1">{{$log->o_user}}</div>
-        <div class="col-md-6">{{$log->o_action}}</div>
-        <div class="col-md-2">{{$log->o_remover_name}}</div>
-        <div class="col-md-2">{{date('Y-m-d H:i:s',$log->o_time)}}</div>
-    </div>
-    @endforeach
-    @endif
-    {{--订单派单记录结束--}}
-
+    @endif{{--订单派单记录结束--}}
 
     <div class="col-md-12 custom-margin-top-15">
         <div class="col-md-offset-8 col-md-2"><a href="#" class="btn btn-block btn-primary btn-lg ">我要跟进</a></div>

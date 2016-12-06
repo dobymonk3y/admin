@@ -66,6 +66,9 @@
         if(document.getElementById("emptySearch")){
             document.getElementById("emptySearch").style.display ="none";
         }
+        if(document.getElementById("orderUpdataSuccess")){
+            document.getElementById("orderUpdataSuccess").style.display ="none";
+        }
     }
     function personnelCheck(){
             var realname = document.getElementById('realname').value;

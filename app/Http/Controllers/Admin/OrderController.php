@@ -32,6 +32,7 @@ class OrderController extends Controller
         $removestatus = [
             '-2' => '已删除',
             '-1' => '未生成',
+            '0' => '未生成',
             '1' => '新订单',
             '3' => '已接受',
             '4' => '已确认',
@@ -476,6 +477,7 @@ class OrderController extends Controller
         $removestatus = [
             '-2' => '已删除',
             '-1' => '未生成',
+            '0' => '未生成',
             '1' => '新订单',
             '3' => '已接受',
             '4' => '已确认',
@@ -528,10 +530,11 @@ class OrderController extends Controller
             $othercharge = null;
         }
         //传递操作记录
-        $assignlogs = Assignlog::orderBy('o_time','DESC')->get()->take(5);
+        $assignlogs = Assignlog::where('o_num','=',$id)->orderBy('o_time','DESC')->get()->take(5);
         //传递跟进记录
+        $follows = Operationrecords::where('o_num','=',$id)->orderBy('created_at','DESC')->get();
 
-        return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo)->withAssignlogs($assignlogs);
+        return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo)->withAssignlogs($assignlogs)->withFollows($follows);
     }
 
     public function edit($id)
@@ -552,6 +555,7 @@ class OrderController extends Controller
         $removestatus = [
             '-2' => '已删除',
             '-1' => '未生成',
+            '0' => '未生成',
             '1' => '新订单',
             '3' => '已接受',
             '4' => '已确认',
@@ -619,13 +623,25 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $oinfo = RemoverOrder::where('o_num','=',$id)->select(['o_linkman','o_user_sex','o_state','o_remover_date','o_remover_clock','o_linkman_tel','o_activity_price','o_remark','o_estimate_price'])->first();
+        $removestatus = [
+            '-2' => '已删除',
+            '-1' => '未生成',
+            '1' => '新订单',
+            '3' => '已接受',
+            '4' => '已确认',
+            '5' => '已出发',
+            '6' => '搬家中',
+            '7' => '已搬完',
+            '8' => '已支付',
+            '9' => '已结束',
+        ];
         $up = [];
         $up['o_linkman'] = $request->input('o_linkman');
-        $up['o_user_sex'] = $request->input('o_user_sex') == 1 ? "男" :"女";
         $up['o_state'] = $request->input('orderstatus');
         $removetime = strtotime($request->input('removetime'));
         $up['o_linkman_tel'] = $request->input('o_linkman_tel');
         $up['o_remark'] = $request->input('o_remark');
+        $up['o_user_sex'] = $request->input('o_user_sex');
         $up['o_activity_price'] = $request->input('activityprice');
         $up['o_remover_date'] = date("Y-m-d",$removetime);
         $up['o_remover_clock'] = date("H:i",$removetime);
@@ -640,13 +656,22 @@ class OrderController extends Controller
         $info['o_linkman_tel'] = '电话';
         $info['o_activity_price'] = '折扣价格';
         $info['o_remark'] = '备注';
-        foreach ($out as $key=>$value){
-            $str .= $info[$key]."为'" .$value."' ";
-        }
-        $res = "修改了".$str;
+
 
         $oinfo = RemoverOrder::where('o_num','=',$id)->update(['o_linkman'=>$up['o_linkman'],'o_user_sex'=>$up['o_user_sex'],'o_state'=>$up['o_state'],'o_remover_date'=>$up['o_remover_date'],'o_remover_clock'=>$up['o_remover_clock'],'o_linkman_tel'=>$up['o_linkman_tel'],'o_activity_price'=>$up['o_activity_price'],'o_remark'=>$up['o_remark'],'o_estimate_price'=>$up['o_activity_price']]);
         if($oinfo != 0){
+            if(!empty($out['o_user_sex'])){
+                $out['o_user_sex'] = $request->input('o_user_sex') == 1 ? "男" :"女";
+            }
+            if(!empty($out['o_state'])){
+                $out['o_state'] = $removestatus[$request->input('orderstatus')];
+            }
+
+            foreach ($out as $key=>$value){
+                $str .= $info[$key]."为'" .$value."' ";
+                // $str .= ' '.$info[$key].' ';
+            }
+            $res = "修改了".$str;
             $newrecord = new Operationrecords;
             $newrecord->o_num = $id;
             $newrecord->user_id = Auth::user()->name;
