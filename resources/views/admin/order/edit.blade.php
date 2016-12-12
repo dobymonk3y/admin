@@ -14,8 +14,16 @@
         </div>
     @endif
 
-
     @if($order != null)
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="/">大管家系统</a></li>
+            <li><a href="/orders">订单管理</a></li>
+            <li class="active">编辑订单 / <span>{{$order->o_num}}</span></li>
+            <li><span onclick="history.go(-1)">返回上一页</span></li>
+        </ol>
+    </div>
+
     <form action="/orders/update/{{$order->o_num}}" method="post">
         {{csrf_field()}}
         <div class="col-md-12">
@@ -58,8 +66,8 @@
                     <label for="ordernum">订单状态：</label>
                 </div>
                 <div class="col-md-1">
-                    {{--<button class="btn btn-xs btn-warning">{{$order->o_custom_state}}</button>--}}
-                    <select name="orderstatus" id="orderstatus" class="form-control">
+                    <button class="btn btn-xs btn-warning">{{$order->o_custom_state}}</button>
+                    {{--<select name="orderstatus" id="orderstatus" class="form-control">
                         <option value="1" {{$order->o_state == 1? "selected='selected'" : ''}}>新订单</option>
                         <option value="2" {{$order->o_state == 2? "selected='selected'" : ''}}>待确认</option>
                         <option value="3" {{$order->o_state == 3? "selected='selected'" : ''}}>已接受</option>
@@ -69,7 +77,7 @@
                         <option value="7" {{$order->o_state == 7? "selected='selected'" : ''}}>未支付</option>
                         <option value="8" {{$order->o_state == 8? "selected='selected'" : ''}}>已支付</option>
                         <option value="9" {{$order->o_state == 9? "selected='selected'" : ''}}>已结束</option>
-                    </select>
+                    </select>--}}
                 </div>
             </div>
             <div class="col-md-12 custom-border-bottom">
@@ -146,7 +154,12 @@
                             <label for="ordernum">折扣价格：</label>
                         </div>
                         <div class="col-md-7">
+                            @if($order->o_state == 7)
                             <input type="number" class="form-control" name="activityprice" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
+                            @else
+                            <span>{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}</span>
+                            <input type="hidden" name="activityprice" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -304,17 +317,42 @@
                     @endif
                 </div>
             </div>
+            @if(count($records) > 0)
+            <div class="accordion" id="accordion-316003">
+                <div class="accordion-group">
+                    <div class="accordion-heading col-md-12 bg-primary custom-border-bottom">
+                        <div class="accordion-toggle" href="#accordion-element-808478 " data-toggle="collapse" data-parent="#accordion-316003" style="height: 40px; line-height: 40px;font-size: 16px;">
+                            <label for="">客服跟进记录</label>
+                        </div>
+                    </div>
+                    <div class="accordion-body in" id="accordion-element-808478">
+                        <div class="col-md-12 custom-border-bottom">
+                            <div class="col-md-1 "><span class="btn btn-xs btn-primary">跟进客服</span></div>
+                            <div class="col-md-9 "><span class="btn btn-xs btn-primary">跟进记录</span></div>
+                            <div class="col-md-2 "><span class="btn btn-xs btn-primary">跟进时间</span></div>
+                        </div>
+                        <div class="accordion-inner">
+                            @foreach($records as $record)
+                                <div class="col-md-12 custom-border-bottom">
+                                    <div class="col-md-1">{{$record->user_id}}</div>
+                                    <div class="col-md-9">{{$record->customer_record}}</div>
+                                    <div class="col-md-2">{{$record->created_at}}</div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
             <div class="col-md-4 col-md-offset-8 custom-margin-top-15">
                 @if($order->o_state < 8 )
-                    <div class="col-md-6"><button type="submit" class="btn btn-block btn-success btn-lg">提交修改</button></div>
-                    <div class="col-md-6"><a href="/orders/show/{{$order->o_num}}" class="btn btn-block btn-warning btn-lg">撤销修改</a></div>
+                    <div class="col-md-4"><button type="submit" class="btn btn-block btn-success btn-lg">提交修改</button></div>
+                    <div class="col-md-4"><a href="/orders/show/{{$order->o_num}}" class="btn btn-block btn-warning btn-lg">撤销修改</a></div>
+                    <div class="col-md-4"><button type="submit" class="btn btn-block btn-info btn-lg" onclick="history.go(-1)">返回上一页</button></div>
                 @else
-                    <div class="col-md-6 col-md-offset-6"><a class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
+                    <div class="col-md-4 col-md-offset-6"><a class="btn btn-block btn-warning btn-lg disabled">订单已完成</a></div>
                 @endif
             </div>
-            {{--<div class="col-md-4" style="line-height: normal;">
-                <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
-            </div>--}}
         </div>
     </form>
     @endif

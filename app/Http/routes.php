@@ -25,6 +25,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/orders/designate', 'Admin\OrderController@dodesignate');
     Route::get('/orders/search', 'Admin\OrderController@search');
     Route::get('/orders/myfollow','Admin\OrderController@myfollow');
+    Route::get('/orders/unfollow','Admin\OrderController@unfollow');
     Route::post('/orders/update/{id}', 'Admin\OrderController@update');
 
     #人事相关
@@ -43,6 +44,9 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/log/process','Admin\LogController@process');
     Route::get('/log/processcheck','Admin\LogController@processcheck');
     Route::get('/log/assign',['as'=>'assinglog','uses'=>'Admin\LogController@assignlog']);
+
+    #客服提交跟进记录
+    Route::get('/customerrecord/store','Admin\CustomerRecordController@store');
 
     #个人资料
     Route::get('/user/profiles','Admin\UserController@index');

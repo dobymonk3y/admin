@@ -89,6 +89,29 @@
     </div>
 @endif
 
+@if(Session::has('customerRecordAddSuccess'))
+    <div class="alert alert-success alert-dismissable" id="customerRecordAddSuccess">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        <strong>Success:</strong>{{  Session::get('customerRecordAddSuccess') }}
+    </div>
+@endif
+
+@if(Session::has('customerRecordAddFail'))
+    <div class="alert alert-success alert-dismissable" id="customerRecordAddFail">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        <strong>Faild:</strong>{{  Session::get('customerRecordAddFail') }}
+    </div>
+@endif
+
+
+
+
 
 @if(isset($orders) && count($orders) == 0)
     <div class="col-md-12">

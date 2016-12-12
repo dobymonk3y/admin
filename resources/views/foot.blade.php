@@ -69,6 +69,12 @@
         if(document.getElementById("orderUpdataSuccess")){
             document.getElementById("orderUpdataSuccess").style.display ="none";
         }
+        if(document.getElementById("customerRecordAddSuccess")){
+            document.getElementById("customerRecordAddSuccess").style.display ="none";
+        }
+        if(document.getElementById("customerRecordAddFail")){
+            document.getElementById("customerRecordAddFail").style.display ="none";
+        }
     }
     function personnelCheck(){
             var realname = document.getElementById('realname').value;

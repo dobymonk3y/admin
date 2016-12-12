@@ -16,6 +16,15 @@
 @if($order != null)
 
 <div class="col-md-12">
+    <ol class="breadcrumb">
+        <li><a href="/">大管家系统</a></li>
+        <li><a href="/orders">订单管理</a></li>
+        <li class="active">订单详情 / <a href="/orders/show/{{$order->o_num}}">{{$order->o_num}}</a></li>
+        <li><span onclick="history.go(-1)">返回上一页</span></li>
+    </ol>
+</div>
+
+<div class="col-md-12">
     {{--订单信息开始--}}
     <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
         <label for="">订单信息</label>
@@ -253,6 +262,54 @@
             </div>
         </div>
     </div>
+
+
+
+    {{--<div class="col-md-12 bg-primary custom-border-bottom" style="height: 40px; line-height: 40px;font-size: 16px;">客服跟进记录</div>
+    <div class="col-md-12 custom-border-bottom">
+        <form action="/customerrecord/store" method="get">
+            {{csrf_field()}}
+            <input type="hidden" name="ordernum" value="{{$order->o_num}}">
+            <div class="col-md-11"><input type="text" class="form-control" name="remarkcontent" placeholder="在此输入跟进记录"></div>
+            <div class="col-md-1"><input type="submit"class="btn btn-block btn-primary" value="提交跟进"></div>
+        </form>
+    </div>--}}
+    <div class="accordion" id="accordion-316004">
+        <div class="accordion-group">
+            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom">
+                <div class="accordion-toggle" href="#accordion-element-808479 " data-toggle="collapse" data-parent="#accordion-316004" style="height: 40px; line-height: 40px;font-size: 16px;">
+                    <label for="">客服跟进记录</label>
+                </div>
+            </div>
+            <div class="col-md-12 custom-border-bottom">
+                <form action="/customerrecord/store" method="get">
+                    {{csrf_field()}}
+                    <input type="hidden" name="ordernum" value="{{$order->o_num}}">
+                    <div class="col-md-11"><input type="text" class="form-control" name="remarkcontent" placeholder="在此输入跟进记录"></div>
+                    <div class="col-md-1"><input type="submit"class="btn btn-block btn-primary" value="提交跟进"></div>
+                </form>
+            </div>
+            @if(count($records)>0)
+            <div class="accordion-body in" id="accordion-element-808479">
+                <div class="col-md-12 custom-border-bottom">
+                    <div class="col-md-1 "><span class="btn btn-xs btn-primary">跟进客服</span></div>
+                    <div class="col-md-9 "><span class="btn btn-xs btn-primary">跟进记录</span></div>
+                    <div class="col-md-2 "><span class="btn btn-xs btn-primary">跟进时间</span></div>
+                </div>
+                <div class="accordion-inner">
+                    @foreach($records as $record)
+                        <div class="col-md-12 custom-border-bottom">
+                            <div class="col-md-1">{{$record->user_id}}</div>
+                            <div class="col-md-9">{{$record->customer_record}}</div>
+                            <div class="col-md-2">{{$record->created_at}}</div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+        </div>
+    </div>
+
     {{--跟进记录开始--}}
     @if(count($follows)>0)
     <div class="accordion" id="accordion-316002">
@@ -314,14 +371,14 @@
     @endif{{--订单派单记录结束--}}
 
     <div class="col-md-12 custom-margin-top-15">
-        <div class="col-md-offset-8 col-md-2"><a href="#" class="btn btn-block btn-primary btn-lg ">我要跟进</a></div>
+        {{--<div class="col-md-offset-9 col-md-1"><a href="#" class="btn btn-block btn-primary btn-lg ">我要跟进</a></div>--}}
         @if($order->o_state >= 8)
-            <div class="col-md-2"><a href="#" class="btn btn-block btn-success btn-lg disabled">订单已完成</a></div>
+            <div class="col-md-offset-10 col-md-1"><a href="#" class="btn btn-block btn-success btn-lg disabled">订单已完成</a></div>
         @else
-            <div class="col-md-2"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
+            <div class="col-md-offset-10 col-md-1"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
         @endif
+        <div class="col-md-1"><button type="submit" class="btn btn-block btn-info btn-lg" onclick="history.go(-1)">返回上一页</button></div>
     </div>
 </div>
 @endif
 @endsection
-

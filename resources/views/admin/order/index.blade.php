@@ -4,7 +4,6 @@
 
 @section('content')
 @include('partials._message')
-
 <div class="col-md-12">
     <ol class="breadcrumb">
         <li><a href="/">大管家系统</a></li>
@@ -25,8 +24,24 @@
             <li class="active">已取消</li>
         @elseif(Request::is('orders/myfollow'))
             <li class="active">我跟踪的订单</li>
+        @elseif(Request::is('orders/unfollow'))
+            <li class="active">待跟踪的订单</li>
         @endif
+        <li><span onclick="history.go(-1)">返回上一页</span></li>
     </ol>
+</div>
+<div class="col-md-12" style="padding-bottom:10px">
+    <ul class="nav nav-pills">
+        <li role="presentation" class="<?php if(Request::is('orders')){echo 'active';} ?>"><a href="/orders">所有订单</a></li>
+        <li role="presentation" class="<?php if(Request::is('orders/new')){echo 'active';} ?>"><a href="/orders/new">新订单</a></li>
+        <li role="presentation" class="<?php if(Request::is('orders/wait')){echo 'active';} ?>"><a href="/orders/wait">待服务</a></li>
+        <li role="presentation" class="<?php if(Request::is('orders/remove')){echo 'active';} ?>"><a href="/orders/remove">服务中</a></li>
+        <li role="presentation" class="<?php if(Request::is('orders/unpay')){echo 'active';} ?>"><a href="/orders/unpay">未支付</a></li>
+        <li role="presentation" class="<?php if(Request::is('orders/pay')){echo 'active';} ?>"><a href="/orders/pay">已支付</a></li>
+        <li role="presentation" class="<?php if(Request::is('orders/cancel')){echo 'active';} ?>"><a href="/orders/cancel">已取消</a></li>
+        <li role="presentation" class="<?php if(Request::is('orders/myfollow')){echo 'active';} ?>"><a href="/orders/myfollow">我跟踪的订单</a></li>
+        <li role="presentation" class="<?php if(Request::is('orders/unfollow')){echo 'active';} ?>"><a href="/orders/unfollow">待跟踪的订单</a></li>
+    </ul>
 </div>
 <div class="col-md-12">
     <form action="/orders/search" method="get">
