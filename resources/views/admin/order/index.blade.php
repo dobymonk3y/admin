@@ -53,6 +53,7 @@
                 <input type="text" class="form-control" name="ordernumber" id="ordernumber" placeholder="请填写要搜索的订单号码">
             </div>
         </div>
+        <div class="col-md-1"></div>
         <div class="col-md-2">
             <input type="submit" class="btn btn-primary" value="搜索订单">
         </div>
