@@ -21,7 +21,7 @@
         @elseif(Request::is('orders/pay'))
             <li class="active">已支付</li>
         @elseif(Request::is('orders/cancel'))
-            <li class="active">已取消</li>
+            <li class="active">已删除</li>
         @elseif(Request::is('orders/myfollow'))
             <li class="active">我跟踪的订单</li>
         @elseif(Request::is('orders/unfollow'))
@@ -38,7 +38,7 @@
         <li role="presentation" class="<?php if(Request::is('orders/remove')){echo 'active';} ?>"><a href="/orders/remove">服务中</a></li>
         <li role="presentation" class="<?php if(Request::is('orders/unpay')){echo 'active';} ?>"><a href="/orders/unpay">未支付</a></li>
         <li role="presentation" class="<?php if(Request::is('orders/pay')){echo 'active';} ?>"><a href="/orders/pay">已支付</a></li>
-        <li role="presentation" class="<?php if(Request::is('orders/cancel')){echo 'active';} ?>"><a href="/orders/cancel">已取消</a></li>
+        <li role="presentation" class="<?php if(Request::is('orders/cancel')){echo 'active';} ?>"><a href="/orders/cancel">已删除</a></li>
         <li role="presentation" class="<?php if(Request::is('orders/myfollow')){echo 'active';} ?>"><a href="/orders/myfollow">我跟踪的订单</a></li>
         <li role="presentation" class="<?php if(Request::is('orders/unfollow')){echo 'active';} ?>"><a href="/orders/unfollow">待跟踪的订单</a></li>
     </ul>

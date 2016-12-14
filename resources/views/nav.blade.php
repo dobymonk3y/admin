@@ -30,6 +30,7 @@
                     <li><a href="/orders/remove">搬家中</a></li>
                     <li><a href="/orders/unpay">已搬完</a></li>
                     <li><a href="/orders/pay">已支付</a></li>
+                    <li><a href="/orders/cancel">已删除</a></li>
                     <li class="divider"></li>
                     <li><a href="/orders/unfollow">待跟踪</a></li>
                     {{--<li><a href="/orders/cancel">已删除</a></li>--}}
