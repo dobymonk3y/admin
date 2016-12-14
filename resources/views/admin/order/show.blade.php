@@ -371,13 +371,18 @@
     @endif{{--订单派单记录结束--}}
 
     <div class="col-md-12 custom-margin-top-15">
-        {{--<div class="col-md-offset-9 col-md-1"><a href="#" class="btn btn-block btn-primary btn-lg ">我要跟进</a></div>--}}
-        @if($order->o_state >= 8)
-            <div class="col-md-offset-10 col-md-1"><a href="#" class="btn btn-block btn-success btn-lg disabled">订单已完成</a></div>
+        @if($order->o_state > 5 || $order['o_state'] < 0)
+            <div class="col-md-1"></div>
+        @endif
+        @if($order->o_state >= 8 || $order['o_state'] < 0)
+            <div class="col-md-offset-9 col-md-1"><a href="#" class="btn btn-block btn-success btn-lg disabled">订单已完成</a></div>
         @else
-            <div class="col-md-offset-10 col-md-1"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
+            <div class="col-md-offset-9 col-md-1"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
         @endif
         <div class="col-md-1"><button type="submit" class="btn btn-block btn-info btn-lg" onclick="history.go(-1)">返回上一页</button></div>
+        @if($order->o_state <6 && $order['o_state'] >0)
+            <div class="col-md-1"><a href="/orders/cancelorder/{{$order->o_num}}" class="btn btn-block btn-lg btn-danger">取消该订单</a></div>
+        @endif
     </div>
 </div>
 @endif

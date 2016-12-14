@@ -100,7 +100,7 @@
 @endif
 
 @if(Session::has('customerRecordAddFail'))
-    <div class="alert alert-success alert-dismissable" id="customerRecordAddFail">
+    <div class="alert alert-danger alert-dismissable" id="customerRecordAddFail">
         <button type="button" class="close" data-dismiss="alert"
                 aria-hidden="true">
             &times;
@@ -109,6 +109,15 @@
     </div>
 @endif
 
+@if(Session::has('orderCancelSuccess'))
+    <div class="alert alert-success alert-dismissable" id="orderCancelSuccess">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        <strong>Success:</strong>{{  Session::get('orderCancelSuccess') }}
+    </div>
+@endif
 
 
 

@@ -23,12 +23,15 @@ use Redirect, Input, Auth, Log;
 
 class OrderController extends Controller
 {
+    /*
+     * 返回所有订单信息
+     */
     public function index()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
             'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
             'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
-            'o_out_begin_time','o_remark','o_customer_service'])->where('o_state','>',-1)->orderBy('o_time','DESC')->paginate(5);
+            'o_out_begin_time','o_remark','o_customer_service'])->whereIn('o_state',[-2,1,2,3,4,5,6,7,8,9])->orderBy('o_time','DESC')->paginate(5);
         //订单状态
         $removestatus = [
             '-2' => '已删除',
@@ -86,6 +89,9 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+    /*
+     * 返回所有我跟踪的订单信息
+     */
     public function followOrder(Request $request)
     {
         $ordernum = $request->input('ordernumber');
@@ -99,6 +105,9 @@ class OrderController extends Controller
         return redirect('/orders/show/'.$ordernum);
     }
 
+    /*
+     * 返回所有状态值为"新订单"的订单信息
+     */
     public function newOrders()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -161,6 +170,9 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+    /*
+     * 返回所有状态值为"已确认"的订单信息
+     */
     public function waitOrders()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -223,6 +235,9 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+    /*
+     * 返回所有搬家中状态的订单信息
+     */
     public function removeOrders()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -285,6 +300,9 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+    /*
+     * 返回所有未付款订单状态信息
+     */
     public function unpayOrders()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -347,6 +365,9 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+    /*
+     * 返回所有已付款订单信息
+     */
     public function payOrders()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -409,6 +430,9 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+    /*
+     * 返回所有取消订单的信息
+     */
     public function cancelOrders()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -471,6 +495,10 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+    /*
+     * @param $id
+     * @return 订单号为$id的详情页面
+     */
     public function showOrder($id)
     {
         $order = RemoverOrder::where('o_num','=',$id)->first();
@@ -538,6 +566,10 @@ class OrderController extends Controller
         return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo)->withAssignlogs($assignlogs)->withFollows($follows)->withRecords($records);
     }
 
+    /*
+     * @param $id
+     * @return 打开 订单号为$id的信息编辑页面
+     */
     public function edit($id)
     {
         $order = RemoverOrder::where('o_num','=',$id)->first();
@@ -622,6 +654,10 @@ class OrderController extends Controller
         return view('admin/order/edit')->withOrder($order)->withOthercharge($othercharge)->withPayinfo($payinfo)->withCarinfo($carinfo)->withRecords($records);
     }
 
+    /*
+     * @param $id
+     * @return 针对订单号为$id的数据进行修改
+     */
     public function update(Request $request, $id)
     {
         $oinfo = RemoverOrder::where('o_num','=',$id)->select(['o_linkman','o_user_sex','o_state','o_remover_date','o_remover_clock','o_linkman_tel','o_activity_price','o_remark','o_estimate_price'])->first();
@@ -683,6 +719,9 @@ class OrderController extends Controller
         }
     }
 
+    /*
+     * 跳转到所有司机师傅页面
+     */
     public function drivers(Request $request)
     {
         $ordernum = trim($request->input('num'));
@@ -690,6 +729,9 @@ class OrderController extends Controller
         return view('admin.order.drivers')->withDrivers($drivers)->withOrdernum($ordernum);
     }
 
+    /*
+     * 返回查找司机结果页面
+     */
     public function driversearch(Request $request)
     {
         $mobile =trim($request->input('mobilenumber'));
@@ -703,6 +745,9 @@ class OrderController extends Controller
         return view('admin.order.driversearch')->withDrivers($drivers)->withOrdernum($ordernum)->withMobile($mobile)->withDrivername($drivername);
     }
 
+    /*
+     * 标注订单
+     */
     public function assignOrder(Request $request)
     {
         $num = $request->input('num');
@@ -732,6 +777,9 @@ class OrderController extends Controller
         return Redirect::to('orders/show/'.$num);
     }
 
+    /*
+     * 搜索订单
+     */
     public function search(Request $request)
     {
         $usermobile = trim($request->input('usermobile'));
@@ -801,6 +849,9 @@ class OrderController extends Controller
         return view('admin.order.search')->withOrders($orders)->withUsermobile($usermobile)->withOrdernumber($ordernumber);
     }
 
+    /*
+     * 我跟踪的订单
+     */
     public function myfollow()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -867,6 +918,9 @@ class OrderController extends Controller
         return view('admin/order/index')->withOrders($orders);
     }
 
+    /*
+     * 可以跟踪的所有订单
+     */
     public function unfollow()
     {
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
@@ -928,5 +982,21 @@ class OrderController extends Controller
             $orders[$k]['o_remark'] = mb_substr($v->o_remark , 0 , 50);
         }
         return view('admin/order/index')->withOrders($orders);
+    }
+
+    /*
+     * @param $id
+     * @return 设置订单号为$id的订单状态为取消
+     */
+    public function cancel(Request $request, $id)
+    {
+        RemoverOrder::where('o_num','=',$id)->update(['o_state'=>'-2']);
+        $newrecord = new Operationrecords;
+        $newrecord->o_num = $id;
+        $newrecord->user_id = Auth::user()->name;
+        $newrecord->user_action = Auth::user()->realname."修改了订单状态为'已删除'";
+        $newrecord->save();
+        Session::flash('orderCancelSuccess','订单已被删除!');
+        return redirect('/orders/show/'.$id);
     }
 }

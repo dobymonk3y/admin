@@ -27,6 +27,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/orders/myfollow','Admin\OrderController@myfollow');
     Route::get('/orders/unfollow','Admin\OrderController@unfollow');
     Route::post('/orders/update/{id}', 'Admin\OrderController@update');
+    Route::get('/orders/cancelorder/{id}', 'Admin\OrderController@cancel');
 
     #人事相关
     Route::get('/personnel', 'Admin\PersonnelController@index');

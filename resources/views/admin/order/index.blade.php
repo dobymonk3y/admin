@@ -92,7 +92,7 @@
                         </div>
                         <div class="col-md-4" style="text-align: center">
                             <a href="/orders/show/{{$order['o_num']}}" class="btn btn-info">详情</a>
-                            <a href="/orders/edit/{{$order['o_num']}}" class="btn <?php if($order['o_state']>= 8){echo "disabled btn-danger";}else{echo "btn-success";} ?>">编辑</a>
+                            <a href="/orders/edit/{{$order['o_num']}}" class="btn <?php if($order['o_state']>=8 || $order['o_state']<0){echo "disabled btn-danger";}else{echo "btn-success";} ?>">编辑</a>
                         </div>
                     </div>
                     <div class="col-md-6" style="height: 30px;line-height: 30px;">
@@ -159,7 +159,7 @@
                         <div class="col-md-4">
                             <label>跟单客服</label>：<span class="btn btn-xs btn-info">{{$order['customService']}}</span>
                         </div>
-                        @elseif($order->o_state != 9)
+                        @elseif($order->o_state < 8 && $order['o_state'] > 0)
                         <div class="col-md-4" style="text-align: right;">
                             <a class="btn btn-xs btn-warning" href="/orders/follow?ordernumber={{$order['o_num']}}">点此跟踪该订单</a>
                         </div>
@@ -180,7 +180,7 @@
                         <div class="col-md-9" style="overflow:hidden;">
                             <label>备注</label>：<span for="o_remark">{{mb_substr($order['o_remark'],0,30)}}</span>
                         </div>
-                        @if($order['o_state'] < 6)
+                        @if($order['o_state'] < 6 )
                         <div class="col-md-3"  style="text-align: right;">
                             <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
                         </div>
