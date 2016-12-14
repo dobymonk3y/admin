@@ -26,7 +26,7 @@
 
 <div class="col-md-12">
     {{--订单信息开始--}}
-    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+    <div class="col-md-12 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
         <label for="">订单信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -105,7 +105,7 @@
     {{--订单信息结束--}}
 
     {{--价格信息开始--}}
-    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+    <div class="col-md-12 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
         <label for="">价格信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -181,7 +181,7 @@
     @endif
     {{--价格信息结束--}}
 
-    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+    <div class="col-md-12 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
         <label for="">搬家公司信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -224,7 +224,7 @@
         </div>
     </div>
 
-    <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+    <div class="col-md-12 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
         <label for="">地点和车辆信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -263,21 +263,10 @@
         </div>
     </div>
 
-
-
-    {{--<div class="col-md-12 bg-primary custom-border-bottom" style="height: 40px; line-height: 40px;font-size: 16px;">客服跟进记录</div>
-    <div class="col-md-12 custom-border-bottom">
-        <form action="/customerrecord/store" method="get">
-            {{csrf_field()}}
-            <input type="hidden" name="ordernum" value="{{$order->o_num}}">
-            <div class="col-md-11"><input type="text" class="form-control" name="remarkcontent" placeholder="在此输入跟进记录"></div>
-            <div class="col-md-1"><input type="submit"class="btn btn-block btn-primary" value="提交跟进"></div>
-        </form>
-    </div>--}}
     <div class="accordion" id="accordion-316004">
         <div class="accordion-group">
-            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom">
-                <div class="accordion-toggle" href="#accordion-element-808479 " data-toggle="collapse" data-parent="#accordion-316004" style="height: 40px; line-height: 40px;font-size: 16px;">
+            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;">
+                <div class="accordion-toggle" href="#accordion-element-808479 " data-toggle="collapse" data-parent="#accordion-316004">
                     <label for="">客服跟进记录</label>
                 </div>
             </div>
@@ -314,7 +303,7 @@
     @if(count($follows)>0)
     <div class="accordion" id="accordion-316002">
         <div class="accordion-group">
-            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom">
+            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <div class="accordion-toggle" href="#accordion-element-808477 " data-toggle="collapse" data-parent="#accordion-316002">
                     <label for="">订单修改记录</label>
                 </div>
@@ -343,7 +332,7 @@
     @if(count($assignlogs)>0)
     <div class="accordion" id="accordion-316003">
         <div class="accordion-group">
-            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom">
+            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <div class="accordion-toggle" href="#accordion-element-808478" data-toggle="collapse" data-parent="#accordion-316003">
                     <label for="">订单指派记录</label>
                 </div>
