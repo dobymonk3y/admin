@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 引入 Bootstrap -->
 {!! Html::style('css/bootstrap.min.css') !!}
+{!! Html::style('css/datetimepicker.min.css') !!}
 {!! Html::style('css/customstyle.css') !!}
 {!! Html::style('layui/css/layui.css') !!}
 
@@ -11,6 +12,7 @@
 
 <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
 {!! Html::script('js/bootstrap.min.js') !!}
+{!! Html::script('js/datetimepicker.min.js') !!}
 
 <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
 <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->

@@ -31,7 +31,7 @@ class OrderController extends Controller
         $orders = RemoverOrder::select(['o_num','o_city','o_remover_date','o_remover_clock','o_driver_grab','o_state','o_linkman','o_linkman_tel',
             'o_urgent_tel','o_begin_address','o_end_address','o_time','o_mileage','o_mileage_price','o_start_price',
             'o_time_price','o_estimate_price','o_price','o_final_price','o_activity_price','o_worker_name','o_worker_tel',
-            'o_out_begin_time','o_remark','o_customer_service'])->whereIn('o_state',[-2,1,2,3,4,5,6,7,8,9])->orderBy('o_time','DESC')->paginate(5);
+            'o_out_begin_time','o_remark','o_customer_service'])->whereIn('o_state',[1,2,3,4,5,6,7,8,9])->orderBy('o_time','DESC')->paginate(5);
         //订单状态
         $removestatus = [
             '-2' => '已删除',

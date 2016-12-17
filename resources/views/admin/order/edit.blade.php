@@ -94,7 +94,8 @@
                     <div class="col-md-4">
                         <div class="layui-inline">
                             {{--layui-input 默认的input样式组--}}
-                            <input class="form-control" name="removetime" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss',  istoday: false,festival: true,issure: true})" value="{{$order->removetime}}">
+                            <input class="form_datetime form-control" size="16" type="text" value="{{$order->removetime}}">
+                            {{--<input class="form-control" name="removetime" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss',  istoday: false,festival: true,issure: true})" value="{{$order->removetime}}">--}}
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -356,4 +357,7 @@
         </div>
     </form>
     @endif
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+</script>
 @endsection

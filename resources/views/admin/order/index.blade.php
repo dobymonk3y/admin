@@ -66,7 +66,7 @@
                 @if(count($orders) > 0)
                 @foreach($orders as $order)
                 <div class="col-md-12 column">
-                    <div class="col-md-6 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
+                    <div class="col-md-6 bg-pray" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
                         <div class="col-md-4">
                             <label>订单编号</label>：<span>{{$order['o_num']}}</span>
                         </div>
@@ -77,7 +77,7 @@
                             <label>预约搬家时间</label>：<span>{{$order['o_remover_date']}} {{$order['o_remover_clock']}}</span>
                         </div>
                     </div>
-                    <div class="col-md-6 bg-primary" style="border-top-right-radius:5px; border-bottom-right-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
+                    <div class="col-md-6 bg-pray" style="border-top-right-radius:5px; border-bottom-right-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
                         <div class="col-md-4">
                             <label>订单状态</label>：<span class="btn btn-xs btn-danger">{{$order['o_custom_state']}}</span>
                         </div>
@@ -146,15 +146,15 @@
                         @if($order['o_state'] == 8)
                             <div class="col-md-4">
                             @if(empty($order['o_final_price']))
-                                <label>实付金额</label>：<span>{{$order['o_activity_price']}}</span>
+                                <label>应付金额</label>：<span>{{$order['o_activity_price']}}</span>
                             @else
-                                <label>实付金额</label>：<span>{{$order['o_activity_price']}}</span>
+                                <label>应付金额</label>：<span>{{$order['o_activity_price']}}</span>
                             @endif
                             </div>
                             @else
-                        <div class="col-md-4">
-                            <label>实付金额</label>：<span>{{$order['o_activity_price']}}</span>
-                        </div>
+                            <div class="col-md-4">
+                                <label>应付金额</label>：<span>{{$order['o_activity_price']}}</span>
+                            </div>
                         @endif
                         @if(!empty($order['customService']))
                         <div class="col-md-4">
@@ -170,9 +170,9 @@
                         <div class="col-md-4">
                             <label>订单司机</label>：<span>{{$order['o_worker_name']}}</span>
                         </div>
-                        <div class="col-md-4">
+                        {{--<div class="col-md-4">
                             <label>搬家开始时间</label>：<span>{{$order['o_out_begin_time']}}</span>
-                        </div>
+                        </div>--}}
                         <div class="col-md-4">
                             <label>支付订单时间</label>：<span>{{$order['payTime']}}</span>
                         </div>

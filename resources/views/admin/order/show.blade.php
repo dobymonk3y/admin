@@ -26,7 +26,7 @@
 
 <div class="col-md-12">
     {{--订单信息开始--}}
-    <div class="col-md-12 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
+    <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
         <label for="">订单信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -76,7 +76,7 @@
                 <label for="ordernum">跟单客服：</label>
                 @if($order->customService != null)
                     <span class='btn btn-xs btn-info'>{{$order->customService}}</span>
-                @else
+                @elseif($order->o_state < 8 && $order['o_state'] > 0)
                 <a class="btn btn-xs btn-warning" href="/orders/follow?ordernumber={{$order['o_num']}}">点此跟踪该订单</a>
                 @endif
             </div>
@@ -104,8 +104,50 @@
     </div>
     {{--订单信息结束--}}
 
+    {{--地点和车辆信息开始--}}
+    <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
+        <label for="">地点和车辆信息</label>
+    </div>
+    <div class="col-md-12 custom-border-bottom">
+        <div class="col-md-4">
+            <div class="col-md-4">
+                <label for="ordernum">里程数：</label>
+                <span style="color:green;">{{$order->o_mileage}}KM</span>
+                {{--<a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>--}}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="col-md-2">
+                <label for="ordernum">起点-终点：</label>
+            </div>
+            <div class="col-md-10">
+                <label for="o_num" style="color:blue;">{{$order->o_begin_poi_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_poi_address}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 custom-border-bottom">
+        <div class="col-md-4">
+            <div class="col-md-6">
+                <label for="ordernum">套餐：</label>
+                @if($carinfo != null)
+                    <span>{{$carinfo->car_name}}</span>
+                @endif
+            </div>
+            <div class="col-md-6">
+                <label for="ordernum">搬运工人数：</label>
+                <span>{{$order->o_worker_count}}</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-6">
+                <label for="ordernum">里程数：</label>
+                <span style="color:green;">{{$order->o_mileage}}KM</span>
+            </div>
+        </div>
+    </div>
+    {{--地点和车辆信息结束--}}
     {{--价格信息开始--}}
-    <div class="col-md-12 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
+    <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
         <label for="">价格信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
@@ -127,7 +169,7 @@
         <div class="col-md-4">
             <div class="col-md-6">
                 <label for="ordernum">特殊时段费：</label>
-                <label for="o_num" style="color:red;">{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}元</label>　{{$order->o_special_time_price_intro}}
+                <label for="o_num" style="color:red;">{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}元</label>　{{--{{$order->o_special_time_price_intro}}--}}
             </div>
             <div class="col-md-6">
                 <label for="ordernum">总价(无附加费)：</label>
@@ -181,15 +223,15 @@
     @endif
     {{--价格信息结束--}}
 
-    <div class="col-md-12 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
+    <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
         <label for="">搬家公司信息</label>
     </div>
     <div class="col-md-12 custom-border-bottom">
         <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="ordernum">搬家车组：</label>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <p>车牌号：{{$order->o_plate_num}}   负责人：{{$order->o_worker_name}}</p>
             </div>
         </div>
@@ -211,61 +253,21 @@
         </div>
     </div>
     <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-6"><label for="ordernum">搬家时间记录：</label></div>
-            <div class="col-md-6"><label for="o_num">搬出开始：</label>{{$order->o_out_begin_time}}</div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-6"><label for="o_num">搬出结束：</label>{{$order->o_out_end_time}}</div>
-            <div class="col-md-6"><label for="o_num">搬入开始：</label>{{$order->o_in_begin_time}}</div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-6"><label for="o_num">搬入结束：</label>{{$order->o_in_end_time}}</div>
-        </div>
-    </div>
-
-    <div class="col-md-12 bg-primary" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;">
-        <label for="">地点和车辆信息</label>
+        <div class="col-md-1"><label for="ordernum">搬家时间记录：</label></div>
+        <div class="col-md-9"><label for="o_num">搬出开始：</label>{{$order->o_out_begin_time}}</div>
     </div>
     <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-8">
-            <div class="col-md-2">
-                <label for="ordernum">起点-终点：</label>
-            </div>
-            <div class="col-md-10">
-                <label for="o_num" style="color:blue;">{{$order->o_begin_poi_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_poi_address}}</label>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-4">
-                <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
-            </div>
-        </div>
+        <div class="col-md-9 col-md-offset-1"><label for="o_num">搬出结束：</label>{{$order->o_out_end_time}}</div>
     </div>
     <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-6">
-                <label for="ordernum">套餐：</label>
-                @if($carinfo != null)
-                    <span>{{$carinfo->car_name}}</span>
-                @endif
-            </div>
-            <div class="col-md-6">
-                <label for="ordernum">搬运工人数：</label>
-                <span>{{$order->o_worker_count}}</span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="col-md-6">
-                <label for="ordernum">里程数：</label>
-                <span style="color:green;">{{$order->o_mileage}}KM</span>
-            </div>
-        </div>
+        <div class="col-md-9 col-md-offset-1"><label for="o_num">搬入开始：</label>{{$order->o_in_begin_time}}</div>
     </div>
-
+    <div class="col-md-12 custom-border-bottom">
+        <div class="col-md-9 col-md-offset-1"><label for="o_num">搬入结束：</label>{{$order->o_in_end_time}}</div>
+    </div>
     <div class="accordion" id="accordion-316004">
         <div class="accordion-group">
-            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;">
+            <div class="accordion-heading col-md-12 custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;background-color: #e9e9e9;">
                 <div class="accordion-toggle" href="#accordion-element-808479 " data-toggle="collapse" data-parent="#accordion-316004">
                     <label for="">客服跟进记录</label>
                 </div>
@@ -303,7 +305,7 @@
     @if(count($follows)>0)
     <div class="accordion" id="accordion-316002">
         <div class="accordion-group">
-            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;">
+            <div class="accordion-heading col-md-12 custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;background-color: #e9e9e9;">
                 <div class="accordion-toggle" href="#accordion-element-808477 " data-toggle="collapse" data-parent="#accordion-316002">
                     <label for="">订单修改记录</label>
                 </div>

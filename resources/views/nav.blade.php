@@ -19,32 +19,33 @@
                 </ul>
             </li>
             <li class="dropdown {{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    订单管理
-                    <b class="caret"></b>
+                <a href="/orders" class="dropdown-toggle">
+                    查看订单
                 </a>
-                <ul class="dropdown-menu">
-                    <li><a href="/orders">所有订单</a></li>
-                    <li><a href="/orders/new">新订单</a></li>
-                    <li><a href="/orders/wait">已接受</a></li>
-                    <li><a href="/orders/remove">搬家中</a></li>
-                    <li><a href="/orders/unpay">已搬完</a></li>
-                    <li><a href="/orders/pay">已支付</a></li>
-                    <li><a href="/orders/cancel">已删除</a></li>
-                    <li class="divider"></li>
-                    <li><a href="/orders/unfollow">待跟踪</a></li>
-                    {{--<li><a href="/orders/cancel">已删除</a></li>--}}
-                </ul>
+            {{--
+            <ul class="dropdown-menu">
+                <li><a href="/orders">所有订单</a></li>
+                <li><a href="/orders/new">新订单</a></li>
+                <li><a href="/orders/wait">已接受</a></li>
+                <li><a href="/orders/remove">搬家中</a></li>
+                <li><a href="/orders/unpay">已搬完</a></li>
+                <li><a href="/orders/pay">已支付</a></li>
+                <li><a href="/orders/cancel">已删除</a></li>
+                <li class="divider"></li>
+                <li><a href="/orders/unfollow">待跟踪</a></li>
+                --}}{{--<li><a href="/orders/cancel">已删除</a></li>--}}{{--
+            </ul>
+            --}}
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    个人订单管理
+                    支付查询
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="/orders/myfollow">我跟踪的订单</a></li>
+                    {{--<li><a href="/orders/myfollow">我跟踪的订单</a></li>--}}
                     <li><a href="#">支付查询</a></li>
-                    <li><a href="#">纠纷查询</a></li>
+                    {{--<li><a href="#">纠纷查询</a></li>--}}
                 </ul>
             </li>
             <li class="dropdown">

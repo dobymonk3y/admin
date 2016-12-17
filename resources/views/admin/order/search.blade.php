@@ -48,7 +48,7 @@
                 @if(count($orders) > 0)
                     @foreach($orders as $order)
                         <div class="col-md-12 column">
-                            <div class="col-md-6 bg-info" style="height: 40px;line-height: 40px;margin-top: 10px;">
+                            <div class="col-md-6 bg-pray" style="height: 40px;line-height: 40px;margin-top: 10px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
                                 <div class="col-md-4">
                                     <label>订单编号</label>：<span>{{$order['o_num']}}</span>
                                 </div>
@@ -59,7 +59,7 @@
                                     <label>预约搬家时间</label>：<span>{{$order['o_remover_date']}} {{$order['o_remover_clock']}}</span>
                                 </div>
                             </div>
-                            <div class="col-md-6 bg-info" style="height: 40px;line-height: 40px;margin-top: 10px;">
+                            <div class="col-md-6 bg-pray" style="height: 40px;line-height: 40px;margin-top: 10px;border-top-right-radius:5px; border-bottom-right-radius:5px;">
                                 <div class="col-md-4">
                                     <label>订单状态</label>：<span class="btn btn-xs btn-danger">{{$order['o_custom_state']}}</span>
                                 </div>
