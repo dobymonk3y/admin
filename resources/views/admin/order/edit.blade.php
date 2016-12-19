@@ -27,7 +27,7 @@
     <form action="/orders/update/{{$order->o_num}}" method="post">
         {{csrf_field()}}
         <div class="col-md-12">
-            <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+            <div class="col-md-12 bg-pray" style="height: 40px; line-height: 40px;font-size: 16px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <label for="">订单信息</label>
             </div>
             <div class="col-md-12 custom-border-bottom">
@@ -120,7 +120,7 @@
                 </div>
             </div>
             {{--价格信息开始--}}
-            <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+            <div class="col-md-12 bg-pray" style="height: 40px; line-height: 40px;font-size: 16px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <label for="">价格信息</label>
             </div>
             <div class="col-md-12 custom-border-bottom">
@@ -142,7 +142,7 @@
                 <div class="col-md-4">
                     <div class="col-md-6">
                         <label for="ordernum">特殊时段费：</label>
-                        <label for="o_num" style="color:red;">{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}元</label>　{{$order->o_special_time_price_intro}}
+                        <label for="o_num" style="color:red;">{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}元</label>{{--　{{$order->o_special_time_price_intro}}--}}
                     </div>
                     <div class="col-md-6">
                         <label for="ordernum">总价(无附加费)：</label>
@@ -156,10 +156,10 @@
                         </div>
                         <div class="col-md-7">
                             @if($order->o_state == 7)
-                            <input type="number" class="form-control" name="activityprice" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
+                            <input type="text" class="form-control" id="activityprice" name="activityprice" onblur="javascript:CheckInputIntFloat(this)" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
                             @else
                             <span>{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}</span>
-                            <input type="hidden" name="activityprice" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
+                            <input type="hidden" id="activityprice" name="activityprice" onblur="javascript:CheckInputIntFloat(this)" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
                             @endif
                         </div>
                     </div>
@@ -204,7 +204,7 @@
                 </div>
             @endif
             {{--价格信息结束--}}
-            <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+            <div class="col-md-12 bg-pray" style="height: 40px; line-height: 40px;font-size: 16px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <label for="">地点和车辆信息</label>
             </div>
             <div class="col-md-12 custom-border-bottom">
@@ -234,7 +234,7 @@
                     <label for="o_num" style="color:green;">{{$order->o_mileage}}KM</label>
                 </div>
             </div>
-            <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+            <div class="col-md-12 bg-pray" style="height: 40px; line-height: 40px;font-size: 16px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <label for="">搬家公司信息</label>
             </div>
             <div class="col-md-12 custom-border-bottom">
@@ -285,7 +285,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12 bg-primary" style="height: 40px; line-height: 40px;font-size: 16px;">
+            <div class="col-md-12 bg-pray" style="height: 40px; line-height: 40px;font-size: 16px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <label for="">其它信息</label>
             </div>
             <div class="col-md-12 custom-border-bottom">
@@ -359,5 +359,19 @@
     @endif
 <script type="text/javascript">
     $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+
+    function CheckInputIntFloat(oInput)
+    {
+        var num = document.getElementById("activityprice").value;
+        if (num==""){
+            alert("请输入折扣后价格");return false;
+        }
+        if(num < 0 ){
+            alert("请输入正确的价格");return false;
+        }
+        if (!(/(^[1-9]\d*$)/).test(num) && !(/(^(-?\d+)(\.\d+)?$)/).test(num) ){
+            alert("请输入正确的价格");return false;
+        }
+    }
 </script>
 @endsection

@@ -113,7 +113,6 @@
             <div class="col-md-4">
                 <label for="ordernum">里程数：</label>
                 <span style="color:green;">{{$order->o_mileage}}KM</span>
-                {{--<a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>--}}
             </div>
         </div>
         <div class="col-md-8">
@@ -236,19 +235,22 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="ordernum">搬家状态：	</label>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-3">
                 <p>{{$order->o_remover_state}}</p>
+            </div>
+            <div class="col-md-3">
+                <p>评价状态：</p>
+            </div>
+            <div class="col-md-3">
+                <p>未评价 / 已评价</p>
             </div>
         </div>
         <div class="col-md-4">
             <div class="col-md-4">
-                <p>评价状态：</p>
-            </div>
-            <div class="col-md-8">
-                <p>未评价 / 已评价</p>
+                <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
             </div>
         </div>
     </div>

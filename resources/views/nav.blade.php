@@ -8,6 +8,25 @@
             <li  class="{{ Request::is('/') || Request::is('index') ? "active" : "" }}">
                 <a href="/">数据统计</a>
             </li>
+            <li class="dropdown {{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
+                <a href="/orders" class="dropdown-toggle">
+                    查看订单
+                </a>
+                {{--
+                <ul class="dropdown-menu">
+                    <li><a href="/orders">所有订单</a></li>
+                    <li><a href="/orders/new">新订单</a></li>
+                    <li><a href="/orders/wait">已接受</a></li>
+                    <li><a href="/orders/remove">搬家中</a></li>
+                    <li><a href="/orders/unpay">已搬完</a></li>
+                    <li><a href="/orders/pay">已支付</a></li>
+                    <li><a href="/orders/cancel">已删除</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/orders/unfollow">待跟踪</a></li>
+                    --}}{{--<li><a href="/orders/cancel">已删除</a></li>--}}{{--
+                </ul>
+                --}}
+            </li>
             <li class="dropdown {{ Request::is('personnel') || Request::is('personnel/*') ? "active" : "" }}">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     人事管理
@@ -17,25 +36,6 @@
                     <li><a href="/personnel">员工资料浏览</a></li>
                     <li><a href="/personnel/add">新增员工</a></li>
                 </ul>
-            </li>
-            <li class="dropdown {{ Request::is('orders') || Request::is('orders/*') ? "active" : "" }}">
-                <a href="/orders" class="dropdown-toggle">
-                    查看订单
-                </a>
-            {{--
-            <ul class="dropdown-menu">
-                <li><a href="/orders">所有订单</a></li>
-                <li><a href="/orders/new">新订单</a></li>
-                <li><a href="/orders/wait">已接受</a></li>
-                <li><a href="/orders/remove">搬家中</a></li>
-                <li><a href="/orders/unpay">已搬完</a></li>
-                <li><a href="/orders/pay">已支付</a></li>
-                <li><a href="/orders/cancel">已删除</a></li>
-                <li class="divider"></li>
-                <li><a href="/orders/unfollow">待跟踪</a></li>
-                --}}{{--<li><a href="/orders/cancel">已删除</a></li>--}}{{--
-            </ul>
-            --}}
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">

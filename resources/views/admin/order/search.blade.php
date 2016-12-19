@@ -74,8 +74,8 @@
                                     @endif
                                 </div>
                                 <div class="col-md-4" style="text-align: center">
-                                    <a href="/orders/show/{{$order['o_num']}}" class="btn btn-xs btn-primary">详情</a>
-                                    <a href="/orders/edit/{{$order['o_num']}}" class="btn btn-xs <?php if($order['o_state']==9){echo "disabled btn-danger";}else{echo "btn-primary";} ?>">编辑</a>
+                                    <a href="/orders/show/{{$order['o_num']}}" class="btn btn-primary">详情</a>
+                                    <a href="/orders/edit/{{$order['o_num']}}" class="btn <?php if($order['o_state']>=8 || $order['o_state']<0){echo "disabled btn-danger";}else{echo "btn-success";} ?>">编辑</a>
                                 </div>
                             </div>
                             <div class="col-md-6" style="height: 30px;line-height: 30px;">
