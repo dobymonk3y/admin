@@ -137,12 +137,6 @@
                 <span>{{$order->o_worker_count}}</span>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="col-md-6">
-                <label for="ordernum">里程数：</label>
-                <span style="color:green;">{{$order->o_mileage}}KM</span>
-            </div>
-        </div>
     </div>
     {{--地点和车辆信息结束--}}
     {{--价格信息开始--}}
@@ -336,7 +330,7 @@
     @if(count($assignlogs)>0)
     <div class="accordion" id="accordion-316003">
         <div class="accordion-group">
-            <div class="accordion-heading col-md-12 bg-primary custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;">
+            <div class="accordion-heading col-md-12 bg-pray custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <div class="accordion-toggle" href="#accordion-element-808478" data-toggle="collapse" data-parent="#accordion-316003">
                     <label for="">订单指派记录</label>
                 </div>
