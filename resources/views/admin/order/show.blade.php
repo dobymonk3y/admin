@@ -230,10 +230,10 @@
                     <label for="ordernum">搬家车组：</label>
                 </div>
                 <div class="col-md-6">
-                    <p>车牌号：{{$order->o_plate_num}}   负责人：{{$order->o_worker_name}}</p>
+                    <p>车牌号：<span class="btn btn-xs btn-primary">{{$order->o_plate_num}}</span>   负责人：<span class="btn btn-xs btn-primary">{{$order->o_worker_name}}</span></p>
                 </div>
                 <div class="col-md-3">
-                    <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
+                    <a class="btn btn-success" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
                 </div>
             </div>
 
@@ -251,7 +251,7 @@
         <div class="col-md-12 custom-border-bottom">
             <div class="col-md-12">
                 <div class="col-md-3">
-                    <p>评价状态：</p>
+                    <label>评价状态：</label>
                 </div>
                 <div class="col-md-3">
                     <p>未评价 / 已评价</p>

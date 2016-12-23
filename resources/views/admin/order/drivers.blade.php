@@ -7,16 +7,38 @@
     <form action="/orders/drivers/search" method="get">
         <input type="hidden" value="{{$ordernum}}" name="ordernum">
         {{csrf_field()}}
-        <div class="col-md-4 col-md-offset-4">
-            <div class="col-md-4">
-                <input type="text" class="form-control" name="mobilenumber" placeholder="请输入手机号码">
-            </div>
-            <div class="col-md-4">
-                <input type="text" class="form-control" name="drivername" placeholder="请输入司机姓名">
-            </div>
-            <div class="col-md-3">
-                <input type="submit" class="btn btn-primary form-control" value="点此查找">
-            </div>
+        <div class="col-md-3"></div>
+        @if($citys)
+        <div class="col-md-1">
+            <select class="form-control" name="city" id="city">
+                <option value="nocity">请选择城市</option>
+                @foreach($citys as $city)
+                    <option value="{{$city->c_id}}">{{$city->c_name}}</option>
+                @endforeach
+            </select>
+        </div>
+        @endif
+        @if($cartypes)
+        <div class="col-md-1">
+            <select class="form-control" name="cartype" id="cartype">
+                <option value="nocartype">请选择车型</option>
+            @foreach($cartypes as $cartype)
+                <option value="{{$cartype->Id}}">{{$cartype->car_name}}</option>
+            @endforeach
+            </select>
+        </div>
+        @endif
+        <div class="col-md-1">
+            <input type="text" class="form-control" name="mobilenumber" placeholder="请输入手机号码">
+        </div>
+        <div class="col-md-1">
+            <input type="text" class="form-control" name="drivername" placeholder="请输入司机姓名">
+        </div>
+        <div class="col-md-1">
+            <input type="submit" class="btn btn-primary form-control" value="点此查找">
+        </div>
+        <div class="col-md-1">
+            <input type="submit" class="btn btn-success form-control" value="返回前一页" onclick="history.go(-1)">
         </div>
     </form>
 </div>

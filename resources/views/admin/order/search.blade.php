@@ -30,10 +30,10 @@
     <form action="/orders/search" method="get">
         <div class="col-md-4">
             <div class="col-md-6">
-                <input type="text" class="form-control" name="usermobile" id="usermobile" placeholder="请填写要搜索的客户手机号码">
+                <input type="text" class="form-control" name="usermobile" id="usermobile" placeholder="请填写要搜索的客户手机号码"<?php if($usermobile){echo "value='".$usermobile."'";} ?>>
             </div>
             <div class="col-md-6">
-                <input type="text" class="form-control" name="ordernumber" id="ordernumber" placeholder="请填写要搜索的订单号码">
+                <input type="text" class="form-control" name="ordernumber" id="ordernumber" placeholder="请填写要搜索的订单号码"<?php if($ordernumber){echo "value='".$ordernumber."'";} ?>>
             </div>
         </div>
         <div class="col-md-2">

@@ -502,7 +502,6 @@ class OrderController extends Controller
     public function showOrder($id)
     {
         $order = RemoverOrder::where('o_num','=',$id)->first();
-
         //订单状态
         $removestatus = [
             '-2' => '已删除',
@@ -532,7 +531,7 @@ class OrderController extends Controller
         $order['o_mileage_price'] = $order->o_mileage_price.'.00';
         $order['o_estimate_price'] = $order->o_estimate_price.'.00';
         $order->o_final_price != 0 ? $order->o_final_price."元" : "0.00元";
-        $order['o_worker_name'] = $order->o_state > 2 ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
+        // $order['o_worker_name'] = $order->o_state > 2 ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
         $order['o_out_begin_time'] =  $order->o_out_begin_time != null ? date('Y-m-d H:i',$order->o_out_begin_time) : "";
         $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
         $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
@@ -571,6 +570,7 @@ class OrderController extends Controller
         //传递跟进记录
         $follows = Operationrecords::where('o_num','=',$id)->orderBy('created_at','DESC')->get();
         $records = Customerrecords::where('o_num','=',$id)->orderBy('created_at','DESC')->get();
+        // dd($othercharge);
         return view('admin/order/show')->withOrder($order)->withOthercharge($othercharge)->withCarinfo($carinfo)->withPayinfo($payinfo)->withAssignlogs($assignlogs)->withFollows($follows)->withRecords($records);
     }
 
@@ -734,7 +734,9 @@ class OrderController extends Controller
     {
         $ordernum = trim($request->input('num'));
         $drivers = WorkerInfo::select(['w_name','w_tel','w_car_plate'])->where('w_status','=',1)->paginate(15);
-        return view('admin.order.drivers')->withDrivers($drivers)->withOrdernum($ordernum);
+        $citys = ServiceCity::select(['c_id','c_name'])->get();
+        $cartypes = Cartype::select(['Id','car_name'])->get();
+        return view('admin.order.drivers')->withDrivers($drivers)->withOrdernum($ordernum)->withCitys($citys)->withCartypes($cartypes);
     }
 
     /*
@@ -745,12 +747,27 @@ class OrderController extends Controller
         $mobile =trim($request->input('mobilenumber'));
         $ordernum = trim($request->input('ordernum'));
         $drivername = trim($request->input('drivername'));
-        $drivers = WorkerInfo::select(['w_name','w_tel','w_car_plate'])
+        $city = $request->input('city');
+        $cartype = $request->input('cartype');
+        $drivers = WorkerInfo::select(['w_name','w_tel','w_car_plate','w_cartype','w_city'])
             ->Where(function ($name) use ($drivername) {
                 $name->where('w_name', 'like', '%'.$drivername.'%');
             })
+            ->Where(function ($citysearch) use ($city) {
+                if($city != 'nocity'){
+                    $citysearch->where('w_city','=',$city);
+                }
+            })
+            ->Where(function ($cartypesearch) use ($cartype) {
+                if($cartype != 'nocartype'){
+                    $cartypesearch->where('w_cartype','=',$cartype);
+                }
+            })
             ->where('w_status','=',1)->where('w_tel','like','%'.$mobile.'%')->paginate(15);
-        return view('admin.order.driversearch')->withDrivers($drivers)->withOrdernum($ordernum)->withMobile($mobile)->withDrivername($drivername);
+
+        $citys = ServiceCity::select(['c_id','c_name'])->get();
+        $cartypes = Cartype::select(['Id','car_name'])->get();
+        return view('admin.order.driversearch')->withDrivers($drivers)->withOrdernum($ordernum)->withMobile($mobile)->withDrivername($drivername)->withCity($city)->withCartype($cartype)->withCitys($citys)->withCartypes($cartypes);
     }
 
     /*
@@ -761,7 +778,6 @@ class OrderController extends Controller
         $num = $request->input('num');
         $mobile = $request->input('mobile');
         $data = WorkerInfo::select(['Id','w_car_plate','w_name','w_tel'])->where('w_tel','=',$mobile)->first();
-        $oinfo = RemoverOrder::select(['o_remover_num','o_remover_name'])->where('o_num','=',$num)->first();
         RemoverOrder::where('o_num','=',$num)->update([
             'o_worker'=>$data->Id,
             'o_worker_name'=>$data->w_name,
@@ -770,10 +786,10 @@ class OrderController extends Controller
             'o_driver_grab'=>'2',
             'o_driver_grab_time'=>time(),
         ]);
-        Session::flash('orderAssignSuccess','订单指派成功!');
         //将指派信息存储到指派订单表里
         //订单号 当前操作时间 派单人员  派单信息
         // $num $time() Auth::user()->name     Auth::user()->name 将订单 $num 指派给司机 $data->w_name($data->w_tel)
+        $oinfo = RemoverOrder::select(['o_remover_num','o_remover_name'])->where('o_num','=',$num)->first();
         $assignlog = new Assignlog();
         $assignlog->o_num = $num;
         $assignlog->o_time = time();
@@ -782,6 +798,7 @@ class OrderController extends Controller
         $assignlog->o_remover_num = $oinfo->o_remover_num;
         $assignlog->o_remover_name = $oinfo->o_remover_name;
         $assignlog->save();
+        Session::flash('orderAssignSuccess','订单指派成功!');
         return Redirect::to('orders/show/'.$num);
     }
 

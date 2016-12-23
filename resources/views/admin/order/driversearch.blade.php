@@ -5,16 +5,40 @@
     <div class="row">
         <form action="/orders/drivers/search" method="get">
             {{csrf_field()}}
-            <div class="col-md-4 col-md-offset-4">
-                <div class="col-md-4">
-                    <input type="text" class="form-control" name="mobilenumber" placeholder="请输入手机号码"@if(!empty($mobile)) value="{{$mobile}}" @endif>
+            <input type="hidden" name="mobile" value={{$mobile}}>
+            <input type="hidden" name="ordernum" value={{$ordernum}}>
+            <div class="col-md-3"></div>
+            @if($citys)
+                <div class="col-md-1">
+                    <select class="form-control" name="city" id="city">
+                        <option>请选择城市</option>
+                        @foreach($citys as $c)
+                            <option value="{{$c->c_id}}"<?php if($city == $c->c_id){echo"selected";} ?>>{{$c->c_name}}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" name="drivername" placeholder="请输入司机姓名"@if(!empty($drivername)) value="{{$drivername}}" @endif>
+            @endif
+            @if($cartypes)
+                <div class="col-md-1">
+                    <select class="form-control" name="cartype" id="cartype">
+                        <option>请选择车型</option>
+                        @foreach($cartypes as $type)
+                            <option value="{{$type->Id}}"<?php if($type->Id == $cartype){echo"selected";} ?>>{{$type->car_name}}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="col-md-3">
-                    <input type="submit" class="btn btn-primary form-control" value="点此查找">
-                </div>
+            @endif
+            <div class="col-md-1">
+                <input type="text" class="form-control" name="mobilenumber" placeholder="请输入手机号码"@if(!empty($mobile)) value="{{$mobile}}" @endif>
+            </div>
+            <div class="col-md-1">
+                <input type="text" class="form-control" name="drivername" placeholder="请输入司机姓名"@if(!empty($drivername)) value="{{$drivername}}" @endif>
+            </div>
+            <div class="col-md-1">
+                <input type="submit" class="btn btn-primary form-control" value="点此查找">
+            </div>
+            <div class="col-md-1">
+                <input type="submit" class="btn btn-success form-control" value="返回前一页" onclick="history.go(-1)">
             </div>
         </form>
     </div>
@@ -64,7 +88,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="col-md-12 text-center">{!! $drivers->appends(['mobilenumber' => $mobile,'num' => $ordernum ])->render() !!}</div>
+            <div class="col-md-12 text-center">{!! $drivers->appends(['mobilenumber' => $mobile,'num' => $ordernum,'city'=>$city,'cartype'=>$cartype ])->render() !!}</div>
         </div>
     @endif
 @endsection
