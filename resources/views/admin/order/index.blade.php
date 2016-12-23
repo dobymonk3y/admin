@@ -181,7 +181,7 @@
                         <div class="col-md-9" style="overflow:hidden;">
                             <label>备注</label>：<span for="o_remark">{{mb_substr($order['o_remark'],0,30)}}</span>
                         </div>
-                        @if($order['o_state'] < 6 && $order['o_state'] >0)
+                        @if($order['o_state'] < 5 && $order['o_state'] >0)
                         <div class="col-md-3"  style="text-align: right;">
                             <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
                         </div>
