@@ -233,7 +233,9 @@
                     <p>车牌号：<span class="btn btn-xs btn-primary">{{$order->o_plate_num}}</span>   负责人：<span class="btn btn-xs btn-primary">{{$order->o_worker_name}}</span></p>
                 </div>
                 <div class="col-md-3">
-                    <a class="btn btn-success" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
+                    @if($order->state < 5 && $order->state > 0)
+                    <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
+                    @endif
                 </div>
             </div>
 
@@ -291,10 +293,10 @@
                 </div>
             </div>
             <div class="col-md-12 custom-border-bottom">
-                <form action="/customerrecord/store" method="get">
+                <form action="/customerrecord/store" method="get" onsubmit="return check()">
                     {{csrf_field()}}
                     <input type="hidden" name="ordernum" value="{{$order->o_num}}">
-                    <div class="col-md-11"><input type="text" class="form-control" name="remarkcontent" placeholder="在此输入跟进记录"></div>
+                    <div class="col-md-11"><input type="text" class="form-control" name="remarkcontent" id="remarkcontent" placeholder="在此输入跟进记录"></div>
                     <div class="col-md-1"><input type="submit"class="btn btn-block btn-primary" value="提交跟进"></div>
                 </form>
             </div>
@@ -407,6 +409,14 @@
         function changeMapStyle(style){
             map.setMapStyle({style:style});
             $('#desc').html(mapstyles[style].desc);
+        }
+
+        function check() {
+            var remarkcontent = document.getElementById('remarkcontent').value;
+            if(remarkcontent == null ||remarkcontent == ''){
+                alert('跟进内容不能为空，请填写跟进记录！');
+                return false;
+            }
         }
     </script>
 @endsection
