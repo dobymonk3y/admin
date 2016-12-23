@@ -502,6 +502,7 @@ class OrderController extends Controller
     public function showOrder($id)
     {
         $order = RemoverOrder::where('o_num','=',$id)->first();
+
         //订单状态
         $removestatus = [
             '-2' => '已删除',
@@ -536,6 +537,13 @@ class OrderController extends Controller
         $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
         $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
         $order['o_in_end_time'] =  $order->o_in_end_time != null ? date('Y-m-d H:i',$order->o_in_end_time) : "";
+        //坐标细分
+        $a = explode(',',$order->o_begin_poi_point);
+        $b = explode(',',$order->o_end_poi_point);
+        $order['start1'] = $a['0'];
+        $order['start2'] = $a['1'];
+        $order['end1'] = $b['0'];
+        $order['end2'] = $b['1'];
 
         //客服人员姓名
         $userinfo = User::where('name','=',$order->o_customer_service)->first();

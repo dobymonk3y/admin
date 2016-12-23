@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'admin'], function () {
+Route::group(['middleware' => ['admin','EnableCross']], function () {
 
     Route::get('/test', 'Admin\OrderController@test');//测试'
 
@@ -60,3 +60,8 @@ Route::group(['middleware' => 'admin'], function () {
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+Route::get('event',function(){
+    Event::fire(new \App\Events\SomeEvent(14));
+    return "Hello world!";
+});

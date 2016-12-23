@@ -26,6 +26,20 @@
 
 <div class="col-md-12">
     {{--订单信息开始--}}
+    <div class="col-md-12">
+        @if($order->o_state > 5 || $order['o_state'] < 0)
+            <div class="col-md-1"></div>
+        @endif
+        @if($order->o_state >= 8 || $order['o_state'] < 0)
+            <div class="col-md-offset-9 col-md-1"><a href="#" class="btn btn-block btn-success btn-lg disabled">订单已完成</a></div>
+        @else
+            <div class="col-md-offset-9 col-md-1"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
+        @endif
+        <div class="col-md-1"><button type="submit" class="btn btn-block btn-info btn-lg" onclick="history.go(-1)">返回上一页</button></div>
+        @if($order->o_state <6 && $order['o_state'] >0)
+            <div class="col-md-1"><a href="/orders/cancelorder/{{$order->o_num}}" class="btn btn-block btn-lg btn-danger">取消该订单</a></div>
+        @endif
+    </div>
     <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
         <label for="">订单信息</label>
     </div>
@@ -104,41 +118,6 @@
     </div>
     {{--订单信息结束--}}
 
-    {{--地点和车辆信息开始--}}
-    <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
-        <label for="">地点和车辆信息</label>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-4">
-                <label for="ordernum">里程数：</label>
-                <span style="color:green;">{{$order->o_mileage}}KM</span>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="col-md-2">
-                <label for="ordernum">起点-终点：</label>
-            </div>
-            <div class="col-md-10">
-                <label for="o_num" style="color:blue;">{{$order->o_begin_poi_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_poi_address}}</label>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-6">
-                <label for="ordernum">套餐：</label>
-                @if($carinfo != null)
-                    <span>{{$carinfo->car_name}}</span>
-                @endif
-            </div>
-            <div class="col-md-6">
-                <label for="ordernum">搬运工人数：</label>
-                <span>{{$order->o_worker_count}}</span>
-            </div>
-        </div>
-    </div>
-    {{--地点和车辆信息结束--}}
     {{--价格信息开始--}}
     <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
         <label for="">价格信息</label>
@@ -185,82 +164,125 @@
         </div>
     </div>
     @if($othercharge != null)
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-12">
-            <div class="col-md-2"><label for="">计费项目：</label></div>
-            <div class="col-md-1">过路费</div>
-            <div class="col-md-1">停车费</div>
-            <div class="col-md-1">钢琴搬运费</div>
-            <div class="col-md-1">中途卸装费</div>
-            <div class="col-md-1">等待时间费</div>
-            <div class="col-md-1">空调移机费</div>
-            <div class="col-md-1">1.5~1.8鱼缸</div>
-            <div class="col-md-1">贵重物品保险</div>
-            <div class="col-md-1">其他费用</div>
+        <div class="col-md-12 custom-border-bottom">
+            <div class="col-md-12">
+                <div class="col-md-2"><label for="">计费项目：</label></div>
+                <div class="col-md-1">过路费</div>
+                <div class="col-md-1">停车费</div>
+                <div class="col-md-1">钢琴搬运费</div>
+                <div class="col-md-1">中途卸装费</div>
+                <div class="col-md-1">等待时间费</div>
+                <div class="col-md-1">空调移机费</div>
+                <div class="col-md-1">1.5~1.8鱼缸</div>
+                <div class="col-md-1">贵重物品保险</div>
+                <div class="col-md-1">其他费用</div>
+            </div>
         </div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-12">
-            <div class="col-md-2"><label for="">费用详情：</label></div>
-            <div class="col-md-1">{{$othercharge->c_road}}元</div>
-            <div class="col-md-1">{{$othercharge->c_parking}}元</div>
-            <div class="col-md-1">{{$othercharge->c_piano}}元</div>
-            <div class="col-md-1">{{$othercharge->c_reload}}元</div>
-            <div class="col-md-1">{{$othercharge->c_waiting}}元</div>
-            <div class="col-md-1">{{$othercharge->c_kongtiao}}元</div>
-            <div class="col-md-1">{{$othercharge->c_yugang1}}元</div>
-            <div class="col-md-1">{{$othercharge->c_valuable}}元</div>
-            <div class="col-md-1">{{$othercharge->c_other}}元</div>
+        <div class="col-md-12 custom-border-bottom">
+            <div class="col-md-12">
+                <div class="col-md-2"><label for="">费用详情：</label></div>
+                <div class="col-md-1">{{$othercharge->c_road}}元</div>
+                <div class="col-md-1">{{$othercharge->c_parking}}元</div>
+                <div class="col-md-1">{{$othercharge->c_piano}}元</div>
+                <div class="col-md-1">{{$othercharge->c_reload}}元</div>
+                <div class="col-md-1">{{$othercharge->c_waiting}}元</div>
+                <div class="col-md-1">{{$othercharge->c_kongtiao}}元</div>
+                <div class="col-md-1">{{$othercharge->c_yugang1}}元</div>
+                <div class="col-md-1">{{$othercharge->c_valuable}}元</div>
+                <div class="col-md-1">{{$othercharge->c_other}}元</div>
+            </div>
         </div>
-    </div>
     @endif
     {{--价格信息结束--}}
 
-    <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
-        <label for="">搬家公司信息</label>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-4">
-            <div class="col-md-3">
-                <label for="ordernum">搬家车组：</label>
+    {{--地点和车辆信息开始--}}
+    <div class="col-md-6">
+        <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; border-top-right-radius:5px; border-bottom-right-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
+            <label for="">地点和车辆信息</label>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 custom-border-bottom">
+                <label for="ordernum">起点-终点：</label>
+                <label for="o_num" style="color:blue;">{{$order->o_begin_poi_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_poi_address}}</label>
             </div>
-            <div class="col-md-9">
-                <p>车牌号：{{$order->o_plate_num}}   负责人：{{$order->o_worker_name}}</p>
+            <div class="col-md-12 custom-border-bottom">
+                <label for="ordernum">里程数：</label>
+                <span style="color:green;">{{$order->o_mileage}}KM</span>
+            </div>
+            <div class="col-md-12 custom-border-bottom">
+                <label for="ordernum">套餐：</label>
+                @if($carinfo != null)
+                    <span>{{$carinfo->car_name}}</span>
+                @endif
+            </div>
+            <div class="col-md-12 custom-border-bottom">
+                <label for="ordernum">搬运工人数：</label>
+                <span>{{$order->o_worker_count}}</span>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="col-md-3">
-                <label for="ordernum">搬家状态：	</label>
+
+        <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; border-top-right-radius:5px; border-bottom-right-radius:5px;height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
+            <label for="">搬家公司信息</label>
+        </div>
+        <div class="col-md-12 custom-border-bottom">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <label for="ordernum">搬家车组：</label>
+                </div>
+                <div class="col-md-6">
+                    <p>车牌号：{{$order->o_plate_num}}   负责人：{{$order->o_worker_name}}</p>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
+                </div>
             </div>
-            <div class="col-md-3">
-                <p>{{$order->o_remover_state}}</p>
-            </div>
-            <div class="col-md-3">
-                <p>评价状态：</p>
-            </div>
-            <div class="col-md-3">
-                <p>未评价 / 已评价</p>
+
+        </div>
+        <div class="col-md-12 custom-border-bottom">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <label for="ordernum">搬家状态：	</label>
+                </div>
+                <div class="col-md-3">
+                    <p>{{$order->o_remover_state}}</p>
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="col-md-4">
-                <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
+        <div class="col-md-12 custom-border-bottom">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <p>评价状态：</p>
+                </div>
+                <div class="col-md-3">
+                    <p>未评价 / 已评价</p>
+                </div>
             </div>
         </div>
+        <div class="col-md-12 custom-border-bottom">
+            <div class="col-md-3"><label for="ordernum">搬家时间记录：</label></div>
+            <div class="col-md-9"><label for="o_num">搬出开始：</label>{{$order->o_out_begin_time}}</div>
+        </div>
+        <div class="col-md-12 custom-border-bottom">
+            <div class="col-md-9 col-md-offset-3"><label for="o_num">搬出结束：</label>{{$order->o_out_end_time}}</div>
+        </div>
+        <div class="col-md-12 custom-border-bottom">
+            <div class="col-md-9 col-md-offset-3"><label for="o_num">搬入开始：</label>{{$order->o_in_begin_time}}</div>
+        </div>
+        <div class="col-md-12 custom-border-bottom">
+            <div class="col-md-9 col-md-offset-3"><label for="o_num">搬入结束：</label>{{$order->o_in_end_time}}</div>
+        </div>
     </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-1"><label for="ordernum">搬家时间记录：</label></div>
-        <div class="col-md-9"><label for="o_num">搬出开始：</label>{{$order->o_out_begin_time}}</div>
+    {{--地点和车辆信息结束--}}
+
+    <!-- 地图开始 -->
+    <div class="col-md-6">
+        <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px;border-top-right-radius:5px; border-bottom-right-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
+            <label for="">搬家路线</label>
+        </div>
+        <div id="allmap" class="col-md-12" style="height:535px;"></div>
     </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-9 col-md-offset-1"><label for="o_num">搬出结束：</label>{{$order->o_out_end_time}}</div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-9 col-md-offset-1"><label for="o_num">搬入开始：</label>{{$order->o_in_begin_time}}</div>
-    </div>
-    <div class="col-md-12 custom-border-bottom">
-        <div class="col-md-9 col-md-offset-1"><label for="o_num">搬入结束：</label>{{$order->o_in_end_time}}</div>
-    </div>
+    <!-- 地图结束 -->
+
     <div class="accordion" id="accordion-316004">
         <div class="accordion-group">
             <div class="accordion-heading col-md-12 custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;background-color: #e9e9e9;">
@@ -277,22 +299,22 @@
                 </form>
             </div>
             @if(count($records)>0)
-            <div class="accordion-body in" id="accordion-element-808479">
-                <div class="col-md-12 custom-border-bottom">
-                    <div class="col-md-1 "><span class="btn btn-xs btn-primary">跟进客服</span></div>
-                    <div class="col-md-9 "><span class="btn btn-xs btn-primary">跟进记录</span></div>
-                    <div class="col-md-2 "><span class="btn btn-xs btn-primary">跟进时间</span></div>
+                <div class="accordion-body in" id="accordion-element-808479">
+                    <div class="col-md-12 custom-border-bottom">
+                        <div class="col-md-1 "><span class="btn btn-xs btn-primary">跟进客服</span></div>
+                        <div class="col-md-9 "><span class="btn btn-xs btn-primary">跟进记录</span></div>
+                        <div class="col-md-2 "><span class="btn btn-xs btn-primary">跟进时间</span></div>
+                    </div>
+                    <div class="accordion-inner">
+                        @foreach($records as $record)
+                            <div class="col-md-12 custom-border-bottom">
+                                <div class="col-md-1">{{$record->user_id}}</div>
+                                <div class="col-md-9">{{$record->customer_record}}</div>
+                                <div class="col-md-2">{{$record->created_at}}</div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-                <div class="accordion-inner">
-                    @foreach($records as $record)
-                        <div class="col-md-12 custom-border-bottom">
-                            <div class="col-md-1">{{$record->user_id}}</div>
-                            <div class="col-md-9">{{$record->customer_record}}</div>
-                            <div class="col-md-2">{{$record->created_at}}</div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
             @endif
         </div>
     </div>
@@ -356,21 +378,35 @@
         </div>
     </div>
     @endif{{--订单派单记录结束--}}
+    
+    <input type="hidden" id="start1" value="{{$order->start1}}">
+    <input type="hidden" id="start2" value="{{$order->start2}}">
+    <input type="hidden" id="end1" value="{{$order->end1}}">
+    <input type="hidden" id="end2" value="{{$order->end2}}">
+    @endif
+    <script type="text/javascript">
 
-    <div class="col-md-12 custom-margin-top-15">
-        @if($order->o_state > 5 || $order['o_state'] < 0)
-            <div class="col-md-1"></div>
-        @endif
-        @if($order->o_state >= 8 || $order['o_state'] < 0)
-            <div class="col-md-offset-9 col-md-1"><a href="#" class="btn btn-block btn-success btn-lg disabled">订单已完成</a></div>
-        @else
-            <div class="col-md-offset-9 col-md-1"><a href="/orders/edit/{{$order->o_num}}" class="btn btn-block btn-success btn-lg">编辑此订单</a></div>
-        @endif
-        <div class="col-md-1"><button type="submit" class="btn btn-block btn-info btn-lg" onclick="history.go(-1)">返回上一页</button></div>
-        @if($order->o_state <6 && $order['o_state'] >0)
-            <div class="col-md-1"><a href="/orders/cancelorder/{{$order->o_num}}" class="btn btn-block btn-lg btn-danger">取消该订单</a></div>
-        @endif
-    </div>
-</div>
-@endif
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+        map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
+        map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
+        map.addControl(new BMap.OverviewMapControl());              //添加缩略地图控件
+        map.enableScrollWheelZoom();                            //启用滚轮放大缩小
+        map.addControl(new BMap.MapTypeControl());          //添加地图类型控件
+        map.disable3DBuilding();
+        var start1 = document.getElementById('start1').value;
+        var start2 = document.getElementById('start2').value;
+        var end1 = document.getElementById('end1').value;
+        var end2 = document.getElementById('end2').value;
+        var p1 = new BMap.Point(start1,start2);
+        var p2 = new BMap.Point(end1,end2);
+        var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+        driving.search(p1, p2);
+
+        changeMapStyle('grayscale');
+        function changeMapStyle(style){
+            map.setMapStyle({style:style});
+            $('#desc').html(mapstyles[style].desc);
+        }
+    </script>
 @endsection
