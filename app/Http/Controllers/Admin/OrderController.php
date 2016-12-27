@@ -532,7 +532,7 @@ class OrderController extends Controller
         $order['o_mileage_price'] = $order->o_mileage_price.'.00';
         $order['o_estimate_price'] = $order->o_estimate_price.'.00';
         $order->o_final_price != 0 ? $order->o_final_price."元" : "0.00元";
-        $order['o_worker_name'] = $order->o_state > 2 ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
+        $order['o_worker_name'] = $order->o_state != null ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
         $order['o_out_begin_time'] =  $order->o_out_begin_time != null ? date('Y-m-d H:i',$order->o_out_begin_time) : "";
         $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
         $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
