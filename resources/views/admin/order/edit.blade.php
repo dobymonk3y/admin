@@ -459,33 +459,6 @@
                     @endif
                 </div>
             </div>
-            @if(count($records) > 0)
-            <div class="accordion" id="accordion-316003">
-                <div class="accordion-group">
-                    <div class="accordion-heading col-md-12 bg-primary custom-border-bottom">
-                        <div class="accordion-toggle" href="#accordion-element-808478 " data-toggle="collapse" data-parent="#accordion-316003" style="height: 40px; line-height: 40px;font-size: 16px;">
-                            <label for="">客服跟进记录</label>
-                        </div>
-                    </div>
-                    <div class="accordion-body in" id="accordion-element-808478">
-                        <div class="col-md-12 custom-border-bottom">
-                            <div class="col-md-1 "><span class="btn btn-xs btn-primary">跟进客服</span></div>
-                            <div class="col-md-9 "><span class="btn btn-xs btn-primary">跟进记录</span></div>
-                            <div class="col-md-2 "><span class="btn btn-xs btn-primary">跟进时间</span></div>
-                        </div>
-                        <div class="accordion-inner">
-                            @foreach($records as $record)
-                                <div class="col-md-12 custom-border-bottom">
-                                    <div class="col-md-1">{{$record->user_id}}</div>
-                                    <div class="col-md-9">{{$record->customer_record}}</div>
-                                    <div class="col-md-2">{{$record->created_at}}</div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
             <div class="col-md-4 col-md-offset-8 custom-margin-top-15">
                 @if($order->o_state < 8 )
                     <div class="col-md-4"><button type="submit" class="btn btn-block btn-success btn-lg">提交修改</button></div>
