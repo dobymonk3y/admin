@@ -301,14 +301,18 @@
                             <input type="text" id="endpoi" class="form-control"  onblur="searchEndPoi()" value="{{$order->o_end_poi_address}}" placeholder="{{$order->o_end_poi_address}}">
                         </div>
                     </div>
-                    <div class="col-md-12 custom-border-bottom">
-                        <div class="col-md-6"><input type="text" class="form-control" value="" id="beginAddressPoi"></div>
-                        <div class="col-md-6"><input type="text" class="form-control" value="" id="endAddressPoi"></div>
+                    <div class="col-md-12 custom-border-bottom" style="display: none;">
+                        <div class="col-md-6"><input type="hidden" class="form-control" value="" id="beginAddressPoi"></div>
+                        <div class="col-md-6"><input type="hidden" class="form-control" value="" id="endAddressPoi"></div>
                     </div>
                     {{--<div id="startPoi" style="border:1px solid #C0C0C0;width:150px;height:auto;display:none;"></div>--}}
                     <div class="col-md-12 custom-border-bottom">
-                        <label for="ordernum">里程数：</label>
-                        <span style="color:green;" id="mileage">{{$order->o_mileage}}KM</span>
+                        <div class="col-md-2">
+                            <label for="ordernum">里程数：</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" id="mileage" value="{{$order->o_mileage}}">
+                        </div>
                     </div>
                     <div class="col-md-12 custom-border-bottom">
                         <label for="ordernum">套餐：</label>
@@ -535,6 +539,16 @@
             alert("请输入正确的价格");return false;
         }
     }
+
+    function check() {
+        var remarkcontent = document.getElementById('remarkcontent').value;
+        if(remarkcontent == null ||remarkcontent == ''){
+            alert('跟进内容不能为空，请填写跟进记录！');
+            return false;
+        }
+    }
+</script>
+<script>
     var map = new BMap.Map("allmap");
     map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
     map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
@@ -549,21 +563,15 @@
     var end2 = document.getElementById('end2').value;
     var p1 = new BMap.Point(start1,start2);
     var p2 = new BMap.Point(end1,end2);
-    var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+    var startaddress = document.getElementById('startpoi').value;
+    var endaddress = document.getElementById('endpoi').value;
+    var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map}});
     driving.search(p1, p2);
 
     changeMapStyle('grayscale');
     function changeMapStyle(style){
         map.setMapStyle({style:style});
         $('#desc').html(mapstyles[style].desc);
-    }
-
-    function check() {
-        var remarkcontent = document.getElementById('remarkcontent').value;
-        if(remarkcontent == null ||remarkcontent == ''){
-            alert('跟进内容不能为空，请填写跟进记录！');
-            return false;
-        }
     }
 
     // 百度地图API功能
@@ -591,7 +599,7 @@
             value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
         }
         str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
-        G("startPoi").innerHTML = str;
+        G("startpoi").innerHTML = str;
     });
 
     var myValue;
@@ -672,7 +680,23 @@
         localSearch.setSearchCompleteCallback(function (searchResult) {
             var poi = searchResult.getPoi(0);
             document.getElementById('beginAddressPoi').value = poi.point.lng + "," + poi.point.lat;
-//            alert(poi.point.lng + "," + poi.point.lat);return false;
+            document.getElementById('start1').value = poi.point.lng;
+            document.getElementById('start2').value = poi.point.lat;
+            var end1 = document.getElementById('end1').value;
+            var end2 = document.getElementById('end2').value;
+            var start = new BMap.Point(poi.point.lng,poi.point.lat);
+            var end = new BMap.Point(end1,end2);
+            var mile = '';
+            var searchComplete = function (results){
+                if (driving.getStatus() != BMAP_STATUS_SUCCESS){
+                    return ;
+                }
+                var plan = results.getPlan(0);
+                mile = plan.getDistance(true);
+                document.getElementById('mileage').value = mile;
+            }
+            var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map},onSearchComplete: searchComplete});
+            driving.search(start, end);
         });
         localSearch.search(keyword);
     }
@@ -681,28 +705,25 @@
         localSearch.setSearchCompleteCallback(function (searchResult) {
             var poi = searchResult.getPoi(0);
             document.getElementById('endAddressPoi').value = poi.point.lng + "," + poi.point.lat;
-//            alert(poi.point.lng + "," + poi.point.lat);return false;
+            document.getElementById('end1').value = poi.point.lng;
+            document.getElementById('end2').value = poi.point.lat;
+            var start1 = document.getElementById('start1').value;
+            var start2 = document.getElementById('start2').value;
+            var p1 = new BMap.Point(start1,start2);
+            var p2 = new BMap.Point(poi.point.lng,poi.point.lat);
+            var mile = '';
+            var searchComplete = function (results){
+                if (routing.getStatus() != BMAP_STATUS_SUCCESS){
+                    return ;
+                }
+                var plan = results.getPlan(0);
+                mile = plan.getDistance(true);
+                document.getElementById('mileage').value = mile;
+            }
+            var routing = new BMap.DrivingRoute(map, {renderOptions: {map: map},onSearchComplete: searchComplete});
+            routing.search(p1, p2);
         });
         localSearch.search(keyword);
     }
-
-
-    //用来获取两点间路线距离
-    var output = "从上地到西单驾车需要";
-    var searchComplete = function (results){
-        if (transit.getStatus() != BMAP_STATUS_SUCCESS){
-            return ;
-        }
-        var plan = results.getPlan(0);
-        output += plan.getDuration(true) + "\n";                //获取时间
-        output += "总路程为：" ;
-        output += plan.getDistance(true) + "\n";             //获取距离
-    }
-    var transit = new BMap.DrivingRoute(map, {renderOptions: {map: map},
-        onSearchComplete: searchComplete,
-        onPolylinesSet: function(){
-            setTimeout(function(){alert(output)},"1000");
-        }});
-    transit.search("上地", "西单");
 </script>
 @endsection
