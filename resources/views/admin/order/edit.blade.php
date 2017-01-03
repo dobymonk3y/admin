@@ -117,7 +117,7 @@
                     <input type="text" class="form-control" name="o_remark" value="{{$order->o_remark}}">
                 </div>
             </div>
-            {{--价格信息开始--}}{{--
+            {{--价格信息开始--}}
             <div class="col-md-12 bg-pray" style="height: 40px; line-height: 40px;font-size: 16px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <label for="">价格信息</label>
             </div>
@@ -140,7 +140,7 @@
                 <div class="col-md-4">
                     <div class="col-md-6">
                         <label for="ordernum">特殊时段费：</label>
-                        <label for="o_num" style="color:red;">{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}元</label>--}}{{--　{{$order->o_special_time_price_intro}}--}}{{--
+                        <label for="o_num" style="color:red;">{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}元</label>{{--　{{$order->o_special_time_price_intro}}--}}
                     </div>
                     <div class="col-md-6">
                         <label for="ordernum">总价(无附加费)：</label>
@@ -201,111 +201,28 @@
                     </div>
                 </div>
             @endif
-            --}}{{--价格信息结束--}}{{--
-            <div class="col-md-12 bg-pray" style="height: 40px; line-height: 40px;font-size: 16px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
-                <label for="">地点和车辆信息</label>
-            </div>
-            <div class="col-md-12 custom-border-bottom">
-                <div class="col-md-2">
-                    <label for="ordernum">起点-终点：</label>
-                </div>
-                <div class="col-md-10">
-                    <label for="o_num" style="color:blue;">{{$order->o_begin_poi_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_poi_address}}</label>
-                </div>
-            </div>
-            <div class="col-md-12 custom-border-bottom">
-                <div class="col-md-2">
-                    <label for="ordernum">套餐：</label>
-                </div>
-                <div class="col-md-2">
-                    <label for="ordernum">搬运工人数：</label>
-                </div>
-                <div class="col-md-1">
-                    <span>{{$order->o_worker_count}} 人</span>
-                </div>
-            </div>
-            <div class="col-md-12 custom-border-bottom">
-                <div class="col-md-2">
-                    <label for="ordernum">里程数：</label>
-                </div>
-                <div class="col-md-4">
-                    <label for="o_num" style="color:green;">{{$order->o_mileage}}KM</label>
-                </div>
-            </div>
-            <div class="col-md-12 bg-pray" style="height: 40px; line-height: 40px;font-size: 16px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
-                <label for="">搬家公司信息</label>
-            </div>
-            <div class="col-md-12 custom-border-bottom">
-                <div class="col-md-2">
-                    <label for="ordernum">搬家公司编号：</label>
-                </div>
-                <div class="col-md-4">
-                    <label for="o_num">{{$order->o_remover_num}}</label>
-                </div>
-                <div class="col-md-2">
-                    <label for="ordernum">搬家车组：</label>
-                </div>
-                <div class="col-md-2">
-                    <label for="o_num" >{{$order->o_worker_name}} [ {{$order->o_plate_num}}  ]</label>
-                </div>
-                <div class="col-md-2 column">
-                </div>
-            </div>
-            <div class="col-md-12 custom-border-bottom">
-                <div class="col-md-2">
-                    <label for="ordernum">状态：</label>
-                </div>
-                <div class="col-md-4">
-                    <label for="o_num">未知!!!!!!!</label>
-                </div>
-                <div class="col-md-2">
-                    <label for="ordernum">搬家状态：	</label>
-                </div>
-                <div class="col-md-4">
-                    <label for="o_num">{{$order->o_remover_state}}</label>
-                </div>
-            </div>
-            <div class="col-md-12 custom-border-bottom">
-                <div class="col-md-2">
-                    <label for="ordernum">搬家时间记录：</label>
-                </div>
-                <div class="col-md-2">
-                    <label for="o_num">搬出开始：</label>{{$order->o_out_begin_time}}
-                </div>
-                <div class="col-md-2">
-                    <label for="o_num">搬出结束：</label>{{$order->o_out_end_time}}
-                </div>
-                <div class="col-md-2">
-                    <label for="o_num">搬入开始：</label>{{$order->o_in_begin_time}}
-                </div>
-                <div class="col-md-2">
-                    <label for="o_num">搬入结束：</label>{{$order->o_in_end_time}}
-                </div>
-            </div>--}}
+            {{--价格信息结束--}}
             {{--地点和车辆信息开始--}}
             <div class="col-md-6">
                 <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; border-top-right-radius:5px; border-bottom-right-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
                     <label for="">地点和车辆信息</label>
                 </div>
                 <div class="col-md-12">
+                    @if($order->o_state <4 && $order->o_state >0)
                     <div class="col-md-12 custom-border-bottom">
                         <div class="col-md-2">
                             <label for="ordernum">起点-终点：</label>
                         </div>
-                        {{--<span class="btn btn-primary" data-toggle="modal" data-target="#startPositionModal">{{$order->o_begin_poi_address}}</span>　到　<span class="btn btn-primary">{{$order->o_end_poi_address}}</span>--}}
                         <div class="col-md-4">
                             <input type="text" id="startpoi" class="form-control" onblur="searchStartPoi()" value="{{$order->o_begin_poi_address}}" placeholder="{{$order->o_begin_poi_address}}">
+                            <input type="hidden" class="form-control" value="" id="beginAddressPoi">
                         </div>
                         <div class="col-md-1"><span>到</span></div>
                         <div class="col-md-4">
                             <input type="text" id="endpoi" class="form-control"  onblur="searchEndPoi()" value="{{$order->o_end_poi_address}}" placeholder="{{$order->o_end_poi_address}}">
+                            <input type="hidden" class="form-control" value="" id="endAddressPoi">
                         </div>
                     </div>
-                    <div class="col-md-12 custom-border-bottom" style="display: none;">
-                        <div class="col-md-6"><input type="hidden" class="form-control" value="" id="beginAddressPoi"></div>
-                        <div class="col-md-6"><input type="hidden" class="form-control" value="" id="endAddressPoi"></div>
-                    </div>
-                    {{--<div id="startPoi" style="border:1px solid #C0C0C0;width:150px;height:auto;display:none;"></div>--}}
                     <div class="col-md-12 custom-border-bottom">
                         <div class="col-md-2">
                             <label for="ordernum">里程数：</label>
@@ -314,6 +231,28 @@
                             <input type="text" class="form-control" id="mileage" value="{{$order->o_mileage}}">
                         </div>
                     </div>
+                    @else
+                    <div class="col-md-12 custom-border-bottom">
+                        <div class="col-md-2">
+                            <label for="ordernum">起点-终点：</label>
+                        </div>
+                        <div class="col-md-4">
+                            <span>{{$order->o_begin_poi_address}}</span>
+                        </div>
+                        <div class="col-md-1"><span>到</span></div>
+                        <div class="col-md-4">
+                            <span>{{$order->o_end_poi_address}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 custom-border-bottom">
+                        <div class="col-md-2">
+                            <label for="ordernum">里程数：</label>
+                        </div>
+                        <div class="col-md-2">
+                            <span>{{$order->o_mileage}} KM</span>
+                        </div>
+                    </div>
+                    @endif
                     <div class="col-md-12 custom-border-bottom">
                         <label for="ordernum">套餐：</label>
                         @if($carinfo != null)
