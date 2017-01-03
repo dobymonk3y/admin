@@ -531,7 +531,7 @@ class OrderController extends Controller
         $order['o_mileage_price'] = $order->o_mileage_price.'.00';
         $order['o_estimate_price'] = $order->o_estimate_price.'.00';
         $order->o_final_price != 0 ? $order->o_final_price."元" : "0.00元";
-        // $order['o_worker_name'] = $order->o_state > 2 ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
+        $order['o_worker_name'] = $order->o_state != null ? $order->o_worker_name." ( ".$order->o_worker_tel." )" :"";
         $order['o_out_begin_time'] =  $order->o_out_begin_time != null ? date('Y-m-d H:i',$order->o_out_begin_time) : "";
         $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
         $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
@@ -634,6 +634,13 @@ class OrderController extends Controller
         $order['o_out_end_time'] =  $order->o_out_end_time != null ? date('Y-m-d H:i',$order->o_out_end_time) : "";
         $order['o_in_begin_time'] =  $order->o_in_begin_time != null ? date('Y-m-d H:i',$order->o_in_begin_time) : "";
         $order['o_in_end_time'] =  $order->o_in_end_time != null ? date('Y-m-d H:i',$order->o_in_end_time) : "";
+        //坐标细分
+        $a = explode(',',$order->o_begin_poi_point);
+        $b = explode(',',$order->o_end_poi_point);
+        $order['start1'] = $a['0'];
+        $order['start2'] = $a['1'];
+        $order['end1'] = $b['0'];
+        $order['end2'] = $b['1'];
         if($order->o_num > 7 ){
             $payinfo = Paylist::where('p_onum','=',$order->o_num)->first();
             $order['payTime'] = date("Y-m-d H:i",$payinfo['p_time']);
