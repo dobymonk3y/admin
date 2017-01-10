@@ -195,6 +195,16 @@
     @endif
     {{--价格信息结束--}}
 
+
+
+    <!-- 地图开始 -->
+    <div class="col-md-6">
+        <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px;border-top-right-radius:5px; border-bottom-right-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
+            <label for="">搬家路线</label>
+        </div>
+        <div id="allmap" class="col-md-12" style="height:535px;"></div>
+    </div>
+    <!-- 地图结束 -->
     {{--地点和车辆信息开始--}}
     <div class="col-md-6">
         <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px; border-top-right-radius:5px; border-bottom-right-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
@@ -203,7 +213,7 @@
         <div class="col-md-12">
             <div class="col-md-12 custom-border-bottom">
                 <label for="ordernum">起点-终点：</label>
-                <label for="o_num" style="color:blue;">{{$order->o_begin_poi_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_poi_address}}</label>
+                <label for="o_num" style="color:blue;">{{$order->o_begin_address}}</label>　到　<label for="o_num" style="color:blue;">{{$order->o_end_address}}</label>
             </div>
             <div class="col-md-12 custom-border-bottom">
                 <label for="ordernum">里程数：</label>
@@ -234,7 +244,7 @@
                 </div>
                 <div class="col-md-3">
                     @if($order->state < 5 && $order->state > 0)
-                    <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
+                        <a class="btn btn-info" href="/orders/drivers?num={{$order['o_num']}}">指派订单给司机</a>
                     @endif
                 </div>
             </div>
@@ -276,14 +286,7 @@
     </div>
     {{--地点和车辆信息结束--}}
 
-    <!-- 地图开始 -->
-    <div class="col-md-6">
-        <div class="col-md-12" style="border-top-left-radius:5px; border-bottom-left-radius:5px;border-top-right-radius:5px; border-bottom-right-radius:5px; height: 40px;line-height: 36px;margin-top: 10px;background-color: #e9e9e9;">
-            <label for="">搬家路线</label>
-        </div>
-        <div id="allmap" class="col-md-12" style="height:535px;"></div>
-    </div>
-    <!-- 地图结束 -->
+
 
     <div class="accordion" id="accordion-316004">
         <div class="accordion-group">

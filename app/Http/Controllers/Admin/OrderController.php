@@ -525,8 +525,6 @@ class OrderController extends Controller
 
         $order['o_city'] = $citysinfo->c_name;
         $order['o_custom_state'] = $removestatus[$order->o_state];
-        $order['o_begin_address'] = mb_substr($order->o_begin_address , 0 , 8);
-        $order['o_end_address'] = mb_substr($order->o_end_address , 0 , 8);
         $order['o_time'] = date("Y-m-d H:i",$order->o_time);
         $order['o_mileage_price'] = $order->o_mileage_price.'.00';
         $order['o_estimate_price'] = $order->o_estimate_price.'.00';
@@ -585,7 +583,7 @@ class OrderController extends Controller
             Session::flash('showOrderFaild',"糟糕！没有查找到订单号为　".$id."　的相关信息！请重新查询！");
             return view('admin.order.show')->withOrder($order);
         }
-        
+
         //获取车辆信息, 类型, 工作人员价格, 里程价格等信息
         $carinfo = CarInfo::where('car_type_num','=',$order->o_car_inclusive)->first();
         //城市信息相关
@@ -613,8 +611,8 @@ class OrderController extends Controller
         $order['o_linkman'] = $order->o_linkman;
         $order['o_linkman_tel'] = $order->o_linkman_tel;
         $order['o_urgent_tel'] = $order->o_urgent_tel;
-        $order['o_begin_address'] = mb_substr($order->o_begin_address , 0 , 8);
-        $order['o_end_address'] = mb_substr($order->o_end_address , 0 , 8);
+        // $order['o_begin_address'] = mb_substr($order->o_begin_address , 0 , 8);
+        // $order['o_end_address'] = mb_substr($order->o_end_address , 0 , 8);
         $order['o_time'] = date("Y-m-d H:i",$order->o_time);
         $order['o_mileage'] = $order->o_mileage;
         $order['o_mileage_price'] = $order->o_mileage_price.'.00';
@@ -675,7 +673,10 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $oinfo = RemoverOrder::where('o_num','=',$id)->select(['o_linkman','o_user_sex','o_state','o_remover_date','o_remover_clock','o_linkman_tel','o_activity_price','o_remark','o_estimate_price'])->first();
+        $oinfo = RemoverOrder::where('o_num','=',$id)->select(['o_linkman','o_user_sex','o_state','o_remover_date','o_remover_clock',
+            'o_linkman_tel','o_activity_price','o_remark','o_estimate_price','o_begin_address','o_begin_poi_point',
+            'o_end_address','o_end_poi_point','o_class','o_car_inclusive','o_worker_count'])
+            ->first();
         $removestatus = [
             '-2' => '已删除',
             '-1' => '未生成',
@@ -695,9 +696,13 @@ class OrderController extends Controller
         $up['o_remark'] = $request->input('o_remark');
         $up['o_user_sex'] = $request->input('o_user_sex');
         $up['o_activity_price'] = $request->input('activityprice');
-
+        $up['o_begin_address'] = $request->input('startpoi') != '' ? $request->input('startpoi') :$oinfo['o_begin_address'] ;
+        $up['o_end_address'] = $request->input('endpoi') != '' ? $request->input('endpoi') :$oinfo['o_end_address'] ;
         $up['o_remover_date'] = date("Y-m-d",$removetime);
         $up['o_remover_clock'] = date("H:i",$removetime);
+        $up['o_mileage'] = $request->input('mileage');
+        $startpoi = $request->input('beginAddressPoi') != '' ? $request->input('beginAddressPoi') :$oinfo['o_begin_poi_point'] ;    //起点坐标
+        $endpoi = $request->input('endAddressPoi') != '' ? $request->input('endAddressPoi') :$oinfo['o_end_poi_point'] ;            //终点坐标
         $info = $oinfo->toArray();
         $out = array_diff($up,$info);
         $str = '';
@@ -708,7 +713,28 @@ class OrderController extends Controller
         $info['o_linkman_tel'] = '电话';
         $info['o_activity_price'] = '折扣价格';
         $info['o_remark'] = '备注';
-        $oinfo = RemoverOrder::where('o_num','=',$id)->update(['o_linkman'=>$up['o_linkman'],'o_user_sex'=>$up['o_user_sex'],'o_remover_date'=>$up['o_remover_date'],'o_remover_clock'=>$up['o_remover_clock'],'o_linkman_tel'=>$up['o_linkman_tel'],'o_activity_price'=>$up['o_activity_price'],'o_remark'=>$up['o_remark'],'o_estimate_price'=>$up['o_activity_price']]);
+        $info['o_begin_address']='起点地址';
+        $info['o_end_address']='终点地址';
+        $info['o_mileage'] = '里程数';
+        /*
+         * --------------------------------
+         * 普通搬家 人工费用 * 人数 * 时间
+         * 订制、企业搬家无人工费用
+         * --------------------------------
+         * 里程费用的计算
+         * 判断里程数 10 -> 40 -> 40+
+         * 10km免费 + (x-10)*5 + (x-40)*10
+         * --------------------------------
+         * */
+
+
+
+        $oinfo = RemoverOrder::where('o_num','=',$id)
+            ->update(['o_linkman'=>$up['o_linkman'],'o_user_sex'=>$up['o_user_sex'],'o_remover_date'=>$up['o_remover_date'],
+                'o_remover_clock'=>$up['o_remover_clock'],'o_linkman_tel'=>$up['o_linkman_tel'],'o_activity_price'=>$up['o_activity_price'],
+                'o_remark'=>$up['o_remark'],'o_estimate_price'=>$up['o_activity_price'],'o_begin_address'=>$up['o_begin_address'],
+                'o_begin_poi_point'=>$startpoi,'o_end_address'=>$up['o_end_address'],'o_end_poi_point'=>$endpoi,
+                'o_mileage'=>(float)$up['o_mileage'],'o_begin_poi_address'=>$up['o_begin_address'],'o_end_poi_address'=>$up['o_end_address']]);
         if($oinfo != 0){
             if(!empty($out['o_user_sex'])){
                 $out['o_user_sex'] = $request->input('o_user_sex') == 1 ? "男" :"女";
