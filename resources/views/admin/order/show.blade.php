@@ -126,12 +126,7 @@
         <div class="col-md-4">
             <div class="col-md-6">
                 <label for="ordernum">人工/时间价格：</label>
-
-                @if($order->o_state < 7)
-                    <span for="o_num" style="color:red;">{{$order->o_start_price}}元</span>
-                @else
-                    <span for="o_num" style="color:red;">{{$order->o_time_price}}元</span>
-                @endif
+                    <label for="o_num" style="color:red;">@if($order->o_state < 7){{$order->o_start_price}}@else{{$order->o_time_price}}@endif元</label>
             </div>
             <div class="col-md-6">
                 <label for="ordernum">里程价格：</label>
@@ -217,7 +212,7 @@
             </div>
             <div class="col-md-12 custom-border-bottom">
                 <label for="ordernum">里程数：</label>
-                <span style="color:green;">{{$order->o_mileage}}KM</span>
+                <span style="color:green;">{{$order->o_mileage}}</span>
             </div>
             <div class="col-md-12 custom-border-bottom">
                 <label for="ordernum">套餐：</label>
@@ -285,8 +280,6 @@
         </div>
     </div>
     {{--地点和车辆信息结束--}}
-
-
 
     <div class="accordion" id="accordion-316004">
         <div class="accordion-group">
@@ -383,13 +376,13 @@
         </div>
     </div>
     @endif{{--订单派单记录结束--}}
-    
+
     <input type="hidden" id="start1" value="{{$order->start1}}">
     <input type="hidden" id="start2" value="{{$order->start2}}">
     <input type="hidden" id="end1" value="{{$order->end1}}">
     <input type="hidden" id="end2" value="{{$order->end2}}">
     @endif
-    <script type="text/javascript">
+<script type="text/javascript">
 
         var map = new BMap.Map("allmap");
         map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);

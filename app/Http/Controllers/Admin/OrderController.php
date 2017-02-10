@@ -673,10 +673,20 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $oinfo = RemoverOrder::where('o_num','=',$id)->select(['o_linkman','o_user_sex','o_state','o_remover_date','o_remover_clock',
+        //修改起始点 终点后的预估距离
+        //$i = floatval($request->input('mileage'));
+        //
+        //$i = $request->input('');
+        
+
+
+        //dd($request);
+
+        /*$oinfo = RemoverOrder::where('o_num','=',$id)->select(['o_linkman','o_user_sex','o_state','o_remover_date','o_remover_clock',
             'o_linkman_tel','o_activity_price','o_remark','o_estimate_price','o_begin_address','o_begin_poi_point',
             'o_end_address','o_end_poi_point','o_class','o_car_inclusive','o_worker_count'])
-            ->first();
+            ->first();*/
+        $oinfo = RemoverOrder::where('o_num','=',$id)->first();
         $removestatus = [
             '-2' => '已删除',
             '-1' => '未生成',
@@ -716,17 +726,6 @@ class OrderController extends Controller
         $info['o_begin_address']='起点地址';
         $info['o_end_address']='终点地址';
         $info['o_mileage'] = '里程数';
-        /*
-         * --------------------------------
-         * 普通搬家 人工费用 * 人数 * 时间
-         * 订制、企业搬家无人工费用
-         * --------------------------------
-         * 里程费用的计算
-         * 判断里程数 10 -> 40 -> 40+
-         * 10km免费 + (x-10)*5 + (x-40)*10
-         * --------------------------------
-         * */
-
 
 
         $oinfo = RemoverOrder::where('o_num','=',$id)

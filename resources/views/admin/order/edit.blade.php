@@ -121,30 +121,43 @@
             <div class="col-md-12 bg-pray" style="height: 40px; line-height: 40px;font-size: 16px;border-top-left-radius:5px; border-bottom-left-radius:5px;">
                 <label for="">价格信息</label>
             </div>
+            @if($order->o_state < 3)
             <div class="col-md-12 custom-border-bottom">
                 <div class="col-md-4">
                     <div class="col-md-6">
-                        <label for="ordernum">人工/时间价格：</label>
-
-                        @if($order->o_state < 7)
-                            <span for="o_num" style="color:red;">{{$order->o_start_price}}元</span>
-                        @else
-                            <span for="o_num" style="color:red;">{{$order->o_time_price}}元</span>
-                        @endif
+                        <div class="col-md-5">
+                            <label for="ordernum">人工价格：</label>
+                        </div>
+                        <div class="col-md-5">
+                            <input id="humanprice" name="humanprice" class="form-control" value="{{$order->o_state <7 ? $order->o_start_price : $order->o_time_price}}" readonly="readonly">
+                        </div>
+                        <div class="col-md-1">元</div>
                     </div>
                     <div class="col-md-6">
-                        <label for="ordernum">里程价格：</label>
-                        <label for="o_num" style="color:red;">{{$order->o_mileage_price != null ? $order->o_mileage_price : "0.00"}}元</label> {{$order->o_mileage_intro}}
+                        <div class="col-md-5">
+                            <label for="ordernum">里程价格：</label>
+                        </div>
+                        <!-- <label for="o_num" style="color:red;">{{$order->o_mileage_price != null ? $order->o_mileage_price : "0.00"}}元</label> {{$order->o_mileage_intro}} -->
+                        <div class="col-md-5">
+                            <input id="mileprice" name="mileprice" class="form-control" value="{{$order->o_mileage_price != null ? $order->o_mileage_price : "0.00"}}" readonly="readonly">
+                        </div>
+                        <div class="col-md-1">元</div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-6">
-                        <label for="ordernum">特殊时段费：</label>
-                        <label for="o_num" style="color:red;">{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}元</label>{{--　{{$order->o_special_time_price_intro}}--}}
+                        <div class="col-md-6">
+                            <label for="ordernum">特殊时段费：</label>
+                        </div>
+                        <div class="col-md-5">
+                            <input id="specialeprice" name="specialeprice" class="form-control" value="{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}" readonly="readonly">
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="ordernum">总价(无附加费)：</label>
-                        <label for="o_num" style="color:red;">{{$order->o_price != null ? $order->o_price :"0.00"}}元</label> (无折扣)
+                        <div class="col-md-6"><label for="ordernum">预估总价：</label></div>
+                        <div class="col-md-5">
+                            <input id="predictprice" name="predictprice" class="form-control" value="{{$order->o_price != null ? $order->o_price :"0.00"}}" readonly="readonly">
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -164,13 +177,77 @@
                     <div class="col-md-6">
                         <label for="ordernum">应付金额：</label>
                         @if($order->o_state < 7)
-                            <label for="o_num" style="color:red;">{{$order->o_estimate_price}}元</label>
+                            <label for="o_num" style="color:red;">{{$order->o_estimate_price}}</label>
                         @else
-                            <label for="o_num" style="color:red;">{{$order->o_final_price}}元</label> ( 含附加费{{$order->o_other_charge}}元 )
+                            <label for="o_num" style="color:red;">{{$order->o_final_price}}</label> ( 含附加费{{$order->o_other_charge}} )
                         @endif
                     </div>
                 </div>
             </div>
+            @else
+            <div class="col-md-12 custom-border-bottom">
+                <div class="col-md-4">
+                    <div class="col-md-6">
+                        <div class="col-md-5">
+                            <label for="ordernum">人工价格：</label>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="humanprice">{{$order->o_state <7 ? $order->o_start_price : $order->o_time_price}}</label>
+                        </div>
+                        <div class="col-md-1">元</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-5">
+                            <label for="ordernum">里程价格：</label>
+                        </div>
+                    <!-- <label for="o_num" style="color:red;">{{$order->o_mileage_price != null ? $order->o_mileage_price : "0.00"}}元</label> {{$order->o_mileage_intro}} -->
+                        <div class="col-md-5">
+                            <label for="mileprice">{{$order->o_mileage_price != null ? $order->o_mileage_price : "0.00"}}</label>
+                        </div>
+                        <div class="col-md-1">元</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-6">
+                        <div class="col-md-6">
+                            <label for="ordernum">特殊时段费：</label>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="specialprice">{{$order->o_special_time_price != null ? $order->o_special_time_price : "0.00" }}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-6"><label>预估总价：</label></div>
+                        <div class="col-md-5">
+                            <label for="o_num">{{$order->o_price != null ? $order->o_price :"0.00"}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-6">
+                        <div class="col-md-5">
+                            <label for="ordernum">折扣价格：</label>
+                        </div>
+                        <div class="col-md-7">
+                            @if($order->o_state == 7)
+                                <input type="text" class="form-control" id="activityprice" name="activityprice" onblur="javascript:CheckInputIntFloat(this)" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
+                            @else
+                                <span>{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}</span>
+                                <input type="hidden" id="activityprice" name="activityprice" onblur="javascript:CheckInputIntFloat(this)" value="{{$order->o_activity_price != null ? $order->o_activity_price : $order->o_estimate_price}}">
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="ordernum">应付金额：</label>
+                        @if($order->o_state < 7)
+                            <label for="o_num" style="color:red;">{{$order->o_estimate_price}}</label>
+                        @else
+                            <label for="o_num" style="color:red;">{{$order->o_final_price}}</label> ( 含附加费{{$order->o_other_charge}} )
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
             @if($othercharge != null)
                 <div class="col-md-12 custom-border-bottom">
                     <div class="col-md-12">
@@ -241,7 +318,7 @@
                                 <label for="ordernum">里程数：</label>
                             </div>
                             <div class="col-md-2">
-                                <input type="text" class="form-control" id="mileage" name="mileage" value="{{$order->o_mileage}}">
+                                <input type="text" class="form-control" id="mileage" name="mileage" value="{{$order->o_mileage}}" readonly="readonly" onchange="changeOrderPrice()">
                             </div>
                         </div>
                     @else
@@ -267,13 +344,13 @@
                         </div>
                     @endif
                     <div class="col-md-12 custom-border-bottom">
-                        <label for="ordernum">套餐：</label>
+                        <label>套餐：</label>
                         @if($carinfo != null)
-                            <span>{{$carinfo->car_name}}</span>
+                            <span id="carName">{{$carinfo->car_name}}</span>
                         @endif
                     </div>
                     <div class="col-md-12 custom-border-bottom">
-                        <label for="ordernum">搬运工人数：</label>
+                        <label>搬运工人数：</label>
                         <span>{{$order->o_worker_count}}</span>
                     </div>
                 </div>
@@ -335,18 +412,10 @@
 
             <div class="accordion" id="accordion-316004">
                 <div class="accordion-group">
-                    <div class="accordion-heading col-md-12 custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;background-color: #e9e9e9;">
+                    <div class="accordion-heading col-md-12 custom-border-bottom" style="border-top-left-radius:5px; border-bottom-left-radius:5px;background-color: #e9e9e9;font-size: 16px;">
                         <div class="accordion-toggle" href="#accordion-element-808479 " data-toggle="collapse" data-parent="#accordion-316004">
-                            <label for="">客服跟进记录</label>
+                            <label>客服跟进记录</label>
                         </div>
-                    </div>
-                    <div class="col-md-12 custom-border-bottom">
-                        <form action="/customerrecord/store" method="get" onsubmit="return check()">
-                            {{csrf_field()}}
-                            <input type="hidden" name="ordernum" value="{{$order->o_num}}">
-                            <div class="col-md-11"><input type="text" class="form-control" name="remarkcontent" id="remarkcontent" placeholder="在此输入跟进记录"></div>
-                            <div class="col-md-1"><input type="submit"class="btn btn-block btn-primary" value="提交跟进"></div>
-                        </form>
                     </div>
                     @if(count($records)>0)
                         <div class="accordion-body in" id="accordion-element-808479">
@@ -433,15 +502,14 @@
     </div>
     <!-- startPositionModal end -->
     @endif
+    <!-- 隐藏信息获取区域 -->
     <input type="hidden" id="start1" value="{{$order->start1}}">
     <input type="hidden" id="start2" value="{{$order->start2}}">
     <input type="hidden" id="end1" value="{{$order->end1}}">
     <input type="hidden" id="end2" value="{{$order->end2}}">
+
 <script type="text/javascript">
-
-
     $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-
     function CheckInputIntFloat(oInput)
     {
         var num = document.getElementById("activityprice").value;
@@ -455,7 +523,6 @@
             alert("请输入正确的价格");return false;
         }
     }
-
     function check() {
         var remarkcontent = document.getElementById('remarkcontent').value;
         if(remarkcontent == null ||remarkcontent == ''){
@@ -610,6 +677,7 @@
                 var plan = results.getPlan(0);
                 mile = plan.getDistance(true);
                 document.getElementById('mileage').value = mile;
+                changeOrderPrice();
             }
             var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map},onSearchComplete: searchComplete});
             driving.search(start, end);
@@ -635,11 +703,36 @@
                 var plan = results.getPlan(0);
                 mile = plan.getDistance(true);
                 document.getElementById('mileage').value = mile;
+                changeOrderPrice();
             }
             var routing = new BMap.DrivingRoute(map, {renderOptions: {map: map},onSearchComplete: searchComplete});
             routing.search(p1, p2);
         });
         localSearch.search(keyword);
+    }
+
+    function changeOrderPrice(){
+        var mileage = parseFloat(document.getElementById('mileage').value);
+        var carName = document.getElementById('carName').innerText;
+        var humanprice = parseFloat(document.getElementById('humanprice').value);
+//        alert(typeof(humanprice));return false;
+        if(mileage <= 10){
+            document.getElementById('mileprice').value = '0.00';
+        }
+        if(mileage >10 && mileage <= 40){
+            //判断里程小于40公里时，里程价格
+            document.getElementById('mileprice').value = (mileage-10) * 5;
+        }
+        if(mileage > 40){
+            //判断里程大于40公里时的里程价格
+            document.getElementById('mileprice').value = (mileage-40)*10 + 150;
+        }
+        //predictprice = specialeprice +mileprice +humanprice
+        var specialeprice = parseFloat(document.getElementById('specialeprice').value);
+        var mileprice = parseFloat(document.getElementById('mileprice').value);
+//        alert(Number((specialeprice+mileprice+humanprice).toFixed(2)));
+        //toFixed(2)  只针对小数点后两位 的浮点数值有用，3位以上计算准确率降低。
+        document.getElementById('predictprice').value = Number((specialeprice+mileprice+humanprice).toFixed(2));
     }
 </script>
 @endsection
